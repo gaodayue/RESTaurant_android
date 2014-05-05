@@ -48,6 +48,7 @@ public class NFCFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public NFCFragment() {
         // Required empty public constructor
     }

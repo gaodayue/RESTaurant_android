@@ -1,13 +1,25 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.controller.dummy.DummyContent;
+import com.uliamar.restaurant.app.model.Restaurant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,6 +39,8 @@ public class RestaurantListFragment extends ListFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RestaurantAdaptateur mAdapteur;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -56,10 +70,13 @@ public class RestaurantListFragment extends ListFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mAdapteur = new RestaurantAdaptateur(getActivity(), inflater);
         // TODO: Change Adapter to display your content
-       setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        setListAdapter(mAdapteur);
+        List<Restaurant> restaurantList = new ArrayList<Restaurant>();
+        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+        mAdapteur.update(restaurantList);
     }
 
 
@@ -77,7 +94,7 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-      //  mListener = null;
+        //  mListener = null;
     }
 
 
@@ -85,23 +102,25 @@ public class RestaurantListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-    //    if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-          //  mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-      //  }
+        Intent myIntent = new Intent(getActivity(), RestaurantActivity.class);
+        startActivity(myIntent);
+        //    if (null != mListener) {
+        // Notify the active callbacks interface (the activity, if the
+        // fragment is attached to one) that an item has been selected.
+        //  mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+        //  }
     }
 
     /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
 //    public interface OnFragmentInteractionListener {
 //        // TODO: Update argument type and name
 //        public void onFragmentInteraction(String id);

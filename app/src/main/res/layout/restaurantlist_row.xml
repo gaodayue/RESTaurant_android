@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/imageView"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/resto_small"
+        />
+    <TextView
+        android:id="@+id/restaurant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageView"
+        android:text="Le petit bouchon"
+        android:textColor="@color/orange"
+        android:textSize="25sp"
+        android:padding="5dp"
+        android:paddingBottom="5dp"/>
+    <TextView
+        android:id="@+id/restaurant_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/restaurant_name"
+        android:text="French food. I mean GOOD food."
+        android:layout_alignLeft="@+id/restaurant_name"
+        android:layout_marginLeft="5dp"/>
+    <TextView
+        android:id="@+id/restaurant_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7.42 km away"
+        android:layout_alignBottom="@id/imageView"
+        android:textColor="@color/green"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>

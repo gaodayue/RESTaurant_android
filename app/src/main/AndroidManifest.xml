@@ -18,11 +18,13 @@
         </activity>
         <activity
             android:name="com.uliamar.restaurant.app.controller.RestaurantActivity"
-            android:label="@string/title_activity_restaurant" >
+            android:label="@string/title_activity_restaurant"
+            android:parentActivityName=".controller.MainActivity">
         </activity>
         <activity
             android:name="com.uliamar.restaurant.app.controller.OrderActivity"
-            android:label="@string/title_activity_order" >
+            android:label="@string/title_activity_order"
+            android:parentActivityName=".controller.RestaurantActivity">
         </activity>
     </application>
 
