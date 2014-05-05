@@ -1,19 +1,23 @@
 package com.uliamar.restaurant.app.controller;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.uliamar.restaurant.app.R;
 
-public class MainActivity extends FragmentActivity  {
+import java.util.EventListener;
+
+public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
 
@@ -27,18 +31,42 @@ public class MainActivity extends FragmentActivity  {
 
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
+
     public class DemoCollectionPagerAdapter extends FragmentPagerAdapter {
+        private static final String TAG = "DemoCollectionPagerAdapter";
+
         public DemoCollectionPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new DemoObjectFragment();
-            Bundle args = new Bundle();
+            Fragment fragment;
+            switch (i) {
+                case 0:
+                    fragment = new RestaurantListFragment();
+                break;
+                case 1:
+                    fragment = new EventListFragment();
+                    break;
+                case 2:
+                    fragment = new NFCFragment();
+                    break;
+                default:
+                    Log.e(TAG, "Ask for an inexisting tab");
+                    fragment = null;
+            }
+
+           // Bundle args = new Bundle();
             // Our object is just an integer :-P
-            args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-            fragment.setArguments(args);
+           // args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
+           // fragment.setArguments(args);
             return fragment;
         }
 
@@ -55,29 +83,10 @@ public class MainActivity extends FragmentActivity  {
                 case 1:
                     return "Previous event";
                 case 2:
-                    return "NFC";
+                    return "NFCFragment";
                 default:
                     return "What ? An other tab ?!";
             }
-        }
-    }
-
-
-    // Instances of this class are fragments representing a single
-// object in our collection.
-    public static class DemoObjectFragment extends Fragment {
-        public static final String ARG_OBJECT = "object";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater,
-                                 ViewGroup container, Bundle savedInstanceState) {
-            // The last two arguments ensure LayoutParams are inflated
-            // properly.
-            View rootView = inflater.inflate(
-                    R.layout.fragment_collection_object, container, false);
-            Bundle args = getArguments();
-
-            return rootView;
         }
     }
 

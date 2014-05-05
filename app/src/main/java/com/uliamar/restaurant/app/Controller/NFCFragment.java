@@ -13,13 +13,13 @@ import com.uliamar.restaurant.app.R;
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NFC.OnFragmentInteractionListener} interface
+ * {@link NFCFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NFC#newInstance} factory method to
+ * Use the {@link NFCFragment#newInstance} factory method to
  * create an instance of this fragment.
  *
  */
-public class NFC extends Fragment {
+public class NFCFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,18 +37,18 @@ public class NFC extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NFC.
+     * @return A new instance of fragment NFCFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NFC newInstance(String param1, String param2) {
-        NFC fragment = new NFC();
+    public static NFCFragment newInstance(String param1, String param2) {
+        NFCFragment fragment = new NFCFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
-    public NFC() {
+    public NFCFragment() {
         // Required empty public constructor
     }
 
