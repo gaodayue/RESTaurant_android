@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".controller.MainActivity"
+            android:name="com.uliamar.restaurant.app.controller.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,12 +19,17 @@
         <activity
             android:name="com.uliamar.restaurant.app.controller.RestaurantActivity"
             android:label="@string/title_activity_restaurant"
-            android:parentActivityName=".controller.MainActivity">
+            android:parentActivityName="com.uliamar.restaurant.app.controller.MainActivity" >
         </activity>
         <activity
-            android:name="com.uliamar.restaurant.app.controller.OrderActivity"
+            android:name="com.uliamar.restaurant.app.controller.OrderEditActivity"
             android:label="@string/title_activity_order"
-            android:parentActivityName=".controller.RestaurantActivity">
+            android:parentActivityName="com.uliamar.restaurant.app.controller.RestaurantActivity" >
+        </activity>
+        <activity
+            android:name=".controller.OrderReviewActivity"
+            android:parentActivityName="com.uliamar.restaurant.app.controller.MainActivity" >
+            android:label="@string/title_activity_order2_review" >
         </activity>
     </application>
 

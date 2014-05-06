@@ -8,15 +8,22 @@
 
 
     <style name="RestaurantSectionTitle" parent="@android:style/Widget.TextView">
-        <item name="android:padding">10dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+
         <item name="android:textSize">25sp</item>
-        <item name="android:paddingBottom">0dp</item>
         <item name="android:textColor">@color/orange</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
     <style name="RestaurantButton" parent="@android:style/Widget.Button">
         <item name="android:background">@color/green</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+       <item name="android:textSize">20dp</item>
     </style>
 </resources>

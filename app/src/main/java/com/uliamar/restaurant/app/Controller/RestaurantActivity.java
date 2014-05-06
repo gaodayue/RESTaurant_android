@@ -1,18 +1,32 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
 import com.uliamar.restaurant.app.R;
 
 public class RestaurantActivity extends Activity {
+Button mOrderButton;
+    RestaurantActivity ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
+    ref = this;
+        mOrderButton = (Button) findViewById(R.id.OrderButton);
+        mOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ref, OrderEditActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 

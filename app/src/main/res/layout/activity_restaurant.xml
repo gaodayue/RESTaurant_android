@@ -10,9 +10,9 @@
         <ImageView
             android:layout_margin="0dp"
             android:padding="0dp"
-            android:adjustViewBounds="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
             android:id="@+id/imageView"
             android:src="@drawable/resto_small"/>
         <FrameLayout
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="What will I find there"/>
-           <!-- <TextView
+            <TextView
                 style="@style/RestaurantSectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,15 +64,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="sdfjdf sdfij dofij sdof sofj sdoijf osijf osdjfoisjd fosidjf osjfdiojf osdijfosdjfosdijfsdiojf sdiojf "
-                /> -->
+                />
             <Button
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Let's eat there."
+                android:id="@+id/OrderButton"
                 style="@style/RestaurantButton"
-                android:textSize="20dp" />
+                />
         </LinearLayout>
 
 
