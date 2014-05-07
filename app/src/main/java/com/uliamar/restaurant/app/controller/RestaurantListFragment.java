@@ -7,19 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.uliamar.restaurant.app.R;
-import com.uliamar.restaurant.app.controller.dummy.DummyContent;
-import com.uliamar.restaurant.app.model.Restaurant;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.squareup.otto.Subscribe;
+import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
+import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
 
 
 /**
@@ -74,10 +67,28 @@ public class RestaurantListFragment extends ListFragment {
         mAdapteur = new RestaurantAdaptateur(getActivity(), inflater);
         // TODO: Change Adapter to display your content
         setListAdapter(mAdapteur);
-        List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-        mAdapteur.update(restaurantList);
     }
+
+//
+//    List<Restaurant> restaurantList = new ArrayList<Restaurant>();
+//    restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+//    mAdapteur.update(restaurantList);
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.get().register(this);
+        BusProvider.get().post(new GetLocalRestaurantEvent());
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.get().unregister(this);
+    }
+
 
 
     @Override
@@ -102,13 +113,9 @@ public class RestaurantListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Intent myIntent = new Intent(getActivity(), RestaurantActivity.class);
+        Intent myIntent = RestaurantActivity.createIntent(getActivity(), (int) id);
         startActivity(myIntent);
-        //    if (null != mListener) {
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        //  mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        //  }
+
     }
 
     /**
@@ -126,4 +133,8 @@ public class RestaurantListFragment extends ListFragment {
 //        public void onFragmentInteraction(String id);
 //    }
 
+    @Subscribe
+    public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
+        mAdapteur.update(event.get());
+    }
 }

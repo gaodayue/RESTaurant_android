@@ -9,17 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.uliamar.restaurant.app.R;
-
-import java.util.EventListener;
+import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.services.RESTClient;
 
 public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
+    RESTClient restClient;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +26,24 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-
+        restClient = new RESTClient();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.get().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BusProvider.get().unregister(this);
     }
 
 
@@ -51,7 +61,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
             switch (i) {
                 case 0:
                     fragment = new RestaurantListFragment();
-                break;
+                    break;
                 case 1:
                     fragment = new EventListFragment();
                     break;
@@ -63,10 +73,10 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
                     fragment = null;
             }
 
-           // Bundle args = new Bundle();
+            // Bundle args = new Bundle();
             // Our object is just an integer :-P
-           // args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-           // fragment.setArguments(args);
+            // args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
+            // fragment.setArguments(args);
             return fragment;
         }
 

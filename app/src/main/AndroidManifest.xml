@@ -27,10 +27,20 @@
             android:parentActivityName="com.uliamar.restaurant.app.controller.RestaurantActivity" >
         </activity>
         <activity
-            android:name=".controller.OrderReviewActivity"
+            android:name="com.uliamar.restaurant.app.controller.OrderReviewActivity"
             android:parentActivityName="com.uliamar.restaurant.app.controller.MainActivity" >
             android:label="@string/title_activity_order2_review" >
         </activity>
+        <activity
+            android:name="com.uliamar.restaurant.app.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>

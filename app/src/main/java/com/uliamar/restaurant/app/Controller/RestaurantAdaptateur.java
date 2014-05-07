@@ -55,7 +55,7 @@ public class RestaurantAdaptateur extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return getItem(i).getID();
     }
 
     @Override

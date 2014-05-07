@@ -7,8 +7,10 @@ public class Restaurant {
     private String mName;
     private String mDescritpion;
     private String mDistance;
+    private long mID;
 
     public Restaurant(String name, String description, String distance) {
+        mID = 42;
         mName = name;
         mDescritpion = description;
         mDistance = distance;
@@ -36,5 +38,9 @@ public class Restaurant {
 
     public void setDescritpion(String mDescritpion) {
         this.mDescritpion = mDescritpion;
+    }
+
+    public long getID() {
+        return mID;
     }
 }
