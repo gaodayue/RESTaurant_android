@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Created by Pol on 06/05/14.
  */
-public class OneRestaurantReceivedEvent {
+public class OnOneRestaurantReceivedEvent {
     private Restaurant restaurant;
 
-    public OneRestaurantReceivedEvent(Restaurant restaurant) {
+    public OnOneRestaurantReceivedEvent(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 

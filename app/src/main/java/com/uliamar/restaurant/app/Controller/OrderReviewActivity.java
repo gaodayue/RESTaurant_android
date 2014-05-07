@@ -1,5 +1,7 @@
 package com.uliamar.restaurant.app.controller;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +13,14 @@ import com.uliamar.restaurant.app.R;
 
 public class OrderReviewActivity extends ActionBarActivity {
     TextView mCountDownTextView;
+    public static final String ARG_INVITATION_ID = "ARG_INVITATION_ID";
+
+
+    public static Intent createIntent(Context c, int invitationID) {
+        Intent myIntent = new Intent(c, OrderReviewActivity.class);
+        myIntent.putExtra(ARG_INVITATION_ID, invitationID);
+        return myIntent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

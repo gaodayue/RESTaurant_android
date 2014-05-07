@@ -9,12 +9,12 @@ import java.util.List;
 /**
  * Created by Pol on 07/05/14.
  */
-public class OnRestaurantDatasReceived {
+public class OnRestaurantDatasReceivedEvent {
     Restaurant mR;
     List<Dishe> mDishes;
     List<Friend> mFriends;
 
-    public OnRestaurantDatasReceived(Restaurant r, List<Dishe> dishes, List<Friend> friends) {
+    public OnRestaurantDatasReceivedEvent(Restaurant r, List<Dishe> dishes, List<Friend> friends) {
         mR = r;
         mDishes = dishes;
         mFriends = friends;

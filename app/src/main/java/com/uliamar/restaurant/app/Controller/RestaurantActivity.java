@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
-import com.uliamar.restaurant.app.Bus.OneRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.services.RESTClient;
@@ -81,7 +79,7 @@ public class RestaurantActivity extends Activity {
     }
 
     @Subscribe
-    public void OnOneRestaurantReceivedEvent(OneRestaurantReceivedEvent e) {
+    public void OnOneRestaurantReceivedEvent(OnOneRestaurantReceivedEvent e) {
         if (progressDialog != null){
             progressDialog.dismiss();
         }

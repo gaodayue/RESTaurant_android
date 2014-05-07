@@ -3,9 +3,9 @@ package com.uliamar.restaurant.app.Bus;
 /**
  * Created by Pol on 07/05/14.
  */
-public class GetOrderDatas {
+public class GetOrderDatasEvent {
     int mID;
-    public GetOrderDatas(int i) {
+    public GetOrderDatasEvent(int i) {
         mID = i;
     }
 
