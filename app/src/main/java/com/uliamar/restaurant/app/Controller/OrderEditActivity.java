@@ -1,5 +1,7 @@
     package com.uliamar.restaurant.app.controller;
 
+    import android.app.ProgressDialog;
+    import android.content.Context;
     import android.content.Intent;
     import android.support.v7.app.ActionBarActivity;
     import android.os.Bundle;
@@ -7,18 +9,40 @@
     import android.view.MenuItem;
     import android.view.View;
     import android.widget.Button;
+    import android.widget.Toast;
 
+    import com.squareup.otto.Subscribe;
+    import com.uliamar.restaurant.app.Bus.BusProvider;
+    import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
+    import com.uliamar.restaurant.app.Bus.GetOrderDatas;
+    import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceived;
     import com.uliamar.restaurant.app.R;
+    import com.uliamar.restaurant.app.model.Restaurant;
 
     public class OrderEditActivity extends ActionBarActivity {
         Button mSendInvitationButton;
         OrderEditActivity ref;
+        ProgressDialog progressDialog;
+        Restaurant restaurant;
+        private int mRestaurantID;
+
+        public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
+
+
+        public static Intent createIntent(Context c, int restaurantID) {
+            Intent myIntent = new Intent(c, OrderEditActivity.class);
+            myIntent.putExtra(ARG_RESTAURANT_ID, restaurantID);
+            return myIntent;
+        }
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_order_edit);
             ref = this;
+            mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
+
             mSendInvitationButton = (Button) findViewById(R.id.SendActivityButton);
             mSendInvitationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -32,23 +56,30 @@
 
 
         @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
+        protected void onPostResume() {
+            super.onPostResume();
+            BusProvider.get().register(this);
 
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.order, menu);
-            return true;
+            if (restaurant == null) {
+                progressDialog = new ProgressDialog(ref);
+                progressDialog.setTitle("Loading");
+                progressDialog.setMessage("Wait while loading...");
+                progressDialog.show();
+
+                BusProvider.get().post(new GetOrderDatas(mRestaurantID));
+            }
         }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-            if (id == R.id.action_settings) {
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        protected void onPause() {
+            super.onPause();
+            BusProvider.get().unregister(this);
+
         }
 
+        @Subscribe
+        public void OnRestaurantDatasReceived(OnRestaurantDatasReceived e) {
+            progressDialog.dismiss();
+            Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
+        }
     }

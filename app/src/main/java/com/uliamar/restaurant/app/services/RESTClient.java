@@ -4,8 +4,12 @@ import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
+import com.uliamar.restaurant.app.Bus.GetOrderDatas;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceived;
 import com.uliamar.restaurant.app.Bus.OneRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.model.Dishe;
+import com.uliamar.restaurant.app.model.Friend;
 import com.uliamar.restaurant.app.model.Restaurant;
 
 import java.util.ArrayList;
@@ -34,5 +38,14 @@ public class RESTClient {
     public void onGetOneRestaurant(GetOneRestaurantEvent e) {
         int restID = e.get();
         BusProvider.get().post(new OneRestaurantReceivedEvent(new Restaurant("MacDo", "French food. I mean GOOD food.", "7.42 km away")));
+    }
+
+    @Subscribe
+    public void onGetOrderDatas(GetOrderDatas e) {
+        int restID = e.get();
+        Restaurant r = new Restaurant("MacDo", "French food. I mean GOOD food.", "7.42 km away");
+        List<Dishe> dishes = null;
+        List<Friend> friends = null;
+        BusProvider.get().post(new OnRestaurantDatasReceived(r, dishes, friends));
     }
 }
