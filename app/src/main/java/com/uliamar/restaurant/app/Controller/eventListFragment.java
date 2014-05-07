@@ -17,7 +17,7 @@ import com.uliamar.restaurant.app.controller.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class EventListFragment extends ListFragment {
+class EventListFragment extends ListFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
