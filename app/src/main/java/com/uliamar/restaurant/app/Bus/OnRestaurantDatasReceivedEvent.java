@@ -1,7 +1,7 @@
 package com.uliamar.restaurant.app.Bus;
 
 import com.uliamar.restaurant.app.model.Dishe;
-import com.uliamar.restaurant.app.model.Friend;
+import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Restaurant;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
 public class OnRestaurantDatasReceivedEvent {
     Restaurant mR;
     List<Dishe> mDishes;
-    List<Friend> mFriends;
+    List<User> mUsers;
 
-    public OnRestaurantDatasReceivedEvent(Restaurant r, List<Dishe> dishes, List<Friend> friends) {
+    public OnRestaurantDatasReceivedEvent(Restaurant r, List<Dishe> dishes, List<User> friends) {
         mR = r;
         mDishes = dishes;
-        mFriends = friends;
+        mUsers = friends;
     }
 
     public Restaurant getRestaurant() {
@@ -30,8 +30,8 @@ public class OnRestaurantDatasReceivedEvent {
     }
 
 
-    public List<Friend> getFriends() {
-        return mFriends;
+    public List<User> getFriends() {
+        return mUsers;
     }
 
 }

@@ -11,7 +11,7 @@ import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Dishe;
-import com.uliamar.restaurant.app.model.Friend;
+import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
@@ -21,8 +21,8 @@ import java.util.List;
 /**
  * Created by Pol on 06/05/14.
  */
-public class RESTClient {
-    public RESTClient() {
+public class DataService {
+    public DataService() {
         BusProvider.get().register(this);
     }
 
@@ -48,7 +48,7 @@ public class RESTClient {
         int restID = e.get();
         Restaurant r = new Restaurant("MacDo", "French food. I mean GOOD food.", "7.42 km away");
         List<Dishe> dishes = null;
-        List<Friend> friends = null;
+        List<User> friends = null;
         BusProvider.get().post(new OnRestaurantDatasReceivedEvent(r, dishes, friends));
     }
 

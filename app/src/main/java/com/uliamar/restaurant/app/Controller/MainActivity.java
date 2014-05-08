@@ -2,6 +2,7 @@ package com.uliamar.restaurant.app.controller;
 
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,12 +13,16 @@ import android.util.Log;
 
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.Bus.BusProvider;
-import com.uliamar.restaurant.app.services.RESTClient;
+import com.uliamar.restaurant.app.model.User;
+import com.uliamar.restaurant.app.services.DataService;
+import com.uliamar.restaurant.app.services.RESTrepository;
+
+import java.util.List;
 
 public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
-    RESTClient restClient;
+    DataService dataService;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +31,31 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        restClient = new RESTClient();
+        dataService = new DataService();
+
+      //  new DownloadFilesTask().execute();
+
     }
+/*
+
+    private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
+
+
+
+        protected Void doInBackground(Void... voids) {
+            RESTrepository r = new RESTrepository();
+            List<User> u = r.listUsers();
+            Log.i("asd", u.size() + "");
+            return null;
+        }
+
+        protected void onProgressUpdate() {
+        }
+
+        protected void onPostExecute() {
+        }
+    }
+*/
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -73,10 +101,6 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
                     fragment = null;
             }
 
-            // Bundle args = new Bundle();
-            // Our object is just an integer :-P
-            // args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-            // fragment.setArguments(args);
             return fragment;
         }
 

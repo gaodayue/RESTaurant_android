@@ -15,7 +15,7 @@ import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Restaurant;
-import com.uliamar.restaurant.app.services.RESTClient;
+import com.uliamar.restaurant.app.services.DataService;
 
 public class RestaurantActivity extends Activity {
     private int mID;
@@ -25,7 +25,7 @@ public class RestaurantActivity extends Activity {
     public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
 
     RestaurantActivity ref;
-    RESTClient restClient;
+    DataService dataService;
 
     private Restaurant restaurant = null;
     ProgressDialog progressDialog = null;
@@ -52,7 +52,7 @@ public class RestaurantActivity extends Activity {
             }
         });
         mRestaurantNameTextView = (TextView) findViewById(R.id.restaurant_name);
-        restClient = new RESTClient();
+        dataService = new DataService();
 
     }
 
