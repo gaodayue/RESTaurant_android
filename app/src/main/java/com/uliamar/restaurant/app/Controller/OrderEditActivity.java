@@ -81,7 +81,6 @@ public class OrderEditActivity extends ActionBarActivity {
     protected void onPause() {
         super.onPause();
         BusProvider.get().unregister(this);
-
     }
 
     @Subscribe
