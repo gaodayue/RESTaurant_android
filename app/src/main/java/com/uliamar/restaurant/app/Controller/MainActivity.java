@@ -37,10 +37,10 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
         dataService = new DataService();
 
-      //  new DownloadFilesTask().execute();
+        new DownloadFilesTask().execute();
 
     }
-/*
+
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
 
@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         protected void onPostExecute() {
         }
     }
-*/
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -77,8 +77,6 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         super.onPause();
         BusProvider.get().unregister(this);
     }
-
-
 
     public class DemoCollectionPagerAdapter extends FragmentPagerAdapter {
         private static final String TAG = "DemoCollectionPagerAdapter";

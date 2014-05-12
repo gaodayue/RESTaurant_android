@@ -11,16 +11,3 @@ import retrofit.http.Path;
 /**
  * Created by Pol on 08/05/14.
  */
-public interface RESTaurantService {
-        @GET("/customer/accounts")
-        List<User> listUsers();
-
-        @GET("/restaurants/nearby")
-        List<Restaurant> listRestaurants();
-
-
-        @GET("/restaurants/show/{id}")
-        List<Restaurant> GetRestaurants(@Path("id") int id);
-
-
-}
