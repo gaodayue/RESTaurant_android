@@ -1,6 +1,7 @@
 package com.uliamar.restaurant.app.controller;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
@@ -85,7 +87,10 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
             NdefMessage msg;
             if(rawMsgs!=null){
                 msg=(NdefMessage)rawMsgs[0];
-
+                String tagMsg=new String(msg.getRecords()[0].getPayload());
+                int restId=Integer.parseInt(tagMsg.substring(3));
+                Intent myIntent=RestaurantActivity.createIntent(this,restId);
+                startActivity(myIntent);
             }
         }
     }

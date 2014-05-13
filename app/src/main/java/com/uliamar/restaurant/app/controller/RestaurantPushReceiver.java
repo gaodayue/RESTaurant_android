@@ -27,11 +27,11 @@ public class RestaurantPushReceiver extends BroadcastReceiver {
             }
             Log.i("bigred","method : " + method + "\n result: " + errorCode
                     + "\n content = " + content);
-            Toast.makeText(
-                    context,
-                    "method : " + method + "\n result: " + errorCode
-                            + "\n content = " + content, Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(
+//                    context,
+//                    "method : " + method + "\n result: " + errorCode
+//                            + "\n content = " + content, Toast.LENGTH_SHORT)
+//                    .show();
         }else if(intent.getAction().equals(PushConstants.ACTION_MESSAGE)){
             String message = intent.getExtras().getString(
                     PushConstants.EXTRA_PUSH_MESSAGE_STRING);
