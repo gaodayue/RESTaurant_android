@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/text_head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_hint"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_head" />
+
+    <Button
+        android:id="@+id/btn_setTags"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text"
+        android:text="@string/text_btn_setTags" />
+
+    <Button
+        android:id="@+id/btn_delTags"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_setTags"
+        android:text="@string/text_btn_delTags" />
+
+
+    <Button
+        android:id="@+id/btn_rich"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_delTags"
+        android:text="@string/text_btn_rich" />
+    
+            <Button
+        android:id="@+id/btn_init"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_rich"
+        android:text="@string/text_btn_init" />
+    
+                <Button
+        android:id="@+id/btn_initAK"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_init"
+        android:text="@string/text_btn_initAK" />
+    
+
+        
+
+
+
+</RelativeLayout>
