@@ -13,8 +13,22 @@ import retrofit.http.Path;
  * Created by Pol on 08/05/14.
  */
 public class RESTrepository {
+
+    public interface RESTaurantService {
+        @GET("/customer/accounts")
+        List<User> listUsers();
+
+        @GET("/restaurants/nearby")
+        List<Restaurant> listRestaurants();
+
+
+        @GET("/restaurants/show/{id}")
+        List<Restaurant> GetRestaurants(@Path("id") int id);
+
+    }
+
     private static  RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint("http://118.193.54.222:8888")
+            .setEndpoint("http://118.193.54.222")
             .build();
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 

@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class DataService {
     public DataService() {
+
         BusProvider.get().register(this);
     }
 
@@ -34,6 +35,7 @@ public class DataService {
         restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
         restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
         restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+
         BusProvider.get().post(new LocalRestaurantReceivedEvent(restaurantList));
     }
 

@@ -117,6 +117,9 @@ public class OrderEditActivity extends ActionBarActivity {
     @Subscribe
     public void OnRestaurantDatasReceived(OnRestaurantDatasReceivedEvent e) {
         progressDialog.dismiss();
+        /**
+         * @To-do: feed the view with data
+         */
         Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
     }
 
