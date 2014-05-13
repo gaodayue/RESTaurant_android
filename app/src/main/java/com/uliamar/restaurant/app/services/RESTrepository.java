@@ -1,5 +1,6 @@
 package com.uliamar.restaurant.app.services;
 
+import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
@@ -25,6 +26,9 @@ public class RESTrepository {
         @GET("/restaurants/show/{id}")
         List<Restaurant> GetRestaurants(@Path("id") int id);
 
+        @GET("invitations/{id}")
+        Invitation GetInvitation(@Path("id") int id);
+
     }
 
     private static  RestAdapter restAdapter = new RestAdapter.Builder()
@@ -37,7 +41,7 @@ public class RESTrepository {
         return restService.listUsers();
     }
 
-    public List<Restaurant>listRestaurant() {
+    public static List<Restaurant>listRestaurant() {
         return restService.listRestaurants();
     }
 }

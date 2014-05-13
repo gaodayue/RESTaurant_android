@@ -29,12 +29,15 @@ public class DataService {
 
     @Subscribe
     public void onGetLocalRestaurantEvent(GetLocalRestaurantEvent e) {
-        List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+
+//        List<Restaurant> restaurantList = new ArrayList<Restaurant>();
+        List<Restaurant> restaurantList = null; //RESTrepository.listRestaurant();
+
+//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
 
         BusProvider.get().post(new LocalRestaurantReceivedEvent(restaurantList));
     }

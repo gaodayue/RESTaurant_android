@@ -15,6 +15,7 @@ import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.services.DataService;
 import com.uliamar.restaurant.app.services.RESTrepository;
@@ -25,6 +26,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
     DataService dataService;
+    private static final String TAG = "Main activity";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +46,16 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
 
-
-
         protected Void doInBackground(Void... voids) {
-            RESTrepository r = new RESTrepository();
-            List<User> u = r.listUsers();
-            Log.i("asd", u.size() + "");
+            try {
+                List<Restaurant> rest = RESTrepository.listRestaurant();
+                Log.i("asd", rest.size() + "");
+
+            } catch (Exception e) {
+                e.getStackTrace();
+                Log.v(TAG, e.getMessage());
+            }
+
             return null;
         }
 

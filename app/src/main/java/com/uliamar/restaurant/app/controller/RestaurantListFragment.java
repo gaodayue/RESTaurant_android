@@ -24,25 +24,17 @@ import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
  */
 public class RestaurantListFragment extends ListFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    public static String ARG_USER_ID = "arg_userID";
     private RestaurantAdaptateur mAdapteur;
+    private int mUserID;
 
 //    private OnFragmentInteractionListener mListener;
 
-    // TODO: Rename and change types of parameters
-    public static RestaurantListFragment newInstance(String param1, String param2) {
+    public static RestaurantListFragment newInstance(int userID) {
         RestaurantListFragment fragment = new RestaurantListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_USER_ID, userID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,27 +51,20 @@ public class RestaurantListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUserID = getArguments().getInt(ARG_USER_ID);
         }
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mAdapteur = new RestaurantAdaptateur(getActivity(), inflater);
-        // TODO: Change Adapter to display your content
         setListAdapter(mAdapteur);
     }
-
-//
-//    List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-//    restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-//    mAdapteur.update(restaurantList);
 
 
     @Override
     public void onResume() {
         super.onResume();
         BusProvider.get().register(this);
-        BusProvider.get().post(new GetLocalRestaurantEvent());
+//        BusProvider.get().post(new GetLocalRestaurantEvent());
 
     }
 
@@ -136,5 +121,6 @@ public class RestaurantListFragment extends ListFragment {
     @Subscribe
     public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
         mAdapteur.update(event.get());
+
     }
 }
