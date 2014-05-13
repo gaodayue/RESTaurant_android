@@ -2,8 +2,12 @@ package com.uliamar.restaurant.app.controller;
 
 
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.tech.NfcA;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +29,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
     DataService dataService;
+    NfcAdapter nfcAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,19 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
     protected void onResume() {
         super.onResume();
         BusProvider.get().register(this);
+        nfcAdapter=NfcAdapter.getDefaultAdapter(this);
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())){
+            mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+            mViewPager.setCurrentItem(2);
+            Parcelable[] rawMsgs = getIntent().getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage msg;
+            if(rawMsgs!=null){
+                msg=(NdefMessage)rawMsgs[0];
+
+            }
+        }
     }
 
     @Override
