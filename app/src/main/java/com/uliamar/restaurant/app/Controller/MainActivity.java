@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
@@ -101,7 +103,25 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         BusProvider.get().unregister(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        menu.add(Menu.NONE,Menu.FIRST+1,0,"login");
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case Menu.FIRST+1:
+            {
+                Intent myIntent=new Intent(this,LoginActivity.class);
+                startActivity(myIntent);
+                break;
+            }
+        }
+        return false;
+    }
 
     public class DemoCollectionPagerAdapter extends FragmentPagerAdapter {
         private static final String TAG = "DemoCollectionPagerAdapter";
