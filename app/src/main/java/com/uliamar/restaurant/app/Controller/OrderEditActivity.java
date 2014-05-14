@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.AndroidCharacter;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -19,12 +24,20 @@ import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderEditActivity extends ActionBarActivity {
     Button mSendInvitationButton;
     OrderEditActivity ref;
     ProgressDialog progressDialog;
     Restaurant restaurant;
+    Spinner mPeriod;
+    DatePicker mDate;
     private int mRestaurantID;
+    private List<String> list = new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
+    private Order order;
 
     public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
 
@@ -35,6 +48,14 @@ public class OrderEditActivity extends ActionBarActivity {
         return myIntent;
     }
 
+    private void init(){
+        order = new Order();
+        list.add("noon");
+        list.add("evening");
+        list.add("midnight");
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +64,16 @@ public class OrderEditActivity extends ActionBarActivity {
         ref = this;
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
 
+        mPeriod = (Spinner) findViewById(R.id.spinner);
+        mPeriod.setAdapter(adapter);
+        mPeriod.setOnItemClickListener(new Spinner.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                order.setPeriod(list.get(i));
+            }
+        });
+
+        mDate = (DatePicker) findViewById(R.id.datePicker);
         mSendInvitationButton = (Button) findViewById(R.id.SendActivityButton);
         mSendInvitationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +81,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 /**
                  * @To-DO: retrieve value of the UI and fill the order object;
                  */
-                Order order = new Order();
+                //Order order = new Order();
                 progressDialog = new ProgressDialog(ref);
                 progressDialog.setTitle("Loading");
                 progressDialog.setMessage("Wait while loading...");
@@ -86,6 +117,9 @@ public class OrderEditActivity extends ActionBarActivity {
     @Subscribe
     public void OnRestaurantDatasReceived(OnRestaurantDatasReceivedEvent e) {
         progressDialog.dismiss();
+        /**
+         * @To-do: feed the view with data
+         */
         Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
     }
 
