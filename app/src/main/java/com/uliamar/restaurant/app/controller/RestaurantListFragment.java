@@ -28,6 +28,7 @@ public class RestaurantListFragment extends ListFragment {
     public static String ARG_USER_ID = "arg_userID";
     private RestaurantAdaptateur mAdapteur;
     private int mUserID;
+    private Boolean requestPending =false;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -64,7 +65,10 @@ public class RestaurantListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         BusProvider.get().register(this);
-//        BusProvider.get().post(new GetLocalRestaurantEvent());
+        if (!requestPending) {
+            BusProvider.get().post(new GetLocalRestaurantEvent());
+            requestPending = true;
+        }
 
     }
 

@@ -24,7 +24,7 @@ public class RESTrepository {
 
 
         @GET("/restaurants/show/{id}")
-        List<Restaurant> GetRestaurants(@Path("id") int id);
+        Restaurant GetRestaurant(@Path("id") int id);
 
         @GET("invitations/{id}")
         Invitation GetInvitation(@Path("id") int id);
@@ -45,4 +45,6 @@ public class RESTrepository {
     public static List<Restaurant>listRestaurants() {
         return restService.listRestaurants();
     }
+    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
+    public static List<User> listUser() { return restService.listUsers();}
 }

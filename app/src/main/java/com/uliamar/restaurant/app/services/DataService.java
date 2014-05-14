@@ -1,5 +1,8 @@
 package com.uliamar.restaurant.app.services;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
@@ -15,6 +18,7 @@ import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,39 +26,116 @@ import java.util.List;
  * Created by Pol on 06/05/14.
  */
 public class DataService {
-    public DataService() {
 
+    public DataService() {
         BusProvider.get().register(this);
     }
 
     @Subscribe
     public void onGetLocalRestaurantEvent(GetLocalRestaurantEvent e) {
+        new  AsyncTask<Void, Void,  List<Restaurant>>() {
+            private String TAG = "listRestaurant asyncTask";
 
-//        List<Restaurant> restaurantList = new ArrayList<Restaurant>();
-        List<Restaurant> restaurantList = null; //RESTrepository.listRestaurant();
+            protected List<Restaurant> doInBackground(Void... voids) {
+                try {
+                    List<Restaurant> rest = RESTrepository.listRestaurants();
+                    Log.i("asd", rest.size() + "");
+                    return rest;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
 
-//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
-//        restaurantList.add(new Restaurant("Le petit Bouchon", "French food. I mean GOOD food.", "7.42 km away"));
+                    }
+                    e.getStackTrace();
+                    Log.v(TAG, e.getMessage());
+                }
 
-        BusProvider.get().post(new LocalRestaurantReceivedEvent(restaurantList));
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(List<Restaurant> rest) {
+                BusProvider.get().post(new LocalRestaurantReceivedEvent(rest));
+
+            }
+        }.execute();
     }
 
     @Subscribe
     public void onGetOneRestaurant(GetOneRestaurantEvent e) {
-        int restID = e.get();
-        BusProvider.get().post(new OnOneRestaurantReceivedEvent(new Restaurant("MacDo", "French food. I mean GOOD food.", "7.42 km away")));
+        final int restID = e.get();
+
+        new  AsyncTask<Void, Void,  Restaurant>() {
+            private String TAG = "listRestaurant asyncTask";
+
+            protected Restaurant doInBackground(Void... voids) {
+                try {
+                    Restaurant rest = RESTrepository.getRestaurant(restID);
+                    return rest;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
+
+                    }
+                    e.getStackTrace();
+                    Log.v(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(Restaurant rest) {
+                BusProvider.get().post(new OnOneRestaurantReceivedEvent(rest));
+
+            }
+        }.execute();
     }
 
     @Subscribe
     public void onGetOrderDatas(GetOrderDatasEvent e) {
-        int restID = e.get();
-        Restaurant r = new Restaurant("MacDo", "French food. I mean GOOD food.", "7.42 km away");
-        List<Dishe> dishes = null;
-        List<User> friends = null;
-        BusProvider.get().post(new OnRestaurantDatasReceivedEvent(r, dishes, friends));
+        final int restID = e.get();
+
+        new  AsyncTask<Void, Void,  OnRestaurantDatasReceivedEvent>() {
+            private String TAG = "listRestaurant asyncTask";
+
+            protected OnRestaurantDatasReceivedEvent doInBackground(Void... voids) {
+                try {
+                    Restaurant rest = RESTrepository.getRestaurant(restID);
+                    List<User> friends = RESTrepository.listUser();
+                    return  new OnRestaurantDatasReceivedEvent(rest, friends);
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
+
+                    }
+                    e.getStackTrace();
+                    Log.v(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(OnRestaurantDatasReceivedEvent e) {
+                BusProvider.get().post(e);
+            }
+        }.execute();
     }
 
     @Subscribe

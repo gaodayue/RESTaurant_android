@@ -66,12 +66,15 @@ public class OrderEditActivity extends ActionBarActivity {
 
         mPeriod = (Spinner) findViewById(R.id.spinner);
         mPeriod.setAdapter(adapter);
-        mPeriod.setOnItemClickListener(new Spinner.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                order.setPeriod(list.get(i));
-            }
-        });
+        /**
+         *      Caused by: java.lang.RuntimeException: setOnItemClickListener cannot be used with a spinner.
+         */
+//        mPeriod.setOnItemClickListener(new Spinner.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                order.setPeriod(list.get(i));
+//            }
+//        });
 
         mDate = (DatePicker) findViewById(R.id.datePicker);
         mSendInvitationButton = (Button) findViewById(R.id.SendActivityButton);

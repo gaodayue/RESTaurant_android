@@ -49,35 +49,6 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
         dataService = new DataService();
 
-        new DownloadFilesTask().execute();
-        Log.d(TAG, "task started");
-
-    }
-
-
-    private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
-
-        protected Void doInBackground(Void... voids) {
-            try {
-                List<Restaurant> rest = RESTrepository.listRestaurants();
-                Log.i("asd", rest.size() + "");
-
-            } catch (Exception e) {
-                if (e instanceof SocketTimeoutException) {
-                    Log.e(TAG, "Timeout");
-                }
-                e.getStackTrace();
-                Log.v(TAG, e.getMessage());
-            }
-
-            return null;
-        }
-
-        protected void onProgressUpdate() {
-        }
-
-        protected void onPostExecute() {
-        }
     }
 
 

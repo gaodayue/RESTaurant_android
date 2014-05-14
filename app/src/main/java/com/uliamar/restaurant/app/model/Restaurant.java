@@ -1,6 +1,7 @@
 package com.uliamar.restaurant.app.model;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Pol on 05/05/14.
@@ -15,49 +16,11 @@ public class Restaurant {
     private String pic_thumb;
     private String mgr_id;
     private String mgr_name;
+    private List<Dishe> dishes;
 
-private class Coord {
-    private String longitude;
-    private String latitude;
-}
-    private int mID;
-    private String mName;
-    private String mDescritpion;
-    private String mDistance;
-
-    public Restaurant(String name, String description, String distance) {
-        mID = 42;
-        mName = name;
-        mDescritpion = description;
-        mDistance = distance;
-    }
-
-    public String getDistance() {
-        return mDistance;
-    }
-
-    public void setDistance(String mDistance) {
-        this.mDistance = mDistance;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String mName) {
-        this.mName = mName;
-    }
-
-    public String getDescritpion() {
-        return mDescritpion;
-    }
-
-    public void setDescritpion(String mDescritpion) {
-        this.mDescritpion = mDescritpion;
-    }
-
-    public long getID() {
-        return mID;
+    private class Coord {
+        private String longitude;
+        private String latitude;
     }
 
     public int getRest_id() {
@@ -68,13 +31,13 @@ private class Coord {
         this.rest_id = rest_id;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAddress() {
         return address;
@@ -84,6 +47,13 @@ private class Coord {
         this.address = address;
     }
 
+    public Coord getGeo_location() {
+        return geo_location;
+    }
+
+    public void setGeo_location(Coord geo_location) {
+        this.geo_location = geo_location;
+    }
 
     public String getPic() {
         return pic;
@@ -115,5 +85,13 @@ private class Coord {
 
     public void setMgr_name(String mgr_name) {
         this.mgr_name = mgr_name;
+    }
+
+    public List<Dishe> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dishe> dishes) {
+        this.dishes = dishes;
     }
 }

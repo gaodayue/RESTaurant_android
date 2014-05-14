@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Restaurant;
 
@@ -55,7 +56,7 @@ public class RestaurantAdaptateur extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return getItem(i).getID();
+        return getItem(i).getRest_id();
     }
 
     @Override
@@ -87,10 +88,15 @@ public class RestaurantAdaptateur extends BaseAdapter {
         }
 
         Restaurant restaurant = getItem(position);
-        holder.imageView.setImageResource(R.drawable.resto_small);
+        if (restaurant.getPic_thumb() != null) {
+            Picasso.with(mContext).load(restaurant.getPic_thumb()).placeholder(R.drawable.resto_small).into(holder.imageView);
+        } else {
+            holder.imageView.setImageResource(R.drawable.resto_small);
+        }
+
         holder.restaurantName.setText(restaurant.getName());
-        holder.restaurantDescritpion.setText(restaurant.getDescritpion());
-        holder.restaurantDistance.setText(restaurant.getDistance());
+        holder.restaurantDescritpion.setText(restaurant.getAddress());
+        holder.restaurantDistance.setText("7km");
 
         return convertView;
     }
