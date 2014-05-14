@@ -34,6 +34,7 @@ public class RESTrepository {
     private static  RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint("http://118.193.54.222")
             .build();
+
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
 
@@ -41,7 +42,7 @@ public class RESTrepository {
         return restService.listUsers();
     }
 
-    public static List<Restaurant>listRestaurant() {
+    public static List<Restaurant>listRestaurants() {
         return restService.listRestaurants();
     }
 }

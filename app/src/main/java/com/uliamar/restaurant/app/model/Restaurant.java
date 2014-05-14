@@ -10,13 +10,16 @@ public class Restaurant {
     private int rest_id;
     private String name;
     private String address;
-    private Collection<String> geo_location;
+    private Coord geo_location;
     private String pic;
     private String pic_thumb;
     private String mgr_id;
     private String mgr_name;
 
-
+private class Coord {
+    private String longitude;
+    private String latitude;
+}
     private int mID;
     private String mName;
     private String mDescritpion;
@@ -81,13 +84,6 @@ public class Restaurant {
         this.address = address;
     }
 
-    public Collection<String> getGeo_location() {
-        return geo_location;
-    }
-
-    public void setGeo_location(Collection<String> geo_location) {
-        this.geo_location = geo_location;
-    }
 
     public String getPic() {
         return pic;

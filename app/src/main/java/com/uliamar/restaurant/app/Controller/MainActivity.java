@@ -28,6 +28,7 @@ import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.services.DataService;
 import com.uliamar.restaurant.app.services.RESTrepository;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
@@ -49,6 +50,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         dataService = new DataService();
 
         new DownloadFilesTask().execute();
+        Log.d(TAG, "task started");
 
     }
 
@@ -57,10 +59,13 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
 
         protected Void doInBackground(Void... voids) {
             try {
-                List<Restaurant> rest = RESTrepository.listRestaurant();
+                List<Restaurant> rest = RESTrepository.listRestaurants();
                 Log.i("asd", rest.size() + "");
 
             } catch (Exception e) {
+                if (e instanceof SocketTimeoutException) {
+                    Log.e(TAG, "Timeout");
+                }
                 e.getStackTrace();
                 Log.v(TAG, e.getMessage());
             }
