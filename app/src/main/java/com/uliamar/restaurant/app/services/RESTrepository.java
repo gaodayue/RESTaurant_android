@@ -63,12 +63,13 @@ public  class RESTrepository {
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
 
-    public List<User>listUsers() {
+    public List<User> listUsers() {
         return restService.listUsers();
     }
 
     public static List<Restaurant>listRestaurants(String lon, String lat) {
         return restService.listRestaurants(lon, lat);
+
     }
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUser() { return restService.listUsers();}
