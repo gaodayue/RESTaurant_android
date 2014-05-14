@@ -1,18 +1,19 @@
 package com.uliamar.restaurant.app.Bus;
 
+import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.Order;
 
 /**
  * Created by Pol on 07/05/14.
  */
 public class OnSavedOrderEvent {
-    Order mOrder;
+    Invitation mInvitation;
 
-    public OnSavedOrderEvent(Order order) {
-        mOrder = order;
+    public OnSavedOrderEvent(Invitation mInvitation) {
+        mInvitation = mInvitation;
     }
 
-    public Order get() {
-        return mOrder;
+    public Invitation get() {
+        return mInvitation;
     }
 }

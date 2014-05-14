@@ -14,6 +14,7 @@ import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Dishe;
+import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
@@ -38,21 +39,22 @@ public class DataService {
 
             protected List<Restaurant> doInBackground(Void... voids) {
                 try {
-                    List<Restaurant> rest = RESTrepository.listRestaurants();
+                    List<Restaurant> rest = RESTrepository.listRestaurants("55", "66");
+
                     Log.i("asd", rest.size() + "");
                     return rest;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
                         Log.e(TAG, "Timeout");
                     } else {
-                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
+                        Log.e(TAG, "Unable to retrive restaurants " +  e.getClass().getName() + " cause " + e.getMessage() );
+
 
                     }
                     e.getStackTrace();
-                    Log.v(TAG, e.getMessage());
                 }
 
-                return null;
+                return new ArrayList<Restaurant>();
             }
 
             protected void onProgressUpdate() {
@@ -140,12 +142,37 @@ public class DataService {
 
     @Subscribe
     public void onSaveOrder(SaveOrderEvent e) {
-        Order order = e.get();
-        /**
-         * @to-do save the order on server and retrive the ID
-         */
-        order.setID(42);
-        BusProvider.get().post(new OnSavedOrderEvent(order));
+        final Order order = e.get();
+        new  AsyncTask<Void, Void,  OnSavedOrderEvent>() {
+            private String TAG = "listRestaurant asyncTask";
+
+            protected OnSavedOrderEvent doInBackground(Void... voids) {
+                try {
+                    Invitation invitation = RESTrepository.sendOrder(order);
+                    return new OnSavedOrderEvent(invitation);
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
+
+                    }
+                    e.getStackTrace();
+                    Log.v(TAG, e.getMessage());
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(OnSavedOrderEvent e) {
+                BusProvider.get().post(e);
+            }
+        }.execute();
+
     }
 
 

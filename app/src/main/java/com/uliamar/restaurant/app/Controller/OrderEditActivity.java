@@ -129,7 +129,7 @@ public class OrderEditActivity extends ActionBarActivity {
     @Subscribe
     public void OnSavedOrderEvent(OnSavedOrderEvent e) {
         progressDialog.dismiss();
-        Intent i = OrderReviewActivity.createIntent(this, e.get().getID());
+        Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
         startActivity(i);
         finish();
     }

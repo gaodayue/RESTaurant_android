@@ -18,6 +18,7 @@ public class Restaurant {
     private String mgr_name;
     private List<Dishe> dishes;
 
+
     private class Coord {
         private String longitude;
         private String latitude;

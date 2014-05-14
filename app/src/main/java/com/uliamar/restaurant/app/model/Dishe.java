@@ -7,4 +7,5 @@ public class Dishe {
     private int d_id;
     private String name;
     private int price;
+    private int quantity;
 }
