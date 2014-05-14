@@ -33,11 +33,15 @@ public class RESTrepository {
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
 
-    public List<User>listUsers() {
+    public List<User> listUsers() {
         return restService.listUsers();
     }
 
-    public List<Restaurant>listRestaurant() {
+    public List<Restaurant> listRestaurant() {
         return restService.listRestaurants();
+    }
+
+    public List<Restaurant> GetRestaurant(int id){
+        return restService.GetRestaurants(id);
     }
 }
