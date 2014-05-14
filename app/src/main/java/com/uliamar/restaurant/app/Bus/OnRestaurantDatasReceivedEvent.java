@@ -14,9 +14,8 @@ public class OnRestaurantDatasReceivedEvent {
     List<Dishe> mDishes;
     List<User> mUsers;
 
-    public OnRestaurantDatasReceivedEvent(Restaurant r, List<Dishe> dishes, List<User> friends) {
+    public OnRestaurantDatasReceivedEvent(Restaurant r, List<User> friends) {
         mR = r;
-        mDishes = dishes;
         mUsers = friends;
     }
 

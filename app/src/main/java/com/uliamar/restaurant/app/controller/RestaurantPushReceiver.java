@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import com.baidu.android.pushservice.PushConstants;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Bigred on 2014/5/9.
  */
@@ -27,11 +32,27 @@ public class RestaurantPushReceiver extends BroadcastReceiver {
             }
             Log.i("bigred","method : " + method + "\n result: " + errorCode
                     + "\n content = " + content);
-            Toast.makeText(
-                    context,
-                    "method : " + method + "\n result: " + errorCode
-                            + "\n content = " + content, Toast.LENGTH_SHORT)
-                    .show();
+            if(errorCode==0){
+                JSONObject contentJson;
+                JSONObject paramsJson;
+                try{
+                    contentJson=new JSONObject(content);
+                    String paramsString=contentJson.getString("response_params");
+                    paramsJson=new JSONObject(paramsString);
+                    String userId=paramsJson.getString("user_id");
+                    Log.i("bigred","=============user id is:"+userId);
+                    SharedPreferences preferences=context.getSharedPreferences("pushService",0);
+                    preferences.edit().putString("user_id",userId).commit();
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+//            Toast.makeText(
+//                    context,
+//                    "method : " + method + "\n result: " + errorCode
+//                            + "\n content = " + content, Toast.LENGTH_SHORT)
+//                    .show();
         }else if(intent.getAction().equals(PushConstants.ACTION_MESSAGE)){
             String message = intent.getExtras().getString(
                     PushConstants.EXTRA_PUSH_MESSAGE_STRING);

@@ -2,11 +2,13 @@ package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.uliamar.restaurant.app.R;
 
@@ -66,7 +68,16 @@ public class NFCFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nfc, container, false);
+        View nfcView=inflater.inflate(R.layout.fragment_nfc, container, false);
+        TextView textView=(TextView)nfcView.findViewById(R.id.nfcviewtext);
+        NfcAdapter nfcAdapter=NfcAdapter.getDefaultAdapter(getActivity());
+        if(nfcAdapter==null){
+            textView.setText("Your phone dose not have a nfc sensor");
+        }else if(nfcAdapter!=null&&!nfcAdapter.isEnabled()){
+            textView.setText("Turn on your NFC switch first!");
+        }
+        //return inflater.inflate(R.layout.fragment_nfc, container, false);
+        return nfcView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
