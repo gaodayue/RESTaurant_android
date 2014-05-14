@@ -30,6 +30,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.squareup.otto.Subscribe;
+import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.LoginEvent;
+import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.R;
 
 /**
@@ -45,6 +50,23 @@ public class LoginActivity extends Activity {
         SharedPreferences preferences=getSharedPreferences("pushService",0);
         String userId=preferences.getString("user_id","no data");
         Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
+        loginButton.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String phoneno=((TextView)findViewById(R.id.email)).getText().toString();
+                String password=((TextView)findViewById(R.id.password)).getText().toString();
+
+                //Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+                BusProvider.get().post(new LoginEvent(phoneno,password));
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
+        String result=loginSuccessEvent.getResult();
+        Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
     }
 }
 

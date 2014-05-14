@@ -9,6 +9,8 @@ import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.Bus.LoginEvent;
+import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
@@ -175,5 +177,29 @@ public class DataService {
 
     }
 
+    @Subscribe
+    public void onLoginEvent(LoginEvent loginEvent){
+        final String phoneno=loginEvent.getPhoneno();
+        final String password=loginEvent.getPassWord();
+        new AsyncTask<Void,Void,String>(){
+            protected String doInBackground(Void...voids){
+                try{
+                    String result=RESTrepository.login(phoneno,password);
+                    return result;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            protected void onProgressUpdate(){}
+
+            protected void onPostExecute(String result){
+                LoginSuccessEvent loginSuccessEvent=new LoginSuccessEvent(result);
+                BusProvider.get().post(loginSuccessEvent);
+            }
+        }.execute();
+
+
+    }
 
 }

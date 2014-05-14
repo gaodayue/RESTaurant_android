@@ -7,6 +7,8 @@ import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -50,6 +52,9 @@ public  class RESTrepository {
         @POST("invitations/create")
         Invitation sendOrder(@Body Order order);
 
+        @POST("/customer/accounts/signin")
+        String login(@Query("phoneno") String phoneno, @Query("password") String password);
+
     }
 
    private static ErrorHandler errorHandler = new MyErrorHandler();
@@ -74,4 +79,7 @@ public  class RESTrepository {
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUser() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
+    public static String login(String phoneno, String password){
+        return restService.login(phoneno, password);
+    }
 }
