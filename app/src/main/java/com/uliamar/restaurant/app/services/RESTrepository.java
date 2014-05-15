@@ -3,6 +3,7 @@ package com.uliamar.restaurant.app.services;
 import android.util.Log;
 
 import com.uliamar.restaurant.app.model.Invitation;
+import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
@@ -17,10 +18,12 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.Body;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.Field;
 
 /**
  * Created by Pol on 08/05/14.
@@ -52,8 +55,9 @@ public  class RESTrepository {
         @POST("invitations/create")
         Invitation sendOrder(@Body Order order);
 
+        @FormUrlEncoded
         @POST("/customer/accounts/signin")
-        String login(@Query("phoneno") String phoneno, @Query("password") String password);
+        LoginResult login(@Field("phoneno") String phoneno, @Field("password") String password);
 
     }
 
@@ -79,7 +83,7 @@ public  class RESTrepository {
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUser() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
-    public static String login(String phoneno, String password){
+    public static LoginResult login(String phoneno, String password){
         return restService.login(phoneno, password);
     }
 }

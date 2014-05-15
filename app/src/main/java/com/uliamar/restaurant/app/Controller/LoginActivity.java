@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,7 @@ import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.R;
+import com.uliamar.restaurant.app.model.LoginResult;
 
 /**
  * A login screen that offers login via email/password.
@@ -49,7 +51,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         SharedPreferences preferences=getSharedPreferences("pushService",0);
         String userId=preferences.getString("user_id","no data");
-        Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
         loginButton.setOnClickListener(new OnClickListener(){
             @Override
@@ -63,10 +65,24 @@ public class LoginActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        BusProvider.get().register(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        BusProvider.get().unregister(this);
+    }
+
     @Subscribe
     public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
-        String result=loginSuccessEvent.getResult();
-        Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
+        Log.i("bigred","comes here");
+        LoginResult result=loginSuccessEvent.getResult();
+        Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
     }
 }
 

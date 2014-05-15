@@ -77,7 +77,8 @@ public class OrderEditActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                order.setPeriod(list.get(position));
+                //
+                // order.setPeriod(list.get(position));
             }
 
             @Override
@@ -96,7 +97,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                order.setDate(date);
+                //order.setDate(date);
             }
         });
 
@@ -108,12 +109,12 @@ public class OrderEditActivity extends ActionBarActivity {
                  * @To-DO: retrieve value of the UI and fill the order object;
                  */
                 //Order order = new Order();
-                mDate.
-                progressDialog = new ProgressDialog(ref);
-                progressDialog.setTitle("Loading");
-                progressDialog.setMessage("Wait while loading...");
-                progressDialog.show();
-                BusProvider.get().post(new SaveOrderEvent(order));
+                //mDate.
+//                progressDialog = new ProgressDialog(ref);
+//                progressDialog.setTitle("Loading");
+//                progressDialog.setMessage("Wait while loading...");
+//                progressDialog.show();
+//                BusProvider.get().post(new SaveOrderEvent(order));
 
             }
         });
