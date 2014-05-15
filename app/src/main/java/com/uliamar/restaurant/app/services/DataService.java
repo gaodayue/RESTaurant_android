@@ -13,7 +13,6 @@ import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
-import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;

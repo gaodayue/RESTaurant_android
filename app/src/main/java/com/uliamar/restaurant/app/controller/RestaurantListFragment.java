@@ -1,11 +1,16 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,6 +18,7 @@ import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.R;
 
 
 /**
@@ -50,7 +56,7 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mUserID = getArguments().getInt(ARG_USER_ID);
         }
@@ -65,11 +71,14 @@ public class RestaurantListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         BusProvider.get().register(this);
+        onAskRefresh();
+    }
+
+    private void onAskRefresh() {
         if (!requestPending) {
             BusProvider.get().post(new GetLocalRestaurantEvent());
             requestPending = true;
         }
-
     }
 
     @Override
@@ -127,4 +136,22 @@ public class RestaurantListFragment extends ListFragment {
         mAdapteur.update(event.get());
 
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.restaurant_list_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh_restaurant_list_actionbar_item:
+                onAskRefresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
