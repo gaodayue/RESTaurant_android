@@ -35,12 +35,17 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataService = new DataService();
+
+        /**
+         * Check either we are already logged in
+         */
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_DB_NAME, 0);
         if (sharedPreferences.getString(PREF_TOKEN, "").length() != 0) {
             RESTrepository.setToken(sharedPreferences.getString(PREF_TOKEN, ""));
             RESTrepository.setUser_id(sharedPreferences.getInt(PREF_ACCOUNT_ID, 0));
             goToMainActivity();
         }
+
         setContentView(R.layout.activity_login);
         SharedPreferences preferences=getSharedPreferences("pushService", MODE_PRIVATE);
         String userId=preferences.getString("user_id","no data");

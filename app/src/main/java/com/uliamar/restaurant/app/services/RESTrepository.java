@@ -43,7 +43,8 @@ public  class RESTrepository {
 
     public interface RESTaurantService {
         @GET("/customer/accounts")
-        List<User> listUsers();
+        List<User> listUsers(@Query(ARG_CUSTOMER_ID) int customer_id,
+                              @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/restaurants/nearby")
         List<Restaurant> listRestaurants(@Query("longitude") String longitude,
@@ -52,13 +53,19 @@ public  class RESTrepository {
                                          @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/restaurants/show/{id}")
-        Restaurant GetRestaurant(@Path("id") int id);
+        Restaurant GetRestaurant(@Path("id") int id,
+                                 @Query(ARG_CUSTOMER_ID) int customer_id,
+                                 @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/invitations/{id}")
-        Invitation GetInvitation(@Path("id") int id);
+        Invitation GetInvitation(@Path("id") int id,
+                                 @Query(ARG_CUSTOMER_ID) int customer_id,
+                                 @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @POST("/invitations/create")
-        Invitation sendOrder(@Body Order order);
+        Invitation sendOrder(@Body Order order,
+                             @Query(ARG_CUSTOMER_ID) int customer_id,
+                             @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @FormUrlEncoded
         @POST("/customer/accounts/signin")
@@ -77,12 +84,12 @@ public  class RESTrepository {
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
     public static List<User> listUsers() {
-        return restService.listUsers();
+        return restService.listUsers(user_id, token);
     }
     public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat, user_id, token);}
-    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
-    public static List<User> listUser() { return restService.listUsers();}
-    public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
+    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id, user_id, token);}
+    public static List<User> listUser() { return restService.listUsers(user_id, token);}
+    public static Invitation sendOrder(Order order){ return restService.sendOrder(order, user_id, token);}
     public static LoginResult login(String phoneno, String password){
         return restService.login(phoneno, password);
     }
