@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         dataService = new DataService();
+        dataService = new DataService();
 
         setContentView(R.layout.activity_login);
         SharedPreferences preferences=getSharedPreferences("pushService",0);
@@ -87,8 +87,9 @@ public class LoginActivity extends Activity {
         LoginResult result=loginSuccessEvent.getResult();
         Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
-        SharedPreferences preferences=this.getSharedPreferences("accessToken", 0);
+        SharedPreferences preferences=this.getSharedPreferences("loginResult", 0);
         preferences.edit().putString("accessToken",result.getCust_access_token()).commit();
+        preferences.edit().putInt("cust_id",result.getCust_id()).commit();
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
