@@ -12,6 +12,23 @@ public class Order {
     private User customer;
     private List<Dishe> dishes;
     private int total_price;
+
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
+
+    public String getRequest_period() {
+        return request_period;
+    }
+
+    public void setRequest_period(String request_period) {
+        this.request_period = request_period;
+    }
+
     private String request_date;
     //noon|evening|midnight
     private String request_period;

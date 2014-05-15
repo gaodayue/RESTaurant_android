@@ -64,6 +64,7 @@ public class OrderEditActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         setContentView(R.layout.activity_order_edit);
         ref = this;
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
@@ -77,7 +78,9 @@ public class OrderEditActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                order.setPeriod(list.get(position));
+                //order.setRequest_date("noon");
+                order.setRequest_period(list.get(position));
+
             }
 
             @Override
@@ -90,13 +93,8 @@ public class OrderEditActivity extends ActionBarActivity {
         mDate.init(2014,5,14,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                SimpleDateFormat formatter = new SimpleDateFormat();
-                try {
-                    Date date = formatter.parse(i+"-"+i2+"-"+i3);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                order.setDate(date);
+                order.setRequest_date(i+"-"+i2+"-"+i3);
+                //order.setDate(date);
             }
         });
 
@@ -108,7 +106,7 @@ public class OrderEditActivity extends ActionBarActivity {
                  * @To-DO: retrieve value of the UI and fill the order object;
                  */
                 //Order order = new Order();
-                mDate.
+                //mDate.
                 progressDialog = new ProgressDialog(ref);
                 progressDialog.setTitle("Loading");
                 progressDialog.setMessage("Wait while loading...");
