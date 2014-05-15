@@ -12,6 +12,23 @@ public class Order {
     private User customer;
     private List<Dishe> dishes;
     private int total_price;
+
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
+
+    public String getRequest_period() {
+        return request_period;
+    }
+
+    public void setRequest_period(String request_period) {
+        this.request_period = request_period;
+    }
+
     private String request_date;
     //noon|evening|midnight
     private String request_period;
@@ -40,5 +57,101 @@ public class Order {
 
     public void setID(int ID) {
         this.o_id = ID;
+    }
+
+    public int getO_id() {
+        return o_id;
+    }
+
+    public void setO_id(int o_id) {
+        this.o_id = o_id;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public User getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
+    public List<Dishe> getDishes() {
+        return dishes;
+    }
+
+    public void setDishes(List<Dishe> dishes) {
+        this.dishes = dishes;
+    }
+
+    public int getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(int total_price) {
+        this.total_price = total_price;
+    }
+
+    public String getSchedule_info() {
+        return schedule_info;
+    }
+
+    public void setSchedule_info(String schedule_info) {
+        this.schedule_info = schedule_info;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreated_time() {
+        return created_time;
+    }
+
+    public void setCreated_time(String created_time) {
+        this.created_time = created_time;
+    }
+
+    public String getUpdated_time() {
+        return updated_time;
+    }
+
+    public void setUpdated_time(String updated_time) {
+        this.updated_time = updated_time;
+    }
+
+    public int getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
+
+    public int getRestaurant_id() {
+        return restaurant_id;
+    }
+
+    public void setRestaurant_id(int restaurant_id) {
+        this.restaurant_id = restaurant_id;
+    }
+
+    public int[] getCustomer_ids() {
+        return customer_ids;
+    }
+
+    public void setCustomer_ids(int[] customer_ids) {
+        this.customer_ids = customer_ids;
     }
 }

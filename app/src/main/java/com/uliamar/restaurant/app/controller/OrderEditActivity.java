@@ -22,6 +22,7 @@ import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.R;
+import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
@@ -64,6 +65,7 @@ public class OrderEditActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         setContentView(R.layout.activity_order_edit);
         ref = this;
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
@@ -77,8 +79,8 @@ public class OrderEditActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                //
-                // order.setPeriod(list.get(position));
+                //order.setRequest_date("noon");
+                order.setRequest_period(list.get(position));
             }
 
             @Override
@@ -91,12 +93,7 @@ public class OrderEditActivity extends ActionBarActivity {
         mDate.init(2014,5,14,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                SimpleDateFormat formatter = new SimpleDateFormat();
-                try {
-                    Date date = formatter.parse(i+"-"+i2+"-"+i3);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                order.setRequest_date(i+"-"+i2+"-"+i3);
                 //order.setDate(date);
             }
         });
@@ -110,11 +107,49 @@ public class OrderEditActivity extends ActionBarActivity {
                  */
                 //Order order = new Order();
                 //mDate.
-//                progressDialog = new ProgressDialog(ref);
-//                progressDialog.setTitle("Loading");
-//                progressDialog.setMessage("Wait while loading...");
-//                progressDialog.show();
-//                BusProvider.get().post(new SaveOrderEvent(order));
+
+                /**
+                 {
+                 ""customer_id"": 1,
+                 ""restaurant_id"": 00001,
+                 ""request_date"": ""2014-05-05"",
+                 ""request_period"": ""noon|evening|midnight"",
+                 ""customer_ids"": [1,2], // include host
+                 ""dishes"": [
+                 {
+                 ""d_id"": 101,
+                 ""name"": ""Big Mac"",
+                 ""price"": ""18"",
+                 ""quantity"": 3
+                 },
+                 // other ordered dish object
+                 ]
+                 }"
+                 */
+
+                order.setCustomer_id(1);
+                order.setRestaurant_id(mRestaurantID);
+                order.setRequest_date("2014-05-05");
+                order.setRequest_period("1");
+                int[] l;
+                l = new int[2];
+                l[0] = 1;
+                l[1] = 2;
+                order.setCustomer_ids(l);
+                List<Dishe> dl = new ArrayList<Dishe>();
+                Dishe d = new Dishe();
+                d.setD_id(1);
+                d.setName("Bites");
+                d.setPrice(42);
+                d.setQuantity(42);
+                dl.add(d);
+                order.setDishes(dl);
+
+                progressDialog = new ProgressDialog(ref);
+                progressDialog.setTitle("Loading");
+                progressDialog.setMessage("Wait while loading...");
+                progressDialog.show();
+                BusProvider.get().post(new SaveOrderEvent(order));
 
             }
         });

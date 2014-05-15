@@ -49,10 +49,10 @@ public  class RESTrepository {
         @GET("/restaurants/show/{id}")
         Restaurant GetRestaurant(@Path("id") int id);
 
-        @GET("invitations/{id}")
+        @GET("/invitations/{id}")
         Invitation GetInvitation(@Path("id") int id);
 
-        @POST("invitations/create")
+        @POST("/invitations/create")
         Invitation sendOrder(@Body Order order);
 
         @FormUrlEncoded
@@ -61,7 +61,7 @@ public  class RESTrepository {
 
     }
 
-   private static ErrorHandler errorHandler = new MyErrorHandler();
+    private static ErrorHandler errorHandler = new MyErrorHandler();
 
     private static  RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint("http://118.193.54.222/api")
@@ -71,15 +71,10 @@ public  class RESTrepository {
 
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
-
-    public List<User> listUsers() {
+    public static List<User> listUsers() {
         return restService.listUsers();
     }
-
-    public static List<Restaurant>listRestaurants(String lon, String lat) {
-        return restService.listRestaurants(lon, lat);
-
-    }
+    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUser() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}

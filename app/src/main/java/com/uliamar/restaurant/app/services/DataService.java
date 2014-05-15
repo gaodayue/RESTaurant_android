@@ -15,7 +15,6 @@ import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
-import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.model.User;
@@ -157,8 +156,7 @@ public class DataService {
                     if (e instanceof SocketTimeoutException) {
                         Log.e(TAG, "Timeout");
                     } else {
-                        Log.e(TAG, "Unable to retrive restaurant " +  e.getCause());
-
+                        Log.e(TAG, "Unable to send order " +  e.getCause());
                     }
                     e.getStackTrace();
                     Log.v(TAG, e.getMessage());
@@ -172,7 +170,11 @@ public class DataService {
             }
 
             protected void onPostExecute(OnSavedOrderEvent e) {
-                BusProvider.get().post(e);
+                if (e != null) {
+                    BusProvider.get().post(e);
+                } else {
+                    Log.d(TAG, "Event Null on OnSaveOrderEvent");
+                }
             }
         }.execute();
 
