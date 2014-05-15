@@ -8,5 +8,6 @@
     <string name="title_activity_order">OrderActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_order2_review">Order2ReviewActivity</string>
+    <string name="address"><u>76 avenue jean rieux, 11310 France</u></string>
 
 </resources>
