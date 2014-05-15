@@ -59,6 +59,11 @@ public  class RESTrepository {
         @POST("/customer/accounts/signin")
         LoginResult login(@Field("phoneno") String phoneno, @Field("password") String password);
 
+        @FormUrlEncoded
+        @POST("/push/register")
+        String pushRegister(@Field("customer_id") int customer_id, @Field("access_token") String access_token,
+                            @Field("push_id") String push_id);
+
     }
 
     private static ErrorHandler errorHandler = new MyErrorHandler();
@@ -80,5 +85,8 @@ public  class RESTrepository {
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
     public static LoginResult login(String phoneno, String password){
         return restService.login(phoneno, password);
+    }
+    public static String pushRegister(int customer_id,String access_token,String push_id){
+        return restService.pushRegister(customer_id, access_token, push_id);
     }
 }

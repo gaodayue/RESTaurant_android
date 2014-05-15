@@ -14,6 +14,7 @@ import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
+import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
@@ -204,6 +205,28 @@ public class DataService {
         }.execute();
 
 
+    }
+
+    @Subscribe
+    public void onPushRegisterEvent(PushRegisterEvent pushRegisterEvent){
+        final int customer_id=pushRegisterEvent.getCustomer_id();
+        final String access_token=pushRegisterEvent.getAccess_token();
+        final String push_id=pushRegisterEvent.getPush_id();
+        new AsyncTask<Void,Void,String>(){
+            protected String doInBackground(Void...voids){
+                try{
+                    String pushRegistResult=RESTrepository.pushRegister(customer_id,access_token,push_id);
+                    return pushRegistResult;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            protected void onProgressUpdate(){}
+            protected void onPostExecute(String pushRegistResult){
+                Log.i("bigred",pushRegistResult);
+            }
+        }.execute();
     }
 
 }

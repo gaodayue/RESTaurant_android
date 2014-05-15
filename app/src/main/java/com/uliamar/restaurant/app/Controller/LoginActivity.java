@@ -33,10 +33,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
+import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.services.DataService;
@@ -53,9 +56,11 @@ public class LoginActivity extends Activity {
         dataService = new DataService();
 
         setContentView(R.layout.activity_login);
-        SharedPreferences preferences=getSharedPreferences("pushService",0);
-        String userId=preferences.getString("user_id","no data");
-        Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+                "hwfeocSIPlgKTasIuARPREnS");
+        //SharedPreferences preferences=getSharedPreferences("pushService",0);
+        //String userId=preferences.getString("user_id","no data");
+        //Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
         loginButton.setOnClickListener(new OnClickListener(){
             @Override
@@ -89,7 +94,10 @@ public class LoginActivity extends Activity {
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
         SharedPreferences preferences=this.getSharedPreferences("loginResult", 0);
         preferences.edit().putString("accessToken",result.getCust_access_token()).commit();
-        preferences.edit().putInt("cust_id",result.getCust_id()).commit();
+        preferences.edit().putInt("cust_id", result.getCust_id()).commit();
+        SharedPreferences pushPreferences=this.getSharedPreferences("pushService",0);
+        BusProvider.get().post(new PushRegisterEvent
+                (result.getCust_id(),result.getCust_access_token(),pushPreferences.getString("user_id","")));
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
