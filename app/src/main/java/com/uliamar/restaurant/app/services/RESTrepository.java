@@ -44,10 +44,10 @@ public  class RESTrepository {
         @GET("/restaurants/show/{id}")
         Restaurant GetRestaurant(@Path("id") int id);
 
-        @GET("invitations/{id}")
+        @GET("/invitations/{id}")
         Invitation GetInvitation(@Path("id") int id);
 
-        @POST("invitations/create")
+        @POST("/invitations/create")
         Invitation sendOrder(@Body Order order);
 
     }
