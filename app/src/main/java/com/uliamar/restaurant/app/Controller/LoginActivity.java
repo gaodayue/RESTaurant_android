@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -38,20 +39,23 @@ import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.LoginResult;
+import com.uliamar.restaurant.app.services.DataService;
 
 /**
  * A login screen that offers login via email/password.
 
  */
 public class LoginActivity extends Activity {
-
+    DataService dataService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         dataService = new DataService();
+
         setContentView(R.layout.activity_login);
         SharedPreferences preferences=getSharedPreferences("pushService",0);
         String userId=preferences.getString("user_id","no data");
-        //Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
         loginButton.setOnClickListener(new OnClickListener(){
             @Override
@@ -59,7 +63,7 @@ public class LoginActivity extends Activity {
                 String phoneno=((TextView)findViewById(R.id.email)).getText().toString();
                 String password=((TextView)findViewById(R.id.password)).getText().toString();
 
-                //Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
                 BusProvider.get().post(new LoginEvent(phoneno,password));
             }
         });
@@ -83,6 +87,10 @@ public class LoginActivity extends Activity {
         LoginResult result=loginSuccessEvent.getResult();
         Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
+        SharedPreferences preferences=this.getSharedPreferences("accessToken", 0);
+        preferences.edit().putString("accessToken",result.getCust_access_token()).commit();
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 }
 
