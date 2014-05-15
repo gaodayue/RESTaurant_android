@@ -8,21 +8,6 @@ public class Dishe {
     public Dishe(){
         this.quantity = 0;
     }
-    public int getD_id() {
-        return d_id;
-    }
-
-    public void setD_id(int d_id) {
-        this.d_id = d_id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     private int d_id;
 
@@ -52,22 +37,6 @@ public class Dishe {
 
     public void setD_id(int d_id) {
         this.d_id = d_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public int getQuantity() {

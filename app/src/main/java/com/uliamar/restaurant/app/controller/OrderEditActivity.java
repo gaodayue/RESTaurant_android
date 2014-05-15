@@ -192,8 +192,8 @@ public class OrderEditActivity extends ActionBarActivity {
                 List<Dishe> dl = new ArrayList<Dishe>();
                 Dishe d = new Dishe();
                 d.setD_id(1);
-                d.setName("Bites");
-                d.setPrice(42);
+                d.setD_name("Bites");
+                d.setD_price(42);
                 d.setQuantity(42);
                 dl.add(d);
                 order.setDishes(dl);
