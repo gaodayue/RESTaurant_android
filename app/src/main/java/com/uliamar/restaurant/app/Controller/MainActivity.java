@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
-    DataService dataService;
+   // DataService dataService;
     NfcAdapter nfcAdapter;
     private static final String TAG = "Main activity";
 
@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        dataService = new DataService();
+      //  dataService = new DataService();
 
     }
 

@@ -1,37 +1,15 @@
 package com.uliamar.restaurant.app.controller;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build.VERSION;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
@@ -40,6 +18,7 @@ import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.services.DataService;
+import com.uliamar.restaurant.app.services.RESTrepository;
 
 /**
  * A login screen that offers login via email/password.
@@ -47,13 +26,23 @@ import com.uliamar.restaurant.app.services.DataService;
  */
 public class LoginActivity extends Activity {
     DataService dataService;
+    public static final String PREF_ACCOUNT_ID = "cust_id";
+    public static final String PREF_TOKEN = "accessToken";
+    private String SHARED_PREF_DB_NAME = "loginResult";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataService = new DataService();
-
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_DB_NAME, 0);
+        if (sharedPreferences.getString(PREF_TOKEN, "").length() != 0) {
+            RESTrepository.setToken(sharedPreferences.getString(PREF_TOKEN, ""));
+            RESTrepository.setUser_id(sharedPreferences.getInt(PREF_ACCOUNT_ID, 0));
+            goToMainActivity();
+        }
         setContentView(R.layout.activity_login);
-        SharedPreferences preferences=getSharedPreferences("pushService",0);
+        SharedPreferences preferences=getSharedPreferences("pushService", MODE_PRIVATE);
         String userId=preferences.getString("user_id","no data");
         Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
@@ -87,11 +76,16 @@ public class LoginActivity extends Activity {
         LoginResult result=loginSuccessEvent.getResult();
         Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
-        SharedPreferences preferences=this.getSharedPreferences("loginResult", 0);
-        preferences.edit().putString("accessToken",result.getCust_access_token()).commit();
-        preferences.edit().putInt("cust_id",result.getCust_id()).commit();
-        Intent intent=new Intent(this,MainActivity.class);
+        SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
+        preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
+        preferences.edit().putInt(PREF_ACCOUNT_ID,result.getCust_id()).commit();
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
 

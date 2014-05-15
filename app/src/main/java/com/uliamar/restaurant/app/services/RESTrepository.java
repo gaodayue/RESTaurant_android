@@ -8,9 +8,6 @@ import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import retrofit.ErrorHandler;
@@ -30,6 +27,11 @@ import retrofit.http.Field;
  */
 public  class RESTrepository {
 
+    public static final String ARG_ACCESS_TOKEN = "access_token";
+    public static final String ARG_CUSTOMER_ID = "customer_id";
+    private static String token = "";
+    private static int user_id;
+
     private static class MyErrorHandler implements ErrorHandler {
         @Override public Throwable handleError(RetrofitError cause) {
             Response r = cause.getResponse();
@@ -44,7 +46,10 @@ public  class RESTrepository {
         List<User> listUsers();
 
         @GET("/restaurants/nearby")
-        List<Restaurant> listRestaurants(@Query("longitude") String longitude, @Query("latitude") String latitude);
+        List<Restaurant> listRestaurants(@Query("longitude") String longitude,
+                                         @Query("latitude") String latitude,
+                                         @Query(ARG_CUSTOMER_ID) int customer_id,
+                                         @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/restaurants/show/{id}")
         Restaurant GetRestaurant(@Path("id") int id);
@@ -74,11 +79,19 @@ public  class RESTrepository {
     public static List<User> listUsers() {
         return restService.listUsers();
     }
-    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
+    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat, user_id, token);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUser() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
     public static LoginResult login(String phoneno, String password){
         return restService.login(phoneno, password);
+    }
+
+    public static void setToken(String token) {
+        RESTrepository.token = token;
+    }
+
+    public static void setUser_id(int user_id) {
+        RESTrepository.user_id = user_id;
     }
 }
