@@ -22,6 +22,7 @@ import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.R;
+import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
@@ -107,6 +108,44 @@ public class OrderEditActivity extends ActionBarActivity {
                  */
                 //Order order = new Order();
                 //mDate.
+
+                /**
+                 {
+                 ""customer_id"": 1,
+                 ""restaurant_id"": 00001,
+                 ""request_date"": ""2014-05-05"",
+                 ""request_period"": ""noon|evening|midnight"",
+                 ""customer_ids"": [1,2], // include host
+                 ""dishes"": [
+                 {
+                 ""d_id"": 101,
+                 ""name"": ""Big Mac"",
+                 ""price"": ""18"",
+                 ""quantity"": 3
+                 },
+                 // other ordered dish object
+                 ]
+                 }"
+                 */
+
+                order.setCustomer_id(1);
+                order.setRestaurant_id(mRestaurantID);
+                order.setRequest_date("2014-05-05");
+                order.setRequest_period("1");
+                int[] l;
+                l = new int[2];
+                l[0] = 1;
+                l[1] = 2;
+                order.setCustomer_ids(l);
+                List<Dishe> dl = new ArrayList<Dishe>();
+                Dishe d = new Dishe();
+                d.setD_id(1);
+                d.setName("Bites");
+                d.setPrice(42);
+                d.setQuantity(42);
+                dl.add(d);
+                order.setDishes(dl);
+
                 progressDialog = new ProgressDialog(ref);
                 progressDialog.setTitle("Loading");
                 progressDialog.setMessage("Wait while loading...");

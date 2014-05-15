@@ -9,8 +9,8 @@ import com.uliamar.restaurant.app.model.Order;
 public class OnSavedOrderEvent {
     Invitation mInvitation;
 
-    public OnSavedOrderEvent(Invitation mInvitation) {
-        mInvitation = mInvitation;
+    public OnSavedOrderEvent(Invitation invitation) {
+        mInvitation = invitation;
     }
 
     public Invitation get() {
