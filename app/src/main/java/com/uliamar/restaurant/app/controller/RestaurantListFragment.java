@@ -30,7 +30,7 @@ import com.uliamar.restaurant.app.R;
  */
 public class RestaurantListFragment extends ListFragment {
 
-
+    private String TAG = "ResturautlistFragemnt";
     public static String ARG_USER_ID = "arg_userID";
     private RestaurantAdaptateur mAdapteur;
     private int mUserID;
@@ -146,6 +146,7 @@ public class RestaurantListFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.v(TAG, "Got a click on topBarItem");
         switch (item.getItemId()) {
             case R.id.refresh_restaurant_list_actionbar_item:
                 onAskRefresh();
