@@ -8,9 +8,6 @@ import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.List;
 
 import retrofit.ErrorHandler;
@@ -30,6 +27,11 @@ import retrofit.http.Field;
  */
 public  class RESTrepository {
 
+    public static final String ARG_ACCESS_TOKEN = "access_token";
+    public static final String ARG_CUSTOMER_ID = "customer_id";
+    private static String token = "";
+    private static int user_id;
+
     private static class MyErrorHandler implements ErrorHandler {
         @Override public Throwable handleError(RetrofitError cause) {
             Response r = cause.getResponse();
@@ -41,19 +43,29 @@ public  class RESTrepository {
 
     public interface RESTaurantService {
         @GET("/customer/accounts")
-        List<User> listUsers();
+        List<User> listUsers(@Query(ARG_CUSTOMER_ID) int customer_id,
+                              @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/restaurants/nearby")
-        List<Restaurant> listRestaurants(@Query("longitude") String longitude, @Query("latitude") String latitude);
+        List<Restaurant> listRestaurants(@Query("longitude") String longitude,
+                                         @Query("latitude") String latitude,
+                                         @Query(ARG_CUSTOMER_ID) int customer_id,
+                                         @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/restaurants/show/{id}")
-        Restaurant GetRestaurant(@Path("id") int id);
+        Restaurant GetRestaurant(@Path("id") int id,
+                                 @Query(ARG_CUSTOMER_ID) int customer_id,
+                                 @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @GET("/invitations/{id}")
-        Invitation GetInvitation(@Path("id") int id);
+        Invitation GetInvitation(@Path("id") int id,
+                                 @Query(ARG_CUSTOMER_ID) int customer_id,
+                                 @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @POST("/invitations/create")
-        Invitation sendOrder(@Body Order order);
+        Invitation sendOrder(@Body Order order,
+                             @Query(ARG_CUSTOMER_ID) int customer_id,
+                             @Query(ARG_ACCESS_TOKEN) String accesstoken);
 
         @FormUrlEncoded
         @POST("/customer/accounts/signin")
@@ -77,16 +89,24 @@ public  class RESTrepository {
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
     public static List<User> listUsers() {
-        return restService.listUsers();
+        return restService.listUsers(user_id, token);
     }
-    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
-    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
-    public static List<User> listUser() { return restService.listUsers();}
-    public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
+    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat, user_id, token);}
+    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id, user_id, token);}
+    public static List<User> listUser() { return restService.listUsers(user_id, token);}
+    public static Invitation sendOrder(Order order){ return restService.sendOrder(order, user_id, token);}
     public static LoginResult login(String phoneno, String password){
         return restService.login(phoneno, password);
     }
     public static String pushRegister(int customer_id,String access_token,String push_id){
         return restService.pushRegister(customer_id, access_token, push_id);
+    }
+
+    public static void setToken(String token) {
+        RESTrepository.token = token;
+    }
+
+    public static void setUser_id(int user_id) {
+        RESTrepository.user_id = user_id;
     }
 }

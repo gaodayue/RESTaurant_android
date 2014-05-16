@@ -51,8 +51,6 @@ public class DataService {
                         Log.e(TAG, "Timeout");
                     } else {
                         Log.e(TAG, "Unable to retrive restaurants " +  e.getClass().getName() + " cause " + e.getMessage() );
-
-
                     }
                     e.getStackTrace();
                 }
@@ -183,12 +181,13 @@ public class DataService {
 
     @Subscribe
     public void onLoginEvent(LoginEvent loginEvent){
-        final String phoneno=loginEvent.getPhoneno();
-        final String password=loginEvent.getPassWord();
+        final String phoneno = loginEvent.getPhoneno();
+        final String password = loginEvent.getPassWord();
+
         new AsyncTask<Void,Void,LoginResult>(){
             protected LoginResult doInBackground(Void...voids){
                 try{
-                    LoginResult result=RESTrepository.login(phoneno,password);
+                    LoginResult result = RESTrepository.login(phoneno,password);
                     return result;
                 }catch (Exception e){
                     e.printStackTrace();
@@ -199,7 +198,9 @@ public class DataService {
 
             protected void onPostExecute(LoginResult result){
                 Log.i("bigred","login success");
-                LoginSuccessEvent loginSuccessEvent=new LoginSuccessEvent(result);
+                LoginSuccessEvent loginSuccessEvent = new LoginSuccessEvent(result);
+                RESTrepository.setToken(result.getCust_access_token());
+                RESTrepository.setUser_id(result.getCust_id());
                 BusProvider.get().post(loginSuccessEvent);
             }
         }.execute();
