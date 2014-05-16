@@ -5,15 +5,18 @@ import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.GetInvitationList;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
+import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
+import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
@@ -29,6 +32,7 @@ import java.util.List;
  * Created by Pol on 06/05/14.
  */
 public class DataService {
+    public final String TAG = "DataService";
 
     public DataService() {
         BusProvider.get().register(this);
@@ -205,6 +209,62 @@ public class DataService {
         }.execute();
 
 
+    }
+
+
+    @Subscribe
+    public void onGetInvitationEvent(GetInvitationList e) {
+        Log.d(TAG, "GetInvitationList received on DataService");
+        new  AsyncTask<Void, Void,  List<Invitation>>() {
+            private String TAG = "listInvitation asyncTask";
+
+            protected List<Invitation> doInBackground(Void... voids) {
+                try {
+                    List<Invitation> invitations = RESTrepository.getInvitations();
+
+                    Log.i("asd", invitations.size() + "");
+                    return invitations;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive Invitations " +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return new ArrayList<Invitation>();
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(List<Invitation> invitations) {
+                BusProvider.get().post(new InvitationListReceivedEvent(invitations));
+            }
+        }.execute();
+    }
+    @Subscribe
+    public void onPushRegisterEvent(PushRegisterEvent pushRegisterEvent){
+        final int customer_id=pushRegisterEvent.getCustomer_id();
+        final String access_token=pushRegisterEvent.getAccess_token();
+        final String push_id=pushRegisterEvent.getPush_id();
+        new AsyncTask<Void,Void,String>(){
+            protected String doInBackground(Void...voids){
+                try{
+                    String pushRegistResult=RESTrepository.pushRegister(customer_id,access_token,push_id);
+                    return pushRegistResult;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            protected void onProgressUpdate(){}
+            protected void onPostExecute(String pushRegistResult){
+                Log.i("bigred",pushRegistResult);
+            }
+        }.execute();
     }
 
 }

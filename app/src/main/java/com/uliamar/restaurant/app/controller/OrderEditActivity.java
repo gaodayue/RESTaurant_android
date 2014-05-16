@@ -180,7 +180,7 @@ public class OrderEditActivity extends ActionBarActivity {
                  }"
                  */
 
-                order.setCustomer_id(1);
+                order.setCustomer_id(4);
                 order.setRestaurant_id(mRestaurantID);
                 order.setRequest_date("2014-05-05");
                 order.setRequest_period("1");

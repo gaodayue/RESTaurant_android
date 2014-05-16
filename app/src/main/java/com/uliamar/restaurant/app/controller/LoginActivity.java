@@ -11,10 +11,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
+import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.services.DataService;
@@ -47,9 +53,11 @@ public class LoginActivity extends Activity {
         }
 
         setContentView(R.layout.activity_login);
-        SharedPreferences preferences=getSharedPreferences("pushService", MODE_PRIVATE);
-        String userId=preferences.getString("user_id","no data");
-        Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+                "hwfeocSIPlgKTasIuARPREnS");
+        //SharedPreferences preferences=getSharedPreferences("pushService",0);
+        //String userId=preferences.getString("user_id","no data");
+        //Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
         loginButton.setOnClickListener(new OnClickListener(){
             @Override
@@ -57,7 +65,7 @@ public class LoginActivity extends Activity {
                 String phoneno=((TextView)findViewById(R.id.email)).getText().toString();
                 String password=((TextView)findViewById(R.id.password)).getText().toString();
 
-                Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+          //      Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
                 BusProvider.get().post(new LoginEvent(phoneno,password));
             }
         });
@@ -79,11 +87,14 @@ public class LoginActivity extends Activity {
     public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
         Log.i("bigred","comes here");
         LoginResult result=loginSuccessEvent.getResult();
-        Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
         preferences.edit().putInt(PREF_ACCOUNT_ID,result.getCust_id()).commit();
+        SharedPreferences pushPreferences=this.getSharedPreferences("pushService",0);
+        BusProvider.get().post(new PushRegisterEvent
+                (result.getCust_id(),result.getCust_access_token(),pushPreferences.getString("user_id","")));
         goToMainActivity();
     }
 

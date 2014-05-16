@@ -41,8 +41,8 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
-                "hwfeocSIPlgKTasIuARPREnS");
+        //PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+        //        "hwfeocSIPlgKTasIuARPREnS");
 
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
