@@ -21,7 +21,7 @@
             android:text="Make your meal"/>
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="160dp"
             android:id="@+id/DishList"/>
         <TextView
             android:layout_width="wrap_content"
@@ -38,6 +38,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/addFriend"
             android:text="+ Add Someone"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delFriend"
+            android:text="+ Del Someone"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

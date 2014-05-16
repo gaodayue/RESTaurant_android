@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaRouter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
+import com.uliamar.restaurant.app.services.DataService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,8 +44,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrderEditActivity extends ActionBarActivity {
+
+    DataService dataService;
+    public static final String PREF_ACCOUNT_ID = "cust_id";
+    private String SHARED_PREF_DB_NAME = "loginResult";
+
     Button mSendInvitationButton;
     Button mAddFriend;
+    Button mDelFriend;
+    Button deleteDish;
     OrderEditActivity ref;
     ProgressDialog progressDialog;
     Restaurant restaurant;
@@ -54,7 +64,9 @@ public class OrderEditActivity extends ActionBarActivity {
     private List<String> list = new ArrayList<String>();
     private List<Dishe> dishes = new ArrayList<Dishe>();
     private List<User> friends = new ArrayList<User>();
+    private List<User> inFriends = new ArrayList<User>();
     private ArrayAdapter<String> adapter;
+    private int cust_id;
     private Order order;
 
     public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
@@ -73,7 +85,8 @@ public class OrderEditActivity extends ActionBarActivity {
         list.add("midnight");
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
+        cust_id = preferences.getInt(PREF_ACCOUNT_ID, 1);
     }
 
     @Override
@@ -114,17 +127,19 @@ public class OrderEditActivity extends ActionBarActivity {
 
         mDishes = (ListView) findViewById(R.id.DishList);
 
-        //添加点击
-        /*
-        mDishes.setOnItemClickListener(new OnItemClickListener() {
+        mDishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                setTitle("点击第"+arg2+"个项目");
+                TextView tmp = (TextView)arg1.findViewById(R.id.textView2);
+                int i = Integer.parseInt(tmp.getText().toString());
+                i++;
+                tmp.setText(i+"");
+                dishes.get(arg2).addDish();
             }
         });
-        */
+        deleteDish = (Button) mDishes.findViewById(R.id.delete);
 
         friendList = (TextView) findViewById(R.id.friendList);
         mAddFriend = (Button) findViewById(R.id.addFriend);
@@ -144,6 +159,42 @@ public class OrderEditActivity extends ActionBarActivity {
                         //Toast.makeText(getApplicationContext(), "你点击的是" + itemStrings[which], Toast.LENGTH_LONG).show();
                         String tmp = friendList.getText().toString();
                         tmp += itemStrings[which] + ",";
+                        friendList.setText(tmp);
+                        User t = friends.get(which);
+                        inFriends.add(t);
+                        friends.remove(which);
+                    }
+                }).create().show();
+
+            }
+        });
+
+        mDelFriend = (Button) findViewById(R.id.delFriend);
+        mDelFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //final String[] itemStrings={"AA","BB","CC","DD"};
+                final String[] itemStrings = new String[inFriends.size()];
+                for(int i=0;i<inFriends.size();i++){
+                    itemStrings[i] = inFriends.get(i).getName();
+                }
+                AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
+                builder.setTitle("inFriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        //Toast.makeText(getApplicationContext(), "你点击的是" + itemStrings[which], Toast.LENGTH_LONG).show();
+                        //String tmp = friendList.getText().toString();
+                        //tmp += itemStrings[which] + ",";
+                        //friendList.setText(tmp);
+                        //inFriends.add(friends.get(which));
+                        //friends.remove(which);
+                        friends.add(inFriends.get(which));
+                        inFriends.remove(which);
+                        String tmp = "";
+                        for (int i=0;i<inFriends.size();i++){
+                            tmp += inFriends.get(i).getName() + ",";
+                        }
                         friendList.setText(tmp);
                     }
                 }).create().show();
@@ -180,22 +231,21 @@ public class OrderEditActivity extends ActionBarActivity {
                  }"
                  */
 
-                order.setCustomer_id(4);
+                order.setCustomer_id(cust_id);
                 order.setRestaurant_id(mRestaurantID);
                 order.setRequest_date("2014-05-05");
                 order.setRequest_period("1");
-                int[] l;
-                l = new int[2];
-                l[0] = 1;
-                l[1] = 2;
+                int[] l = new int[inFriends.size()];
+                for (int i=0;i<inFriends.size();i++){
+                    l[i] = inFriends.get(i).getCust_id();
+                }
                 order.setCustomer_ids(l);
                 List<Dishe> dl = new ArrayList<Dishe>();
-                Dishe d = new Dishe();
-                d.setD_id(1);
-                d.setName("Bites");
-                d.setPrice(42);
-                d.setQuantity(2);
-                dl.add(d);
+                for (int i=0;i<dishes.size();i++){
+                    if (dishes.get(i).getQuantity() > 0){
+                        dl.add(dishes.get(i));
+                    }
+                }
                 order.setDishes(dl);
 
                 progressDialog = new ProgressDialog(ref);
@@ -241,13 +291,25 @@ public class OrderEditActivity extends ActionBarActivity {
         order.setRestaurant(restaurant);
         friends = e.getFriends();
         dishes = restaurant.getDishes();
+
+        for (int i=0;i<friends.size();i++){
+            User t = friends.get(i);
+            if (t.getCust_id() == cust_id){
+                //t.setIs_host(true);
+                inFriends.add(t);
+                friends.remove(i);
+                friendList.setText(t.getName()+",");
+                break;
+            }
+        }
+
         //生成动态数组，加入数据
         ArrayList< HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
         for(int i=0;i<dishes.size();i++)
         {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("DishName", dishes.get(i).getName());
-            map.put("DishPrice", dishes.get(i).getPrice());
+            map.put("DishName", dishes.get(i).getD_name());
+            map.put("DishPrice", dishes.get(i).getD_price());
             map.put("DishNum",dishes.get(i).getQuantity());
             listItem.add(map);
         }
@@ -255,7 +317,7 @@ public class OrderEditActivity extends ActionBarActivity {
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
                 R.layout.dishe_item_list,//ListItem的XML实现
                 //动态数组与ImageItem对应的子项
-                new String[] {"ItemTitle", "DishNum","DishPrice"},
+                new String[] {"DishName", "DishNum","DishPrice"},
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID
                 new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
         );

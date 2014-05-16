@@ -21,6 +21,15 @@
         android:layout_below="@id/DisheName"
         android:textSize="20sp"
         />
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/delete"
+        android:text="-1"
+        android:focusable="false"
+        android:layout_toLeftOf="@id/textView2"/>
 
     <TextView
         android:layout_width="wrap_content"
