@@ -223,7 +223,6 @@ public class DataService {
             protected List<Invitation> doInBackground(Void... voids) {
                 try {
                     List<Invitation> invitations = RESTrepository.getInvitations();
-
                     return invitations;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
@@ -266,7 +265,7 @@ public class DataService {
                 /**
                  * java.lang.NullPointerException: println needs a message
                  */
-                //                Log.i("bigred",pushRegistResult);
+                // Log.i("bigred",pushRegistResult);
             }
         }.execute();
     }

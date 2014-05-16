@@ -27,6 +27,7 @@ import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Invitation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,7 +49,6 @@ public class EventListFragment extends ListFragment {
     // TODO: Rename and change types of parameters
     public static EventListFragment newInstance() {
         EventListFragment fragment = new EventListFragment();
-
         return fragment;
     }
 
@@ -65,8 +65,8 @@ public class EventListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Invitation[] invitations = new Invitation[0];
-        adapter = new MySimpleArrayAdapter(getActivity(), invitations);
+
+        adapter = new MySimpleArrayAdapter(getActivity(), new ArrayList<Invitation>());
         setListAdapter(adapter);
 
     }
@@ -116,10 +116,7 @@ public class EventListFragment extends ListFragment {
         Log.v(TAG, "We go the invitation list. let's put it in adaptateur and refresh");
         List<Invitation> l = e.get();
         if (l != null) {
-            for (int i = 0; i < l.size(); i++) {
-                adapter.add(l.get(i));
-            }
-            adapter.notifyDataSetChanged();
+            adapter.update(l);
         } else {
             Toast.makeText(getActivity(), "Unable to retrieve the invitation", Toast.LENGTH_SHORT).show();
         }
@@ -142,23 +139,26 @@ public class EventListFragment extends ListFragment {
 
     public class MySimpleArrayAdapter extends ArrayAdapter<Invitation> {
         private final Context context;
-        private  Invitation[] values;
+        private ArrayList<Invitation> values;
 
-        public MySimpleArrayAdapter(Context context, Invitation[] values) {
+        public MySimpleArrayAdapter(Context context, ArrayList<Invitation> values) {
             super(context, R.layout.invitation_item_list, values);
             this.context = context;
             this.values = values;
         }
 
-        public void update(Invitation[] values) {
-            Log.v(TAG,  "We update with " + values.length +  " elements");
-            this.values = values;
+        public void update(List<Invitation> invitations) {
+            Log.v(TAG,  "We update with " + invitations.size() +  " elements");
+            this.values.clear();
+            for (int i = 0; i < invitations.size(); ++i) {
+                this.values.add(invitations.get(i));
+            }
             this.notifyDataSetChanged();
         }
 
         @Override
         public long getItemId(int position) {
-            return values[position].getInv_id();
+            return values.get(position).getInv_id();
         }
 
         @Override
@@ -172,7 +172,7 @@ public class EventListFragment extends ListFragment {
             TextView text2TextView = (TextView) rowView.findViewById(R.id.EventText2);
 
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            text1TextView.setText(values[position].getOrder().getRestaurant().getName());
+            text1TextView.setText("Penis"); //values.get(position).getOrder().getRestaurant().getName()
             return rowView;
         }
     }
