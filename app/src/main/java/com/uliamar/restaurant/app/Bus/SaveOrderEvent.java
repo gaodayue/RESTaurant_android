@@ -9,7 +9,7 @@ public class SaveOrderEvent {
     Order mOrder;
 
     public SaveOrderEvent(Order order) {
-    mOrder = order;
+        mOrder = order;
     }
 
     public Order get() {

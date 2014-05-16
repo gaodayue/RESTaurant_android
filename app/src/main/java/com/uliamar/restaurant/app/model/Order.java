@@ -118,17 +118,17 @@ public class Order {
         this.request_date = request_date;
     }
 
-    public String getRequest_period() {
+    public int getRequest_period() {
         return request_period;
     }
 
-    public void setRequest_period(String request_period) {
+    public void setRequest_period(int request_period) {
         this.request_period = request_period;
     }
 
     private String request_date;
     //noon|evening|midnight
-    private String request_period;
+    private int request_period;
     //No.3 table, 8pm to 10pm, 2014-05-05
     private String schedule_info;
     // planing|booking|booking_succeed|booking_failed|canceled|revoked|consumed

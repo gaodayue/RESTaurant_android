@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
@@ -87,6 +88,8 @@ public class OrderEditActivity extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         cust_id = preferences.getInt(PREF_ACCOUNT_ID, 1);
+        order.setRequest_date("2014-05-05");
+        order.setRequest_period(1);
     }
 
     @Override
@@ -107,7 +110,13 @@ public class OrderEditActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //order.setRequest_date("noon");
-                order.setRequest_period(list.get(position));
+                if (position == 0) {
+                    order.setRequest_period(1);
+                }else if (position == 1){
+                    order.setRequest_period(5);
+                }else if(position == 2){
+                    order.setRequest_period(7);
+                }
             }
 
             @Override
@@ -122,6 +131,7 @@ public class OrderEditActivity extends ActionBarActivity {
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
                 order.setRequest_date(i+"-"+i2+"-"+i3);
                 //order.setDate(date);
+                System.out.println("Date: " +i+"-"+i2+"-"+i3);
             }
         });
 
@@ -174,12 +184,13 @@ public class OrderEditActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 //final String[] itemStrings={"AA","BB","CC","DD"};
-                final String[] itemStrings = new String[inFriends.size()];
+                final String[] itemStrings2 = new String[inFriends.size()];
+                //System.out.println("in delfriends: " + inFriends.size());
                 for(int i=0;i<inFriends.size();i++){
-                    itemStrings[i] = inFriends.get(i).getName();
+                    itemStrings2[i] = inFriends.get(i).getName();
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
-                builder.setTitle("inFriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings, new DialogInterface.OnClickListener() {
+                builder.setTitle("inFriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
@@ -233,8 +244,8 @@ public class OrderEditActivity extends ActionBarActivity {
 
                 order.setCustomer_id(cust_id);
                 order.setRestaurant_id(mRestaurantID);
-                order.setRequest_date("2014-05-05");
-                order.setRequest_period("1");
+                //order.setRequest_date("2014-05-05");
+                //order.setRequest_period("1");
                 int[] l = new int[inFriends.size()];
                 for (int i=0;i<inFriends.size();i++){
                     l[i] = inFriends.get(i).getCust_id();
@@ -253,6 +264,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 progressDialog.setMessage("Wait while loading...");
                 progressDialog.show();
                 BusProvider.get().post(new SaveOrderEvent(order));
+                System.out.println(new Gson().toJson(order));
 
             }
         });
@@ -291,15 +303,18 @@ public class OrderEditActivity extends ActionBarActivity {
         order.setRestaurant(restaurant);
         friends = e.getFriends();
         dishes = restaurant.getDishes();
-
-        for (int i=0;i<friends.size();i++){
-            User t = friends.get(i);
-            if (t.getCust_id() == cust_id){
-                //t.setIs_host(true);
-                inFriends.add(t);
-                friends.remove(i);
-                friendList.setText(t.getName()+",");
-                break;
+        //System.out.println("out first: " + inFriends.size() + " element:" );
+        if (inFriends.size() == 0) {
+            for (int i = 0; i < friends.size(); i++) {
+                User t = friends.get(i);
+                if (t.getCust_id() == cust_id) {
+                    //t.setIs_host(true);
+                    inFriends.add(t);
+                    friends.remove(i);
+                    friendList.setText(t.getName() + ",");
+                    //System.out.println("inFriends size: " + inFriends.size() + inFriends.get(0).getName());
+                    break;
+                }
             }
         }
 
@@ -308,8 +323,8 @@ public class OrderEditActivity extends ActionBarActivity {
         for(int i=0;i<dishes.size();i++)
         {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("DishName", dishes.get(i).getD_name());
-            map.put("DishPrice", dishes.get(i).getD_price());
+            map.put("DishName", dishes.get(i).getName());
+            map.put("DishPrice", dishes.get(i).getPrice());
             map.put("DishNum",dishes.get(i).getQuantity());
             listItem.add(map);
         }
