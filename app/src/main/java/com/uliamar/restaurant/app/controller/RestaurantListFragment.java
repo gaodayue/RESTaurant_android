@@ -66,6 +66,12 @@ public class RestaurantListFragment extends ListFragment {
         setListAdapter(mAdapteur);
     }
 
+    private void onAskRefresh() {
+        if (!requestPending) {
+            BusProvider.get().post(new GetLocalRestaurantEvent());
+            requestPending = true;
+        }
+    }
 
     @Override
     public void onResume() {
@@ -74,12 +80,7 @@ public class RestaurantListFragment extends ListFragment {
         onAskRefresh();
     }
 
-    private void onAskRefresh() {
-        if (!requestPending) {
-            BusProvider.get().post(new GetLocalRestaurantEvent());
-            requestPending = true;
-        }
-    }
+
 
     @Override
     public void onPause() {

@@ -5,9 +5,11 @@ import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.GetInvitationList;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
+import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
@@ -29,6 +31,7 @@ import java.util.List;
  * Created by Pol on 06/05/14.
  */
 public class DataService {
+    public final String TAG = "DataService";
 
     public DataService() {
         BusProvider.get().register(this);
@@ -207,4 +210,38 @@ public class DataService {
 
     }
 
+
+    @Subscribe
+    public void onGetInvitationEvent(GetInvitationList e) {
+        Log.d(TAG, "GetInvitationList received on DataService");
+        new  AsyncTask<Void, Void,  List<Invitation>>() {
+            private String TAG = "listInvitation asyncTask";
+
+            protected List<Invitation> doInBackground(Void... voids) {
+                try {
+                    List<Invitation> invitations = RESTrepository.getInvitations();
+
+                    Log.i("asd", invitations.size() + "");
+                    return invitations;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive Invitations " +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return new ArrayList<Invitation>();
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(List<Invitation> invitations) {
+                BusProvider.get().post(new InvitationListReceivedEvent(invitations));
+            }
+        }.execute();
+    }
 }

@@ -49,7 +49,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         SharedPreferences preferences=getSharedPreferences("pushService", MODE_PRIVATE);
         String userId=preferences.getString("user_id","no data");
-        Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"user id is:"+userId,Toast.LENGTH_SHORT).show();
         Button loginButton=(Button)findViewById(R.id.email_sign_in_button);
         loginButton.setOnClickListener(new OnClickListener(){
             @Override
@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
                 String phoneno=((TextView)findViewById(R.id.email)).getText().toString();
                 String password=((TextView)findViewById(R.id.password)).getText().toString();
 
-                Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+          //      Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
                 BusProvider.get().post(new LoginEvent(phoneno,password));
             }
         });
@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
     public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
         Log.i("bigred","comes here");
         LoginResult result=loginSuccessEvent.getResult();
-        Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
