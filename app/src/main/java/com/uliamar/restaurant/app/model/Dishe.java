@@ -11,24 +11,24 @@ public class Dishe {
 
     private int d_id;
 
-    public String getD_name() {
-        return d_name;
+    public String getName() {
+        return name;
     }
 
-    public void setD_name(String d_name) {
-        this.d_name = d_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getD_price() {
-        return d_price;
+    public int getPrice() {
+        return price;
     }
 
-    public void setD_price(int d_price) {
-        this.d_price = d_price;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    private String d_name;
-    private int d_price;
+    private String name;
+    private int price;
     private int quantity;
 
     public int getD_id() {

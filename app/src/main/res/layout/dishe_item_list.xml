@@ -3,12 +3,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/ic_launcher"
-        android:layout_marginRight="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,11 +13,19 @@
         android:textColor="@color/green"
         android:textSize="20sp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        android:id="@+id/DishePrice"
+        android:layout_below="@id/DisheName"
+        android:textSize="20sp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="price"
+        android:text="num"
         android:id="@+id/textView2"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />

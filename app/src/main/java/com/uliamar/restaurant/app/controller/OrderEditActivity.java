@@ -192,9 +192,9 @@ public class OrderEditActivity extends ActionBarActivity {
                 List<Dishe> dl = new ArrayList<Dishe>();
                 Dishe d = new Dishe();
                 d.setD_id(1);
-                d.setD_name("Bites");
-                d.setD_price(42);
-                d.setQuantity(42);
+                d.setName("Bites");
+                d.setPrice(42);
+                d.setQuantity(2);
                 dl.add(d);
                 order.setDishes(dl);
 
@@ -246,17 +246,18 @@ public class OrderEditActivity extends ActionBarActivity {
         for(int i=0;i<dishes.size();i++)
         {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemTitle", dishes.get(i).getD_name());
-            map.put("ItemText", dishes.get(i).getD_price());
+            map.put("DishName", dishes.get(i).getName());
+            map.put("DishPrice", dishes.get(i).getPrice());
+            map.put("DishNum",dishes.get(i).getQuantity());
             listItem.add(map);
         }
         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
                 R.layout.dishe_item_list,//ListItem的XML实现
                 //动态数组与ImageItem对应的子项
-                new String[] {"ItemTitle", "ItemText"},
+                new String[] {"ItemTitle", "DishNum","DishPrice"},
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.DisheName,R.id.textView2}
+                new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
         );
 
         //添加并且显示
