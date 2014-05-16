@@ -8,6 +8,15 @@ public class User {
     private String name;
     private String phoneno;
     private boolean is_host;
+    private String inv_status;
+
+    public String getInv_status() {
+        return inv_status;
+    }
+
+    public void setInv_status(String inv_status) {
+        this.inv_status = inv_status;
+    }
 
     public int getCust_id() {
         return cust_id;

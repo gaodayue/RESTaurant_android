@@ -7,12 +7,14 @@ import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetInvitationList;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
+import com.uliamar.restaurant.app.Bus.GetOneInvitationEvent;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
 import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.LoginEvent;
 import com.uliamar.restaurant.app.Bus.LoginSuccessEvent;
+import com.uliamar.restaurant.app.Bus.OnOneInvitationEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
@@ -208,10 +210,7 @@ public class DataService {
                 BusProvider.get().post(loginSuccessEvent);
             }
         }.execute();
-
-
     }
-
 
     @Subscribe
     public void onGetInvitationEvent(GetInvitationList e) {
@@ -269,4 +268,36 @@ public class DataService {
         }.execute();
     }
 
+    @Subscribe
+    public void onGetInvitationEvent(GetOneInvitationEvent e) {
+        final int invitationID = e.get();
+        Log.d(TAG, "onGetInvitationEvent received on DataService");
+        new  AsyncTask<Void, Void,  Invitation>() {
+            private String TAG = "listInvitation asyncTask";
+
+            protected Invitation doInBackground(Void... voids) {
+                try {
+                    Invitation invitation = RESTrepository.getInvitation(invitationID);
+                    return invitation;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive this invitation " +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(Invitation invitation) {
+                BusProvider.get().post(new OnOneInvitationEvent(invitation));
+            }
+        }.execute();
+    }
 }

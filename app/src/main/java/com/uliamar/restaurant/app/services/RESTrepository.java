@@ -59,7 +59,7 @@ public  class RESTrepository {
         Restaurant GetRestaurant(@Path("id") int id);
 
         @GET("/invitations/{id}")
-        Invitation GetInvitation(@Path("id") int id);
+        Invitation getInvitation(@Path("id") int id);
 
         @POST("/invitations/create")
         Invitation sendOrder(@Body String order);
@@ -123,6 +123,7 @@ public  class RESTrepository {
     public static String pushRegister(int customer_id,String access_token,String push_id){
         return restService.pushRegister(push_id);
     }
+    public static Invitation getInvitation(int id) {return restService.getInvitation(id);}
 
     public static void setToken(String token) {
         requestInterceptor.setToken(token);
