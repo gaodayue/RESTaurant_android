@@ -75,8 +75,7 @@ public  class RESTrepository {
 
         @FormUrlEncoded
         @POST("/push/register")
-        String pushRegister(@Field("customer_id") int customer_id, @Field("access_token") String access_token,
-                            @Field("push_id") String push_id);
+        String pushRegister(@Field("push_id") String push_id);
 
     }
 
@@ -122,7 +121,7 @@ public  class RESTrepository {
     public static Invitation sendOrder(Order order){ return restService.sendOrder(new Gson().toJson(order));}
     public static LoginResult login(String phoneno, String password){ return restService.login(phoneno, password);}
     public static String pushRegister(int customer_id,String access_token,String push_id){
-        return restService.pushRegister(customer_id, access_token, push_id);
+        return restService.pushRegister(push_id);
     }
 
     public static void setToken(String token) {
