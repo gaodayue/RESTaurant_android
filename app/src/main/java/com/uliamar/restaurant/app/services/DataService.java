@@ -222,7 +222,7 @@ public class DataService {
                 try {
                     List<Invitation> invitations = RESTrepository.getInvitations();
 
-                    Log.i("asd", invitations.size() + "");
+                    Log.i(TAG, invitations.size() + "");
                     return invitations;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
@@ -233,7 +233,7 @@ public class DataService {
                     e.getStackTrace();
                 }
 
-                return new ArrayList<Invitation>();
+                return null;
             }
 
             protected void onProgressUpdate() {

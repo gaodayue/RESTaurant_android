@@ -111,6 +111,7 @@ public class EventListFragment extends ListFragment {
 
     @Subscribe
     public void OnInvitationListReceivedEvent(InvitationListReceivedEvent e) {
+        Log.v(TAG, "We go the invitation list. let's put it in adaptateur and refresh");
         List<Invitation> l = e.get();
         adapter.update(l.toArray(new Invitation[l.size()]));
 
@@ -155,6 +156,7 @@ public class EventListFragment extends ListFragment {
         }
 
         public void update(Invitation[] values) {
+            Log.v(TAG,  "We update with " + values.length +  " elements");
             this.values = values;
             this.notifyDataSetChanged();
         }
