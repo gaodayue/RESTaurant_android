@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
@@ -67,6 +68,7 @@ public class EventListFragment extends ListFragment {
         Invitation[] invitations = new Invitation[0];
         adapter = new MySimpleArrayAdapter(getActivity(), invitations);
         setListAdapter(adapter);
+
     }
 
 
@@ -113,32 +115,25 @@ public class EventListFragment extends ListFragment {
     public void OnInvitationListReceivedEvent(InvitationListReceivedEvent e) {
         Log.v(TAG, "We go the invitation list. let's put it in adaptateur and refresh");
         List<Invitation> l = e.get();
-        adapter.update(l.toArray(new Invitation[l.size()]));
-
+        if (l != null) {
+            for (int i = 0; i < l.size(); i++) {
+                adapter.add(l.get(i));
+            }
+            adapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getActivity(), "Unable to retrieve the invitation", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent i = new Intent(getActivity(), OrderReviewActivity.class);
+        Intent i = OrderReviewActivity.createIntent(getActivity(), (int)id);
         startActivity(i);
-//        if (null != mListener) {
-//            // Notify the active callbacks interface (the activity, if the
-//            // fragment is attached to one) that an item has been selected.
-//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-//        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
@@ -159,6 +154,11 @@ public class EventListFragment extends ListFragment {
             Log.v(TAG,  "We update with " + values.length +  " elements");
             this.values = values;
             this.notifyDataSetChanged();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return values[position].getInv_id();
         }
 
         @Override

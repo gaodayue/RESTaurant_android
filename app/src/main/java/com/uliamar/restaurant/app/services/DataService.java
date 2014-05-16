@@ -46,8 +46,6 @@ public class DataService {
             protected List<Restaurant> doInBackground(Void... voids) {
                 try {
                     List<Restaurant> rest = RESTrepository.listRestaurants("55", "66");
-
-                    Log.i("asd", rest.size() + "");
                     return rest;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
@@ -58,7 +56,7 @@ public class DataService {
                     e.getStackTrace();
                 }
 
-                return new ArrayList<Restaurant>();
+                return null;
             }
 
             protected void onProgressUpdate() {
@@ -222,7 +220,6 @@ public class DataService {
                 try {
                     List<Invitation> invitations = RESTrepository.getInvitations();
 
-                    Log.i(TAG, invitations.size() + "");
                     return invitations;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {

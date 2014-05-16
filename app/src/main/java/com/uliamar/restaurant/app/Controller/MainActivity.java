@@ -2,6 +2,7 @@ package com.uliamar.restaurant.app.controller;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -34,7 +35,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity  implements NFCFragment.OnFragmentInteractionListener{
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
-   // DataService dataService;
+    // DataService dataService;
     NfcAdapter nfcAdapter;
     private static final String TAG = "Main activity";
 
@@ -47,7 +48,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-      //  dataService = new DataService();
+        //  dataService = new DataService();
 
     }
 
@@ -88,18 +89,21 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
-        menu.add(Menu.NONE,Menu.FIRST+1,0,"login");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            case Menu.FIRST+1:
-            {
-                Intent myIntent=new Intent(this,LoginActivity.class);
-                startActivity(myIntent);
-                break;
+            case R.id.action_logout : {
+                SharedPreferences preferences = this.getSharedPreferences(LoginActivity.SHARED_PREF_DB_NAME, MODE_PRIVATE);
+                preferences.edit()
+                        .putString(LoginActivity.PREF_TOKEN, "")
+                        .putInt(LoginActivity.PREF_ACCOUNT_ID, 0).commit();
+                Intent i = LoginActivity.createIntent(this);
+                startActivity(i);
+                finish();
+                return true;
             }
         }
         return false;

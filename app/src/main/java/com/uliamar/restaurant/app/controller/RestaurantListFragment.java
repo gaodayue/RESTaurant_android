@@ -13,12 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.baidu.android.pushservice.a;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.R;
+import com.uliamar.restaurant.app.model.Restaurant;
+
+import java.util.List;
 
 
 /**
@@ -134,8 +139,12 @@ public class RestaurantListFragment extends ListFragment {
 
     @Subscribe
     public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
-        mAdapteur.update(event.get());
-
+        List<Restaurant> restaurants = event.get();
+        if (restaurants == null) {
+            Toast.makeText(getActivity(), "Unable to retrieve the nearby restaurants", Toast.LENGTH_SHORT).show();
+        } else {
+            mAdapteur.update(restaurants);
+        }
     }
 
 

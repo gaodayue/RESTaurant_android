@@ -1,6 +1,7 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,8 +35,12 @@ public class LoginActivity extends Activity {
     DataService dataService;
     public static final String PREF_ACCOUNT_ID = "cust_id";
     public static final String PREF_TOKEN = "accessToken";
-    private String SHARED_PREF_DB_NAME = "loginResult";
+    public static final String SHARED_PREF_DB_NAME = "loginResult";
 
+
+    public static Intent createIntent(Context c) {
+        return new Intent(c, LoginActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +94,7 @@ public class LoginActivity extends Activity {
         LoginResult result=loginSuccessEvent.getResult();
       //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
         //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
-        SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
         preferences.edit().putInt(PREF_ACCOUNT_ID,result.getCust_id()).commit();
         SharedPreferences pushPreferences=this.getSharedPreferences("pushService",0);
