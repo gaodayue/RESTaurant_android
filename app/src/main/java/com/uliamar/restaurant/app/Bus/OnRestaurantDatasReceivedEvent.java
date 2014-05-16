@@ -17,6 +17,7 @@ public class OnRestaurantDatasReceivedEvent {
     public OnRestaurantDatasReceivedEvent(Restaurant r, List<User> friends) {
         mR = r;
         mUsers = friends;
+        mDishes = r.getDishes();
     }
 
     public Restaurant getRestaurant() {
@@ -25,6 +26,7 @@ public class OnRestaurantDatasReceivedEvent {
 
 
     public List<Dishe> getDishes() {
+       // mDishes = mR.getDishes();
         return mDishes;
     }
 
