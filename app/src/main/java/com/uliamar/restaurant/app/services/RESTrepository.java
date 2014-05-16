@@ -116,16 +116,11 @@ public  class RESTrepository {
 
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
-    public static List<User> listUsers() {
-        return restService.listUsers();
-    }
     public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
-    public static List<User> listUser() { return restService.listUsers();}
+    public static List<User> listUsers() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(new Gson().toJson(order));}
-    public static LoginResult login(String phoneno, String password){
-        return restService.login(phoneno, password);
-    }
+    public static LoginResult login(String phoneno, String password){ return restService.login(phoneno, password);}
     public static String pushRegister(int customer_id,String access_token,String push_id){
         return restService.pushRegister(customer_id, access_token, push_id);
     }

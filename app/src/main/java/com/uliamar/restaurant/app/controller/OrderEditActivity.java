@@ -6,18 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.media.MediaRouter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.AndroidCharacter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,10 +33,7 @@ import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.services.DataService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -129,7 +122,7 @@ public class OrderEditActivity extends ActionBarActivity {
         mDate.init(2014,5,14,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                order.setRequest_date(i+"-"+i2+"-"+i3);
+                order.setRequest_date(i + "-" + i2 + "-" + i3);
                 //order.setDate(date);
                 System.out.println("Date: " +i+"-"+i2+"-"+i3);
             }

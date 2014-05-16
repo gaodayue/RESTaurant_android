@@ -25,7 +25,6 @@ import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
 
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,7 +119,7 @@ public class DataService {
             protected OnRestaurantDatasReceivedEvent doInBackground(Void... voids) {
                 try {
                     Restaurant rest = RESTrepository.getRestaurant(restID);
-                    List<User> friends = RESTrepository.listUser();
+                    List<User> friends = RESTrepository.listUsers();
                     return  new OnRestaurantDatasReceivedEvent(rest, friends);
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {

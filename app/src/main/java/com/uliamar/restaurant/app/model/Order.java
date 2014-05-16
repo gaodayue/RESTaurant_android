@@ -12,6 +12,35 @@ public class Order {
     private User customer;
     private List<Dishe> dishes;
 
+
+
+    private String request_date;
+    //noon|evening|midnight
+    private int request_period;
+    private int start_time;
+    private int end_time;
+
+
+    //No.3 table, 8pm to 10pm, 2014-05-05
+    private String schedule_info;
+    // planing|booking|booking_succeed|booking_failed|canceled|revoked|consumed
+    private String status;
+    private String created_time;
+    private String updated_time;
+
+    /**
+     * Data to feed before saving;
+     */
+
+    private int customer_id;
+    private int restaurant_id;
+    //request date
+    //request_period
+    private int[] customer_ids;
+    //dishes
+
+
+
     public int getTotal_price() {
         return total_price;
     }
@@ -126,26 +155,22 @@ public class Order {
         this.request_period = request_period;
     }
 
-    private String request_date;
-    //noon|evening|midnight
-    private int request_period;
-    //No.3 table, 8pm to 10pm, 2014-05-05
-    private String schedule_info;
-    // planing|booking|booking_succeed|booking_failed|canceled|revoked|consumed
-    private String status;
-    private String created_time;
-    private String updated_time;
 
-    /**
-     * Data to feed before saving;
-     */
+    public int getStart_time() {
+        return start_time;
+    }
 
-    private int customer_id;
-    private int restaurant_id;
-    //request date
-    //request_period
-    private int[] customer_ids;
-    //dishes
+    public void setStart_time(int start_time) {
+        this.start_time = start_time;
+    }
+
+    public int getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(int end_time) {
+        this.end_time = end_time;
+    }
 
 
     public int getID() {

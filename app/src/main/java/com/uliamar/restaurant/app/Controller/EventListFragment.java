@@ -1,20 +1,15 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,13 +17,15 @@ import android.widget.Toast;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetInvitationList;
-import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -173,7 +170,18 @@ public class EventListFragment extends ListFragment {
             TextView text2TextView = (TextView) rowView.findViewById(R.id.EventText2);
 
             nameTextView.setText(values.get(position).getOrder().getRestaurant().getName());
-            text1TextView.setText(values.get(position).getOrder().getRequest_date());
+
+
+            try {
+                Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(values.get(position).getOrder().getRequest_date().replaceAll("Z$", "+0000"));
+                String dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
+                text1TextView.setText(dateString);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             String userList = "";
             List<User> ul = values.get(position).getParticipants();
             for (int i = 0; i < ul.size(); ++i) {
@@ -182,7 +190,6 @@ public class EventListFragment extends ListFragment {
                     userList += ", ";
                 }
             }
-
             text2TextView.setText(userList);
             return rowView;
         }
