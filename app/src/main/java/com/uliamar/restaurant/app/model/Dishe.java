@@ -5,11 +5,16 @@ package com.uliamar.restaurant.app.model;
  */
 public class Dishe {
 
+    private int d_id;
+
+    private String d_name;
+    private int d_price;
+    private int quantity;
+
+
     public Dishe(){
         this.quantity = 0;
     }
-
-    private int d_id;
 
     public String getD_name() {
         return d_name;
@@ -27,9 +32,6 @@ public class Dishe {
         this.d_price = d_price;
     }
 
-    private String d_name;
-    private int d_price;
-    private int quantity;
 
     public int getD_id() {
         return d_id;
