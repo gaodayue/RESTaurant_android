@@ -33,9 +33,13 @@ import java.util.List;
  */
 public class DataService {
     public final String TAG = "DataService";
+    private static DataService  dataService;
 
-    public DataService() {
-        BusProvider.get().register(this);
+    public static void init() {
+        if (dataService == null) {
+            dataService = new DataService();
+            BusProvider.get().register(dataService);
+        }
     }
 
     @Subscribe
@@ -259,7 +263,10 @@ public class DataService {
             }
             protected void onProgressUpdate(){}
             protected void onPostExecute(String pushRegistResult){
-                Log.i("bigred",pushRegistResult);
+                /**
+                 * java.lang.NullPointerException: println needs a message
+                 */
+                //                Log.i("bigred",pushRegistResult);
             }
         }.execute();
     }

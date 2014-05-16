@@ -88,7 +88,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

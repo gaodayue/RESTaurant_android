@@ -32,7 +32,6 @@ import com.uliamar.restaurant.app.services.RESTrepository;
 
  */
 public class LoginActivity extends Activity {
-    DataService dataService;
     public static final String PREF_ACCOUNT_ID = "cust_id";
     public static final String PREF_TOKEN = "accessToken";
     public static final String SHARED_PREF_DB_NAME = "loginResult";
@@ -45,7 +44,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataService = new DataService();
+         DataService.init();
 
         /**
          * Check either we are already logged in
