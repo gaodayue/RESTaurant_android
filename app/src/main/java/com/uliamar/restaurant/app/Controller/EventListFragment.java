@@ -26,6 +26,7 @@ import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.InvitationListReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Invitation;
+import com.uliamar.restaurant.app.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,8 +172,18 @@ public class EventListFragment extends ListFragment {
             TextView text1TextView = (TextView) rowView.findViewById(R.id.EventText1);
             TextView text2TextView = (TextView) rowView.findViewById(R.id.EventText2);
 
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            text1TextView.setText("Penis"); //values.get(position).getOrder().getRestaurant().getName()
+            nameTextView.setText(values.get(position).getOrder().getRestaurant().getName());
+            text1TextView.setText(values.get(position).getOrder().getRequest_date());
+            String userList = "";
+            List<User> ul = values.get(position).getParticipants();
+            for (int i = 0; i < ul.size(); ++i) {
+                userList += ul.get(i).getName();
+                if (i < ul.size() - 1) {
+                    userList += ", ";
+                }
+            }
+
+            text2TextView.setText(userList);
             return rowView;
         }
     }

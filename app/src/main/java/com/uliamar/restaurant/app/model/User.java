@@ -5,6 +5,9 @@ package com.uliamar.restaurant.app.model;
  */
 public class User {
     private int cust_id;
+    private String name;
+    private String phoneno;
+    private boolean is_host;
 
     public int getCust_id() {
         return cust_id;
@@ -38,7 +41,5 @@ public class User {
         this.is_host = is_host;
     }
 
-    private String name;
-    private String phoneno;
-    private boolean is_host;
+
 }
