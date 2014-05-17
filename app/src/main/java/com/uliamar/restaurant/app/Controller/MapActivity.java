@@ -8,15 +8,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.CoordParcelable;
 import com.uliamar.restaurant.app.model.Restaurant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapActivity extends ActionBarActivity {
     public static String ARG_RESTAURANT_LIST = "restaurant_list";
+    HashMap<Marker,Integer> hashMap=new HashMap<Marker, Integer>();
 
     public static Intent createIntent(Context c, List<Restaurant> restaurants) {
         Intent myIntent = new Intent(c, MapActivity.class);
@@ -42,10 +52,26 @@ public class MapActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        MapFragment mapFragment=(MapFragment)getFragmentManager().findFragmentById(R.id.map);
+        GoogleMap googleMap=mapFragment.getMap();
+        //googleMap.setMyLocationEnabled(true);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(39.951526, 116.340716),15));
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                int id=hashMap.get(marker);
+                //Toast.makeText(getBaseContext(),"this restaurant id is:"+id,Toast.LENGTH_SHORT).show();
+                Intent myIntent=RestaurantActivity.createIntent(getBaseContext(),id);
+                startActivity(myIntent);
+            }
+        });
         Intent i = getIntent();
         List<CoordParcelable> coordList = i.getExtras().getParcelableArrayList(ARG_RESTAURANT_LIST);
         for(CoordParcelable coordParcelable:coordList){
-
+            LatLng latLng=new LatLng(coordParcelable.getmLat(),coordParcelable.getmLon());
+            MarkerOptions m = new MarkerOptions().position(latLng).title(coordParcelable.getmName());
+            Marker m2 = googleMap.addMarker(m);
+            hashMap.put(m2,coordParcelable.getmID());
         }
         Log.v("penis", coordList.size() + " ");
     }
