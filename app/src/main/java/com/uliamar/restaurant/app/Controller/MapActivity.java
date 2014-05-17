@@ -44,6 +44,9 @@ public class MapActivity extends ActionBarActivity {
         setContentView(R.layout.activity_map);
         Intent i = getIntent();
         List<CoordParcelable> coordList = i.getExtras().getParcelableArrayList(ARG_RESTAURANT_LIST);
+        for(CoordParcelable coordParcelable:coordList){
+
+        }
         Log.v("penis", coordList.size() + " ");
     }
 

@@ -80,13 +80,13 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/addFriend"
-            android:background="@drawable/addpeople72"/>
+            android:background="@drawable/addpeople96"/>
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/delFriend"
-            android:background="@drawable/delpeople72"/>
+            android:background="@drawable/delpeople96"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

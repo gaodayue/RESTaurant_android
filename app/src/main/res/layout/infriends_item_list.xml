@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="50dp"
-        android:gravity="center"
+        android:gravity="left"
         android:text="Big Red"
         android:id="@+id/InFriends_name"
         android:textColor="@color/green"
@@ -18,7 +18,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/uncheck96"
+
+        android:background="@drawable/noreply96"
         android:id="@+id/InFriends_status"
         android:layout_marginLeft="100dp"/>
 
