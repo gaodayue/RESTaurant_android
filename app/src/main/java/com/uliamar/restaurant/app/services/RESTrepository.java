@@ -56,7 +56,7 @@ public  class RESTrepository {
         List<Restaurant> listRestaurants(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
         @GET("/restaurants/show/{id}")
-        Restaurant GetRestaurant(@Path("id") int id);
+        Restaurant GetRestaurant(@Path("id") int id, @Query("latitude") String latitude, @Query("longitude") String longitude);
 
         @GET("/invitations/{id}")
         Invitation getInvitation(@Path("id") int id);
@@ -90,7 +90,7 @@ public  class RESTrepository {
         Invitation denyInvitation(@Path("id") int id);
 
         @GET("/restaurants/search")
-        List<Restaurant> searchRestaurant(@Query("keyword") String search);
+        List<Restaurant> searchRestaurant(@Query("keyword") String search, @Query("latitude") String latitude, @Query("longitude") String longitude);
 
     }
 
@@ -130,8 +130,8 @@ public  class RESTrepository {
 
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
-    public static List<Restaurant>listRestaurants(String lat, String lon) {return restService.listRestaurants(lat, lon);}
-    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
+    public static List<Restaurant>listRestaurants() {return restService.listRestaurants(getLat(), getLong());}
+    public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id, getLat(), getLong());}
     public static List<User> listUsers() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
     public static LoginResult login(String phoneno, String password){ return restService.login(phoneno, password);}
@@ -153,6 +153,9 @@ public  class RESTrepository {
     public static Invitation cancelInvitation(int id) {return restService.cancelInvitation(id);}
     public static Invitation acceptInvitation(int id) {return restService.acceptInvitation(id);}
     public static Invitation denyInvitation(int id) {return restService.denyInvitation(id);}
-    public static List<Restaurant> searchRestaurant(String search) {return restService.searchRestaurant(search);}
+    public static List<Restaurant> searchRestaurant(String search) {return restService.searchRestaurant(search, getLat(), getLong());}
+
+    private static String getLong() { return "116.340673";}
+    private static String getLat() { return "39.951474";}
 
 }

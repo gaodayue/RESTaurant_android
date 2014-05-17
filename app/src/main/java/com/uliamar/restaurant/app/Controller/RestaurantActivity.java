@@ -28,7 +28,7 @@ public class RestaurantActivity extends Activity {
     private Button mOrderButton;
     private TextView mRestaurantNameTextView;
     private ProgressDialog progressDialog = null;
-private ImageView mRestaurantCoverImageView;
+    private ImageView mRestaurantCoverImageView;
 
     public static Intent createIntent(Context c, int restaurantID) {
         Intent myIntent = new Intent(c, RestaurantActivity.class);
@@ -61,7 +61,7 @@ private ImageView mRestaurantCoverImageView;
         BusProvider.get().register(this);
 
         if (restaurant == null) {
-            progressDialog = new ProgressDialog(ref);
+            progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Loading");
             progressDialog.setMessage("Wait while loading...");
             progressDialog.show();
