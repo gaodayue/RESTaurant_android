@@ -57,6 +57,19 @@ public class RestaurantPushReceiver extends BroadcastReceiver {
             String message = intent.getExtras().getString(
                     PushConstants.EXTRA_PUSH_MESSAGE_STRING);
             Toast.makeText(context, "receive message："+message, Toast.LENGTH_SHORT).show();
+        }else if(intent.getAction().equals(PushConstants.ACTION_RECEIVER_NOTIFICATION_CLICK)){
+            String myMsg=intent.getStringExtra(PushConstants.EXTRA_EXTRA);
+            Log.i("bigred",myMsg);
+            try{
+                JSONObject myJsonObj=new JSONObject(myMsg);
+                int invitation_id=myJsonObj.getInt("invitation_id");
+                Intent myIntent=OrderReviewActivity.createIntent(context,invitation_id);
+                context.startActivity(myIntent);
+                Toast.makeText(context,myMsg,Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 }
