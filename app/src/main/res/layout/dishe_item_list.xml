@@ -2,10 +2,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="wrap_content">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Big Mac"
@@ -14,20 +14,19 @@
         android:textSize="20sp"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:text="Price: "
+        android:text="$: "
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/DisheName"
         android:textSize="20sp"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:text="20"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/DishePrice"
         android:layout_below="@id/DisheName"
         android:textSize="20sp"
@@ -44,22 +43,23 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:id="@+id/add"
-            android:background="@drawable/add"
-            android:focusable="false"/>
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:id="@+id/delete"
-            android:background="@drawable/del"
+            android:background="@drawable/add96"
             android:focusable="false"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="num"
+            android:text="20"
+            android:textSize="24sp"
             android:id="@+id/textView2"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:layout_marginRight="5dp" />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/delete"
+            android:background="@drawable/del96"
+            android:focusable="false"/>
     </LinearLayout>
 </LinearLayout>

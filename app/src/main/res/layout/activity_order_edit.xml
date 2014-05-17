@@ -57,7 +57,7 @@
 
         <ListView
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:id="@+id/DishList"/>
 
         <TextView
@@ -68,48 +68,66 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:id="@+id/friendList"
             />
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/addFriend"
-            android:background="@drawable/addpeople"/>
+            android:background="@drawable/addpeople72"/>
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/delFriend"
-            android:background="@drawable/delpeople"/>
+            android:background="@drawable/delpeople72"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/RestaurantSectionTitle"
             android:text="What time ?"/>
-
-
             <DatePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/datePicker"
-                android:scrollbarStyle="insideInset"
-                android:spinnersShown="false"/>
-
-            <Spinner
-                android:layout_width="match_parent"
+                android:calendarViewShown="false"
+                android:id="@+id/datePicker"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:text="Start Time:"/>
+            <Spinner
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
                 android:id="@+id/spinner" />
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:text="Duration:"/>
+            <Spinner
+                android:layout_width="50dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/spinner2" />
+            </LinearLayout>
 
             <Button
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Send Invitation"
+                style="@style/RestaurantButton"
                 android:id="@+id/SendActivityButton"
                 android:layout_gravity="center"
                 />

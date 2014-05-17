@@ -10,11 +10,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -53,17 +55,20 @@ public class OrderEditActivity extends ActionBarActivity {
     OrderEditActivity ref;
     ProgressDialog progressDialog;
     Restaurant restaurant;
-    Spinner mPeriod;
+    Spinner start;
+    Spinner end;
     DatePicker mDate;
     ListView mDishes;
     DishAdapter mDishAdapter;
     TextView friendList;
     private int mRestaurantID;
     private List<String> list = new ArrayList<String>();
+    private List<String> list2 = new ArrayList<String>();
     private List<Dishe> dishes = new ArrayList<Dishe>();
     private List<User> friends = new ArrayList<User>();
     private List<User> inFriends = new ArrayList<User>();
     private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter2;
     private int cust_id;
     private Order order;
     private ImageView mCoverImageView;
@@ -80,16 +85,23 @@ public class OrderEditActivity extends ActionBarActivity {
 
     private void init(){
         order = new Order();
-        list.add("noon");
-        list.add("evening");
-        list.add("midnight");
+        for (int i=11;i<24;i++){
+            list.add(i+"");
+        }
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (int i=1;i<4;i++){
+            list2.add(i+"");
+        }
+        adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,list2);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         cust_id = preferences.getInt(PREF_ACCOUNT_ID, 1);
-        order.setRequest_date("2014-05-05");
-        order.setStart_time(17);
-        order.setEnd_time(19);
+        order.setRequest_date("2014-05-18");
+        order.setStart_time(11);
+        order.setEnd_time(13);
     }
 
     @Override
@@ -100,29 +112,36 @@ public class OrderEditActivity extends ActionBarActivity {
         ref = this;
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
 
-        mPeriod = (Spinner) findViewById(R.id.spinner);
+        start = (Spinner) findViewById(R.id.spinner);
+        end = (Spinner) findViewById(R.id.spinner2);
         mRestaurantName = (TextView) findViewById(R.id.EventEdit_RestaurantName);
         mCoverImageView = (ImageView) findViewById(R.id.EventEdit_Cover);
 
-        mPeriod.setAdapter(adapter);
+        start.setAdapter(adapter);
+        end.setAdapter(adapter2);
         /**
          *      Caused by: java.lang.RuntimeException: setOnItemClickListener cannot be used with a spinner.
          */
-        mPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        start.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //order.setRequest_date("noon");
-                if (position == 0) {
-                    order.setStart_time(17);
-                    order.setEnd_time(19);
-                }else if (position == 1){
-                    order.setStart_time(17);
-                    order.setEnd_time(19);
-                }else if(position == 2){
-                    order.setStart_time(17);
-                    order.setEnd_time(19);
-                }
+                order.setStart_time(position+11);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        end.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                //order.setRequest_date("noon");
+                order.setEnd_time(order.getStart_time() + position+1);
             }
 
             @Override
@@ -132,12 +151,12 @@ public class OrderEditActivity extends ActionBarActivity {
         });
 
         mDate = (DatePicker) findViewById(R.id.datePicker);
-        mDate.init(2014,5,14,new DatePicker.OnDateChangedListener() {
+        mDate.init(2014,4,18,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
                 order.setRequest_date(i + "-" + i2 + "-" + i3);
                 //order.setDate(date);
-                System.out.println("Date: " +i+"-"+i2+"-"+i3);
+                System.out.println("Date: " +i+"-"+(i2+1)+"-"+i3);
             }
         });
 
@@ -173,7 +192,7 @@ public class OrderEditActivity extends ActionBarActivity {
                     itemStrings[i] = friends.get(i).getName();
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
-                builder.setTitle("FriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings, new DialogInterface.OnClickListener() {
+                builder.setTitle("FriendLIST").setItems(itemStrings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
@@ -340,6 +359,7 @@ public class OrderEditActivity extends ActionBarActivity {
             }
         }
         mDishAdapter.update(dishes);
+        setListViewHeightBasedOnChildren(mDishes);
     }
 
     @Subscribe
@@ -352,6 +372,34 @@ public class OrderEditActivity extends ActionBarActivity {
         } else {
             Toast.makeText(this, "Unable to send this invitation", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public int Dp2Px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+
+        //获取listview的适配器
+        ListAdapter listAdapter = listView.getAdapter();
+        //item的高度
+        int itemHeight = 46;
+
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            totalHeight += Dp2Px(getApplicationContext(),itemHeight)+listView.getDividerHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+
+        listView.setLayoutParams(params);
     }
 
 }
