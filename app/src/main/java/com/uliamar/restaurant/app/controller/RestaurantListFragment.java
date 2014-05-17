@@ -92,6 +92,7 @@ public class RestaurantListFragment extends ListFragment {
         searchView = new SearchView(getActivity());
         //  searchView.setLayoutParams(new SearchView.LayoutParams(SearchView.LayoutParams.MATCH_PARENT, SearchView.LayoutParams.WRAP_CONTENT));
 //        searchView = (SearchView) view.findViewById(R.id.restaurantList_searchview);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextSubmit(String s) {

@@ -26,6 +26,7 @@
         android:text="Small Text"
         android:id="@+id/EventText1"
         android:layout_below="@+id/EventName"
+        android:lines="1"
         android:layout_alignLeft="@+id/EventName"
         android:layout_alignStart="@+id/EventName" />
 
@@ -37,5 +38,6 @@
         android:id="@+id/EventText2"
         android:layout_alignTop="@+id/EventText1"
         android:layout_toRightOf="@+id/EventText1"
+        android:lines="1"
         android:layout_marginLeft="4dp"/>
 </RelativeLayout>

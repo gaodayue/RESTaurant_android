@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,11 @@ import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.services.DataService;
 import com.uliamar.restaurant.app.services.RESTrepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +49,7 @@ import java.util.Objects;
 public class OrderReviewActivity extends Activity {
     public static final String ARG_INVITATION_ID = "ARG_INVITATION_ID";
     private String TAG = "OrderReviewActivity";
+    private CountDown time;
 
     private Context mContext;
     private Invitation mInvitation;
@@ -179,7 +185,38 @@ public class OrderReviewActivity extends Activity {
                 Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mRestaurantCoverImageView);
             }
             mRestaurantName.setText(mInvitation.getOrder().getRestaurant().getName());
-            mDateTextView.setText(mInvitation.getOrder().getRequest_date());
+            String date = mInvitation.getOrder().getRequest_date().substring(0, 10);
+            date += " " + mInvitation.getOrder().getStart_time() + ":00-" + mInvitation.getOrder().getEnd_time()+":00";
+            mDateTextView.setText(date);
+            Calendar now = Calendar.getInstance();
+            Date orderNow = null;
+            long l = now.getTimeInMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                orderNow = sdf.parse(mInvitation.getOrder().getFormatDate());
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+            long l2 = orderNow.getTime();
+            int hour = now.get(Calendar.HOUR_OF_DAY);
+//            //System.out.println("day hour is:"+hour);
+//            int minute = now.get(Calendar.MINUTE);
+//            if (minute == 0) {
+//                hour = mInvitation.getOrder().getStart_time() - hour;
+//                //minute = 60 - minute;
+//            }else {
+//                hour = mInvitation.getOrder().getStart_time() - hour -1;
+//                minute = 60 - minute;
+//            }
+//            long mills = hour*60*60*1000 + minute*60*1000;
+            if (l < l2) {
+                time = new CountDown(l2 - l, 1000);
+                time.start();
+            }
+            else{
+                mCountDownTextView.setText("Bye!");
+            }
+
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());
 
             int nbParticipantComming = 0;
@@ -344,5 +381,35 @@ public class OrderReviewActivity extends Activity {
         listView.setLayoutParams(params);
     }
 
+
+    class CountDown extends CountDownTimer {
+
+        public CountDown(long l,long interval){
+            super(l, interval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            int sum = Integer.parseInt(l/1000+"");
+            int hour = sum/3600;
+            int day = hour/24;
+            hour = hour%24;
+            sum = sum%3600;
+            int minute = sum/60;
+            sum = sum%60;
+            int second = sum;
+            if (day == 0) {
+                mCountDownTextView.setText(hour + ":" + minute + ":" + second);
+            }else {
+                mCountDownTextView.setText(day + "days left.");
+            }
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+
+    }
 
 }
