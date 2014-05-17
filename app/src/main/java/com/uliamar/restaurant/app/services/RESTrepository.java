@@ -89,6 +89,8 @@ public  class RESTrepository {
         @POST("/invitations/deny/{id}")
         Invitation denyInvitation(@Path("id") int id);
 
+        @GET("/restaurants/search")
+        List<Restaurant> searchRestaurant(@Query("keyword") String search);
 
     }
 
@@ -151,6 +153,6 @@ public  class RESTrepository {
     public static Invitation cancelInvitation(int id) {return restService.cancelInvitation(id);}
     public static Invitation acceptInvitation(int id) {return restService.acceptInvitation(id);}
     public static Invitation denyInvitation(int id) {return restService.denyInvitation(id);}
-
+    public static List<Restaurant> searchRestaurant(String search) {return restService.searchRestaurant(search);}
 
 }
