@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,11 @@ import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.services.DataService;
 import com.uliamar.restaurant.app.services.RESTrepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class OrderReviewActivity extends Activity {
     public static final String ARG_INVITATION_ID = "ARG_INVITATION_ID";
@@ -54,10 +59,11 @@ public class OrderReviewActivity extends Activity {
     private TextView mDateTextView;
     private TextView mAddressTextView;
     //private TextView mFriendListTextView;
-    private TextView mDishesListTextView;
+    //private TextView mDishesListTextView;
     private TextView mTotalPrice;
     private TextView mPricePerParticipant;
     private ListView mInFriendsListView;
+    private ListView mDishesListView;
     private Button mCancelButton;
     private Button mSendButton;
     private Button mStatusButton; // a button, just for display purpose, no click listeners expected
@@ -99,9 +105,10 @@ public class OrderReviewActivity extends Activity {
                 mContext.startActivity(i);
             }
         });
-        mDishesListTextView = (TextView) findViewById(R.id.EventReview_DishesList);
+        //mDishesListTextView = (TextView) findViewById(R.id.EventReview_DishesList);
         //mFriendListTextView = (TextView) findViewById(R.id.EventReview_FriendList);
         mInFriendsListView = (ListView) findViewById(R.id.inFriendsList);
+        mDishesListView = (ListView) findViewById(R.id.EventReview_DishesList2);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFriendAdapter = new FriendAdapter(this, inflater);
@@ -192,14 +199,25 @@ public class OrderReviewActivity extends Activity {
             setListViewHeightBasedOnChildren(mInFriendsListView);
 
 
-            String dishListText = "";
+            List<Map<String,Object>> listT = new ArrayList<Map<String, Object>>();
+            Map<String,Object> map;
+            //String dishListText = "";
             List<Dishe> disheList = mInvitation.getOrder().getDishes();
             for (int i = 0; i < disheList.size(); ++i) {
-                dishListText += disheList.get(i).getName() + " " + disheList.get(i).getQuantity() + " x " + disheList.get(i).getPrice() + "RMB\n";
+                //dishListText += disheList.get(i).getName() + " " + disheList.get(i).getQuantity() + " x " + disheList.get(i).getPrice() + "RMB\n";
+                map = new HashMap<String, Object>();
+                map.put("name",disheList.get(i).getName());
+                map.put("price",disheList.get(i).getPrice());
+                map.put("num",disheList.get(i).getQuantity());
+                listT.add(map);
             }
-            mDishesListTextView.setText(dishListText);
+            //mDishesListTextView.setText(dishListText);
+            SimpleAdapter dishAdapterTmp = new SimpleAdapter(this,listT,R.layout.dishe_item_list2,new String[]{"name","price","num"},new int[]{R.id.DisheName2,R.id.DishePrice2,R.id.DisheNum2});
+            mDishesListView.setAdapter(dishAdapterTmp);
+            setListViewHeightBasedOnChildren(mDishesListView);
+
             mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "");
-            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + " per participant") ;
+            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + "") ;
 
             /**
              1: planning

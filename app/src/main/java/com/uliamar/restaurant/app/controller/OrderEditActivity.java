@@ -164,9 +164,9 @@ public class OrderEditActivity extends ActionBarActivity {
         mDate.init(2014,4,18,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                order.setRequest_date(i + "-" + i2 + "-" + i3);
+                order.setRequest_date(i + "-" + (i2+1) + "-" + i3);
                 //order.setDate(date);
-                System.out.println("Date: " +i+"-"+(i2+1)+"-"+i3);
+                //System.out.println("Date: " +i+"-"+(i2+1)+"-"+i3);
             }
         });
 
