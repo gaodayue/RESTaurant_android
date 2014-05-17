@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,6 +56,7 @@ public class OrderEditActivity extends ActionBarActivity {
     Spinner mPeriod;
     DatePicker mDate;
     ListView mDishes;
+    DishAdapter mDishAdapter;
     TextView friendList;
     private int mRestaurantID;
     private List<String> list = new ArrayList<String>();
@@ -141,6 +143,10 @@ public class OrderEditActivity extends ActionBarActivity {
 
         mDishes = (ListView) findViewById(R.id.DishList);
 
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mDishAdapter = new DishAdapter(this, inflater);
+        mDishes.setAdapter(mDishAdapter);
+        /*
         mDishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -153,6 +159,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 dishes.get(arg2).addDish();
             }
         });
+        */
         deleteDish = (Button) mDishes.findViewById(R.id.delete);
 
         friendList = (TextView) findViewById(R.id.friendList);
@@ -187,31 +194,33 @@ public class OrderEditActivity extends ActionBarActivity {
         mDelFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (inFriends.size() == 1) return;
                 //final String[] itemStrings={"AA","BB","CC","DD"};
-                final String[] itemStrings2 = new String[inFriends.size()-1];
+                final String[] itemStrings2 = new String[inFriends.size()];
                 //System.out.println("in delfriends: " + inFriends.size());
-                for(int i=1;i<inFriends.size();i++){
+                for(int i=0;i<inFriends.size();i++){
                     itemStrings2[i] = inFriends.get(i).getName();
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
-                builder.setTitle("inFriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings2, new DialogInterface.OnClickListener() {
+                builder.setTitle("inFriendLIST").setItems(itemStrings2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
-                        //Toast.makeText(getApplicationContext(), "你点击的是" + itemStrings[which], Toast.LENGTH_LONG).show();
+                        if (which == 0)
+                            Toast.makeText(getApplicationContext(), "Don't delete yourself!", Toast.LENGTH_LONG).show();
                         //String tmp = friendList.getText().toString();
                         //tmp += itemStrings[which] + ",";
                         //friendList.setText(tmp);
                         //inFriends.add(friends.get(which));
                         //friends.remove(which);
-                        friends.add(inFriends.get(which+1));
-                        inFriends.remove(which+1);
-                        String tmp = "";
-                        for (int i=0;i<inFriends.size();i++){
-                            tmp += inFriends.get(i).getName() + ",";
+                        else {
+                            friends.add(inFriends.get(which));
+                            inFriends.remove(which);
+                            String tmp = "";
+                            for (int i = 0; i < inFriends.size(); i++) {
+                                tmp += inFriends.get(i).getName() + ",";
+                            }
+                            friendList.setText(tmp);
                         }
-                        friendList.setText(tmp);
                     }
                 }).create().show();
 
@@ -264,6 +273,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 }
                 if (dl.size() == 0){
                     new AlertDialog.Builder(OrderEditActivity.this).setMessage("A meal without dishes is like santa claus without his hod and his BAALLS").setPositiveButton("OK",null).show();
+
                     return;
                 }
                 order.setDishes(dl);
@@ -328,32 +338,8 @@ public class OrderEditActivity extends ActionBarActivity {
                     }
                 }
             }
-
-            //生成动态数组，加入数据
-            ArrayList< HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-            for(int i=0;i<dishes.size();i++)
-            {
-                HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("DishName", dishes.get(i).getName());
-                map.put("DishPrice", dishes.get(i).getPrice());
-                map.put("DishNum",dishes.get(i).getQuantity());
-                listItem.add(map);
-            }
-            //生成适配器的Item和动态数组对应的元素
-            SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                    R.layout.dishe_item_list,//ListItem的XML实现
-                    //动态数组与ImageItem对应的子项
-                    new String[] {"DishName", "DishNum","DishPrice"},
-                    //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                    new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
-            );
-
-            //添加并且显示
-            mDishes.setAdapter(listItemAdapter);
-        } else {
-            Toast.makeText(this, "Unable to retrieve this restaurant Data", Toast.LENGTH_SHORT).show();
         }
-
+        mDishAdapter.update(dishes);
     }
 
     @Subscribe

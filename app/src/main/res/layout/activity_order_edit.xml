@@ -55,37 +55,42 @@
                 style="@style/RestaurantSectionTitle"
                 android:text="Make your meal"/>
 
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:id="@+id/DishList"/>
 
-            <ListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/DishList"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/RestaurantSectionTitle"
-                android:text="Invit your friends"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/friendList"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/addFriend"
-                android:text="+ Add Someone"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/delFriend"
-                android:text="+ Del Someone"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/RestaurantSectionTitle"
-                android:text="What time ?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RestaurantSectionTitle"
+            android:text="Invit your friends"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/friendList"
+            />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/addFriend"
+            android:background="@drawable/addpeople"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/delFriend"
+            android:background="@drawable/delpeople"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RestaurantSectionTitle"
+            android:text="What time ?"/>
 
 
             <DatePicker
