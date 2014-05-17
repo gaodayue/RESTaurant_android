@@ -27,7 +27,8 @@ public class MapActivity extends ActionBarActivity {
             restaurant = restaurants.get(i);
             coordList.add(new CoordParcelable(restaurant.getRest_id(),
                     restaurant.getGeo_location().getLongitude(),
-                    restaurant.getGeo_location().getLatitude()));
+                    restaurant.getGeo_location().getLatitude(),
+                    restaurant.getName()));
         }
 
         Bundle b = new Bundle();
