@@ -140,7 +140,9 @@ public class Order {
     private int total_price;
 
     public String getRequest_date() {
-        return request_date;
+        String date = request_date.substring(0,10);
+        date += " "    + start_time + ":00-" + end_time+":00";
+        return date;
     }
 
     public void setRequest_date(String request_date) {
