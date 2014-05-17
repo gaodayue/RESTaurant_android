@@ -77,6 +77,19 @@ public  class RESTrepository {
         @POST("/push/register")
         String pushRegister(@Field("push_id") String push_id);
 
+        @POST("/invitations/book/{id}")
+        Invitation bookInvitation(@Path("id") int id);
+
+        @POST("/invitations/cancel/{id}")
+        Invitation cancelInvitation(@Path("id") int id);
+
+        @POST("/invitations/accept/{id}")
+        Invitation acceptInvitation(@Path("id") int id);
+
+        @POST("/invitations/deny/{id}")
+        Invitation denyInvitation(@Path("id") int id);
+
+
     }
 
     private static ErrorHandler errorHandler = new MyErrorHandler();
@@ -134,5 +147,10 @@ public  class RESTrepository {
         RESTrepository.user_id = user_id;
     }
     public static List<Invitation>getInvitations() {return restService.getInvitations();}
+    public static Invitation bookInvitation(int id) {return restService.bookInvitation(id);}
+    public static Invitation cancelInvitation(int id) {return restService.cancelInvitation(id);}
+    public static Invitation acceptInvitation(int id) {return restService.acceptInvitation(id);}
+    public static Invitation denyInvitation(int id) {return restService.denyInvitation(id);}
+
 
 }

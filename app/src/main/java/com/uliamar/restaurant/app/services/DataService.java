@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.ChangeInvitationStatus;
 import com.uliamar.restaurant.app.Bus.GetInvitationList;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneInvitationEvent;
@@ -300,4 +301,55 @@ public class DataService {
             }
         }.execute();
     }
+
+    @Subscribe
+    public void onChangeInvitationStatus(ChangeInvitationStatus e) {
+        final ChangeInvitationStatus.Status status = e.getInvStatus();
+        final int invitationID = e.getInvitationID();
+
+        Log.d(TAG, "onChangeInvitationStatus received on DataService");
+        new  AsyncTask<Void, Void,  Invitation>() {
+            private String TAG = "onChangeInvitationStatus asyncTask";
+
+            protected Invitation doInBackground(Void... voids) {
+                try {
+                    switch (status) {
+                        case CANCEL: {
+                            return RESTrepository.cancelInvitation(invitationID);
+                        }
+                        case SEND: {
+                            return RESTrepository.bookInvitation(invitationID);
+                        }
+                        case ACCEPT: {
+                            return RESTrepository.acceptInvitation(invitationID);
+                        }
+                        case DENY: {
+                            return RESTrepository.denyInvitation(invitationID);
+                        }
+                    }
+                    Invitation invitation = RESTrepository.getInvitation(invitationID);
+                    return invitation;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to achieve this request" +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(Invitation invitation) {
+                BusProvider.get().post(new OnOneInvitationEvent(invitation));
+            }
+        }.execute();
+    }
+
+
 }

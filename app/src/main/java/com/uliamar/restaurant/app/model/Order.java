@@ -22,9 +22,9 @@ public class Order {
 
 
     //No.3 table, 8pm to 10pm, 2014-05-05
-    private String schedule_info;
+    private String table_number;
     // planing|booking|booking_succeed|booking_failed|canceled|revoked|consumed
-    private String status;
+    private int status;
     private String created_time;
     private String updated_time;
 
@@ -81,19 +81,19 @@ public class Order {
         this.dishes = dishes;
     }
 
-    public String getSchedule_info() {
-        return schedule_info;
+    public String getTable_number() {
+        return table_number;
     }
 
-    public void setSchedule_info(String schedule_info) {
-        this.schedule_info = schedule_info;
+    public void setTable_number(String table_number) {
+        this.table_number = table_number;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

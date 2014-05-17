@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
@@ -84,7 +85,11 @@ public class RestaurantActivity extends Activity {
             progressDialog.dismiss();
         }
         restaurant = e.get();
-        mRestaurantNameTextView.setText(restaurant.getName());
+        if (restaurant == null) {
+            Toast.makeText(this, "Unable to retrieve this restaurant", Toast.LENGTH_SHORT).show();
+        } else {
+            mRestaurantNameTextView.setText(restaurant.getName());
+        }
     }
 
 }

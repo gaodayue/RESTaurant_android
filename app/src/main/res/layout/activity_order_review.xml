@@ -133,7 +133,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/EventReview_HostControls"
+                android:visibility="gone">
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -153,8 +155,40 @@
                     style="@style/RestaurantButton"
                     android:layout_margin="5dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/EventReview_ParticipantControls"
+                android:visibility="gone">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Without me"
+                    android:id="@+id/EventReview_deniedButton"
+                    style="@style/RestaurantButton"
+                    android:background="@color/red"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"/>
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="I'm in !"
+                    android:id="@+id/EventReview_AcceptButton"
+                    android:layout_weight="1"
+                    style="@style/RestaurantButton"
+                    android:layout_margin="5dp"/>
+            </LinearLayout>
         </LinearLayout>
-
+        <Button
+            android:id="@+id/EventReview_EventStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/RestaurantButton"
+            android:layout_margin="16dp"
+            android:background="@color/orange"
+            android:visibility="gone"
+            />
     </LinearLayout>
 </ScrollView>
