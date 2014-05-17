@@ -82,7 +82,8 @@ public class OrderEditActivity extends ActionBarActivity {
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         cust_id = preferences.getInt(PREF_ACCOUNT_ID, 1);
         order.setRequest_date("2014-05-05");
-        order.setRequest_period(1);
+        order.setStart_time(17);
+        order.setEnd_time(19);
     }
 
     @Override
@@ -104,11 +105,14 @@ public class OrderEditActivity extends ActionBarActivity {
                                        int position, long id) {
                 //order.setRequest_date("noon");
                 if (position == 0) {
-                    order.setRequest_period(1);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }else if (position == 1){
-                    order.setRequest_period(5);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }else if(position == 2){
-                    order.setRequest_period(7);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }
             }
 
@@ -293,7 +297,7 @@ public class OrderEditActivity extends ActionBarActivity {
          */
         Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
         restaurant = e.getRestaurant();
-        order.setRestaurant(restaurant);
+        //order.setRestaurant(restaurant);
         friends = e.getFriends();
         dishes = restaurant.getDishes();
         //System.out.println("out first: " + inFriends.size() + " element:" );

@@ -16,7 +16,7 @@ public class Order {
 
     private String request_date;
     //noon|evening|midnight
-    private int request_period;
+    //private int request_period;
     private int start_time;
     private int end_time;
 
@@ -145,14 +145,6 @@ public class Order {
 
     public void setRequest_date(String request_date) {
         this.request_date = request_date;
-    }
-
-    public int getRequest_period() {
-        return request_period;
-    }
-
-    public void setRequest_period(int request_period) {
-        this.request_period = request_period;
     }
 
 

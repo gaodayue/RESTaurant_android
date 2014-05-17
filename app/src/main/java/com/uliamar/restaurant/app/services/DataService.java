@@ -23,6 +23,7 @@ import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
+import com.uliamar.restaurant.app.model.OrderSaved;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;

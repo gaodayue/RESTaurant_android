@@ -5,6 +5,7 @@ import android.util.Log;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.model.Order;
+import com.uliamar.restaurant.app.model.OrderSaved;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
@@ -62,7 +63,7 @@ public  class RESTrepository {
         Invitation getInvitation(@Path("id") int id);
 
         @POST("/invitations/create")
-        Invitation sendOrder(@Body String order);
+        Invitation sendOrder(@Body Order order);
 
 
         @GET("/invitations/")
@@ -131,7 +132,7 @@ public  class RESTrepository {
     public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUsers() { return restService.listUsers();}
-    public static Invitation sendOrder(Order order){ return restService.sendOrder(new Gson().toJson(order));}
+    public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
     public static LoginResult login(String phoneno, String password){ return restService.login(phoneno, password);}
     public static String pushRegister(int customer_id,String access_token,String push_id){
         return restService.pushRegister(push_id);
