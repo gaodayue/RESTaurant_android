@@ -115,19 +115,19 @@
                 style="@style/RestaurantSectionTitle"
                 />
 
-            <TextView
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/EventReview_FriendList"/>-->
+
+
+
+             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/EventReview_FriendList"/>
+                android:id="@+id/inFriendsList"
+             />
 
-
-            <!--
-                        <ListView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/friendList"
-                            />
-            -->
 
 
             <LinearLayout

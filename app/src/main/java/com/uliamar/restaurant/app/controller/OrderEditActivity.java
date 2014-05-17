@@ -127,7 +127,13 @@ public class OrderEditActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //order.setRequest_date("noon");
-                order.setStart_time(position+11);
+                //order.setStart_time(position+11);
+                if ((position+11+end.getSelectedItemPosition()+1) <=24 ){
+                    order.setStart_time(position+11);
+                    order.setEnd_time(end.getSelectedItemPosition()+1);
+                }else {
+                    Toast.makeText(getApplicationContext(), "You need to choose right time!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -141,7 +147,11 @@ public class OrderEditActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //order.setRequest_date("noon");
-                order.setEnd_time(order.getStart_time() + position+1);
+                if (order.getStart_time()+position+1 <= 24) {
+                    order.setEnd_time(order.getStart_time() + position + 1);
+                }else {
+                    Toast.makeText(getApplicationContext(), "You need to choose right time!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

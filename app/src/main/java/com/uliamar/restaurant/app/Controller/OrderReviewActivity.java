@@ -9,11 +9,14 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,7 @@ public class OrderReviewActivity extends Activity {
     private int mInvitationID;
     private int mUserID;
     private User mThisUser;
+    FriendAdapter mFriendAdapter;
 
     private ProgressDialog progressDialog;
     private ImageView mRestaurantCoverImageView;
@@ -47,10 +51,11 @@ public class OrderReviewActivity extends Activity {
     private TextView mCountDownTextView;
     private TextView mDateTextView;
     private TextView mAddressTextView;
-    private TextView mFriendListTextView;
+    //private TextView mFriendListTextView;
     private TextView mDishesListTextView;
     private TextView mTotalPrice;
     private TextView mPricePerParticipant;
+    private ListView mInFriendsListView;
     private Button mCancelButton;
     private Button mSendButton;
     private Button mStatusButton; // a button, just for display purpose, no click listeners expected
@@ -93,7 +98,14 @@ public class OrderReviewActivity extends Activity {
             }
         });
         mDishesListTextView = (TextView) findViewById(R.id.EventReview_DishesList);
-        mFriendListTextView = (TextView) findViewById(R.id.EventReview_FriendList);
+        //mFriendListTextView = (TextView) findViewById(R.id.EventReview_FriendList);
+        mInFriendsListView = (ListView) findViewById(R.id.inFriendsList);
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mFriendAdapter = new FriendAdapter(this, inflater);
+        mInFriendsListView.setAdapter(mFriendAdapter);
+
+
         mTotalPrice = (TextView) findViewById(R.id.EventReview_totalPrice);
         mPricePerParticipant = (TextView) findViewById(R.id.EventReview_pricePerParticipant);
         mHostControls = (LinearLayout) findViewById(R.id.EventReview_HostControls);
@@ -162,20 +174,21 @@ public class OrderReviewActivity extends Activity {
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());
 
             int nbParticipantComming = 0;
-            String userListText = "";
+            //String userListText = "";
             List<User> userList = mInvitation.getParticipants();
             for (int i = 0; i < userList.size(); ++i) {
                 if (userList.get(i).getCust_id() == mUserID) {
                     mThisUser = userList.get(i);
                 }
-                userListText += userList.get(i).getName() + " " + userList.get(i).getInv_status() + "\n";
+                //userListText += userList.get(i).getName() + " " + userList.get(i).getInv_status() + "\n";
                 if (userList.get(i).getInv_status().equals("accepted")) {
                     nbParticipantComming += 1;
                 }
-
-
             }
-            mFriendListTextView.setText(userListText);
+            //mFriendListTextView.setText(userListText);
+            mFriendAdapter.update(userList);
+            setListViewHeightBasedOnChildren(mInFriendsListView);
+
 
             String dishListText = "";
             List<Dishe> disheList = mInvitation.getOrder().getDishes();
@@ -280,6 +293,35 @@ public class OrderReviewActivity extends Activity {
                 }
             }
         }
+    }
+
+
+    public int Dp2Px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+
+        //获取listview的适配器
+        ListAdapter listAdapter = listView.getAdapter();
+        //item的高度
+        int itemHeight = 46;
+
+        if (listAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            totalHeight += Dp2Px(getApplicationContext(),itemHeight)+listView.getDividerHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+
+        listView.setLayoutParams(params);
     }
 
 
