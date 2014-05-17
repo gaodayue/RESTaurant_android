@@ -166,6 +166,7 @@ public class EventListFragment extends ListFragment {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.invitation_item_list, parent, false);
 
+
             TextView nameTextView = (TextView) rowView.findViewById(R.id.EventName);
             TextView text1TextView = (TextView) rowView.findViewById(R.id.EventText1);
             TextView text2TextView = (TextView) rowView.findViewById(R.id.EventText2);

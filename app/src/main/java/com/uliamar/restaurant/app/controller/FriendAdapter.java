@@ -82,16 +82,19 @@ public class FriendAdapter extends BaseAdapter {
         }
 
         final User user = getItem(position);
-
-        holder.friendName.setText(user.getName());
+        String name = user.getName();
+        if (name.length() > 0) {
+            name = String.valueOf(name.charAt(0)).toUpperCase() + name.subSequence(1, name.length());
+        }
+        holder.friendName.setText(name);
         if (user.isIs_host()){
-            holder.friendStatus.setBackgroundResource(R.drawable.host96);
+            holder.friendStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.host96));
         }else {
             if (user.getInv_status().equals("accepted")) {
-                holder.friendStatus.setBackgroundResource(R.drawable.check96);
+                holder.friendStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.check96));
             }
             else if(user.getInv_status().equals("denied")){
-                holder.friendStatus.setBackgroundResource(R.drawable.uncheck96);
+                holder.friendStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uncheck96));
             }
         }
 
