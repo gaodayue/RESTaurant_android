@@ -14,18 +14,17 @@
         android:textSize="20sp"
         />
     <TextView
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:text="$: "
-        android:layout_marginTop="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="10dp"
+        android:background="@drawable/dollor96"
         android:layout_below="@id/DisheName"
         android:textSize="20sp"
         />
     <TextView
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:text="20"
+        android:text="$20"
         android:layout_marginTop="10dp"
         android:id="@+id/DishePrice"
         android:layout_below="@id/DisheName"

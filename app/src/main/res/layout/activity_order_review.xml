@@ -79,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/address"
                 android:textColor="@color/green"
+                android:textSize="20sp"
                 />
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,25 +89,47 @@
                 style="@style/RestaurantSectionTitle"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/EventReview_DishesList"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/EventReview_totalPrice"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/EventReview_pricePerParticipant"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/EventReview_DishesList"/>-->
 
-            <!--            <ListView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/friendList"
-                            />
-            -->
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EventReview_DishesList2"
+             />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/total96"
+                    />
+                <TextView
+                android:layout_width="50dp"
+                    android:textSize="25dp"
+                android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:text="255"
+                android:id="@+id/EventReview_totalPrice"/>
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/pay96"/>
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="255"
+                android:layout_gravity="center"
+                android:id="@+id/EventReview_pricePerParticipant"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

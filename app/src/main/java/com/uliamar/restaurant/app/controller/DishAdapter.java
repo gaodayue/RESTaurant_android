@@ -92,7 +92,7 @@ public class DishAdapter extends BaseAdapter {
         final Dishe dish = getItem(position);
 
         holder.dishName.setText(dish.getName());
-        holder.dishPrice.setText(dish.getPrice()+"");
+        holder.dishPrice.setText("$"+dish.getPrice());
         holder.dishNum.setText(dish.getQuantity() + "");
         holder.addDishe.setOnClickListener(new View.OnClickListener(){
 
