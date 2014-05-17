@@ -1,6 +1,7 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,13 +14,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.LocalRestaurantReceivedEvent;
+import com.uliamar.restaurant.app.Bus.SearchRestaurantEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Restaurant;
 
@@ -41,7 +46,10 @@ public class RestaurantListFragment extends ListFragment {
     private int mUserID;
     private Boolean requestPending = false;
     private List<Restaurant> restaurants;
+    private ProgressDialog progressDialog;
+    private Boolean searchPEnding = false;
 
+    private SearchView searchView;
 //    private OnFragmentInteractionListener mListener;
 
     public static RestaurantListFragment newInstance(int userID) {
@@ -62,14 +70,52 @@ public class RestaurantListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
         if (getArguments() != null) {
             mUserID = getArguments().getInt(ARG_USER_ID);
         }
+        progressDialog = new ProgressDialog(getActivity());
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mAdapteur = new RestaurantAdaptateur(getActivity(), inflater);
         setListAdapter(mAdapteur);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.restaurant_list_fragment, null);
+        ListView listView = (ListView) view.findViewById(android.R.id.list);
+        if (listView == null) {
+            Log.d(TAG, "listView Null");
+        }
+        searchView = new SearchView(getActivity());
+        //  searchView.setLayoutParams(new SearchView.LayoutParams(SearchView.LayoutParams.MATCH_PARENT, SearchView.LayoutParams.WRAP_CONTENT));
+//        searchView = (SearchView) view.findViewById(R.id.restaurantList_searchview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Log.v(TAG, "We submitted" + s);
+                progressDialog.setMessage("Searching...");
+                progressDialog.show();
+                BusProvider.get().post(new SearchRestaurantEvent(s));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.v(TAG, "onQueryTextChange" + s);
+                if (s.equals("")) {
+                    searchPEnding = false;
+                    BusProvider.get().post(new GetLocalRestaurantEvent());
+                } else {
+                    searchPEnding = true;
+                }
+                return true;
+            }
+        });
+        listView.addHeaderView(searchView);
+        return view;
     }
 
     private void onAskRefresh() {
@@ -83,7 +129,9 @@ public class RestaurantListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         BusProvider.get().register(this);
-        onAskRefresh();
+        if (!searchPEnding) {
+            onAskRefresh();
+        }
     }
 
 
@@ -142,7 +190,7 @@ public class RestaurantListFragment extends ListFragment {
     public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
         restaurants = event.get();
         requestPending = false;
-
+        progressDialog.hide();
         if (restaurants == null) {
             Toast.makeText(getActivity(), "Unable to retrieve the nearby restaurants", Toast.LENGTH_SHORT).show();
         } else {

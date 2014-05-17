@@ -21,6 +21,7 @@ import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
 import com.uliamar.restaurant.app.Bus.OnSavedOrderEvent;
 import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
+import com.uliamar.restaurant.app.Bus.SearchRestaurantEvent;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.model.OrderSaved;
@@ -347,6 +348,40 @@ public class DataService {
             }
         }.execute();
     }
+
+
+
+    @Subscribe
+    public void onSearchRestaurantEvent(SearchRestaurantEvent e) {
+        final String searchString = e.get();
+        new  AsyncTask<Void, Void,  List<Restaurant>>() {
+            private String TAG = "onGetLocalRestaurantEvent asyncTask";
+
+            protected List<Restaurant> doInBackground(Void... voids) {
+                try {
+                    return RESTrepository.searchRestaurant(searchString);
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to retrive restaurants " +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(List<Restaurant> rest) {
+                BusProvider.get().post(new LocalRestaurantReceivedEvent(rest));
+            }
+        }.execute();
+    }
+
 
 
 }
