@@ -180,10 +180,11 @@ public class OrderEditActivity extends ActionBarActivity {
         mDelFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (inFriends.size() == 1) return;
                 //final String[] itemStrings={"AA","BB","CC","DD"};
-                final String[] itemStrings2 = new String[inFriends.size()];
+                final String[] itemStrings2 = new String[inFriends.size()-1];
                 //System.out.println("in delfriends: " + inFriends.size());
-                for(int i=0;i<inFriends.size();i++){
+                for(int i=1;i<inFriends.size();i++){
                     itemStrings2[i] = inFriends.get(i).getName();
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
@@ -197,8 +198,8 @@ public class OrderEditActivity extends ActionBarActivity {
                         //friendList.setText(tmp);
                         //inFriends.add(friends.get(which));
                         //friends.remove(which);
-                        friends.add(inFriends.get(which));
-                        inFriends.remove(which);
+                        friends.add(inFriends.get(which+1));
+                        inFriends.remove(which+1);
                         String tmp = "";
                         for (int i=0;i<inFriends.size();i++){
                             tmp += inFriends.get(i).getName() + ",";
@@ -253,6 +254,10 @@ public class OrderEditActivity extends ActionBarActivity {
                     if (dishes.get(i).getQuantity() > 0){
                         dl.add(dishes.get(i));
                     }
+                }
+                if (dl.size() == 0){
+                    new AlertDialog.Builder(OrderEditActivity.this).setTitle("没有点菜").setMessage("点菜啊亲，来喝茶的么！！").setPositiveButton("我错了",null).show();
+                    return;
                 }
                 order.setDishes(dl);
 

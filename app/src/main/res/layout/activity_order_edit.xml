@@ -22,7 +22,7 @@
 
 
             <ListView
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DishList"/>
 
@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/datePicker"
+            android:scrollbarStyle="insideInset"
             android:spinnersShown="false"/>
 
         <Spinner
@@ -69,7 +70,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send Invitation"
-            style="@style/RestaurantButton"
             android:id="@+id/SendActivityButton"
             android:layout_gravity="center"
             />
