@@ -4,10 +4,10 @@
     android:orientation="horizontal" android:layout_width="fill_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
         android:gravity="left"
         android:text="Big Red"
         android:id="@+id/InFriends_name"
@@ -20,6 +20,6 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/noreply96"
         android:id="@+id/InFriends_status"
-        android:layout_marginLeft="100dp"/>
+        android:layout_marginLeft="50dp"/>
 
 </LinearLayout>
