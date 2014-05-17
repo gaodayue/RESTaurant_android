@@ -55,14 +55,10 @@
                 style="@style/RestaurantSectionTitle"
                 android:text="Make your meal"/>
 
-        <ScrollView
+        <ListView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:id="@+id/DishList"/>
-        </ScrollView>
 
         <TextView
             android:layout_width="wrap_content"

@@ -62,7 +62,7 @@ public class DishAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
 
         // check if the view already exists
         // if so, no need to inflate and findViewById again!
@@ -89,11 +89,26 @@ public class DishAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Dishe dish = getItem(position);
+        final Dishe dish = getItem(position);
 
         holder.dishName.setText(dish.getName());
         holder.dishPrice.setText(dish.getPrice()+"");
-        holder.dishNum.setText(dish.getQuantity()+"");
+        holder.dishNum.setText(dish.getQuantity() + "");
+        holder.addDishe.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                dish.addDish();
+                holder.dishNum.setText(dish.getQuantity()+"");
+            }
+        });
+        holder.delDishe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dish.delDish();
+                holder.dishNum.setText(dish.getQuantity()+"");
+            }
+        });
 
         return convertView;
     }
