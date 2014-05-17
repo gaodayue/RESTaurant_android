@@ -62,10 +62,20 @@ public class RestaurantPushReceiver extends BroadcastReceiver {
             Log.i("bigred",myMsg);
             try{
                 JSONObject myJsonObj=new JSONObject(myMsg);
-                int invitation_id=myJsonObj.getInt("invitation_id");
-                Intent myIntent=OrderReviewActivity.createIntent(context,invitation_id);
-                myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(myIntent);
+                String type=myJsonObj.getString("type");
+                Intent myIntent;
+                if(type.equals("invitation")){
+                    int invitation_id=myJsonObj.getInt("invitation_id");
+                    myIntent=OrderReviewActivity.createIntent(context,invitation_id);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(myIntent);
+                }else if(type.equals("coupon")){
+                    int restaurant_id=myJsonObj.getInt("restaurant_id");
+                    myIntent=RestaurantActivity.createIntent(context,restaurant_id);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(myIntent);
+                }
+
                 //Toast.makeText(context,myMsg,Toast.LENGTH_SHORT).show();
             }catch (Exception e){
                 e.printStackTrace();
