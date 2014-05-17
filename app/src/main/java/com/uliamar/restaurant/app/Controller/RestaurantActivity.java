@@ -79,7 +79,7 @@ private ImageView mRestaurantCoverImageView;
     @Subscribe
     public void OnOneRestaurantReceivedEvent(OnOneRestaurantReceivedEvent e) {
         if (progressDialog != null){
-            progressDialog.dismiss();
+            progressDialog.hide();
         }
         restaurant = e.get();
         if (restaurant == null) {

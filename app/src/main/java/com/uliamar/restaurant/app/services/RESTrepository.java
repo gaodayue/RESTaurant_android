@@ -53,8 +53,7 @@ public  class RESTrepository {
         List<User> listUsers();
 
         @GET("/restaurants/nearby")
-        List<Restaurant> listRestaurants(@Query("longitude") String longitude,
-                                         @Query("latitude") String latitude);
+        List<Restaurant> listRestaurants(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
         @GET("/restaurants/show/{id}")
         Restaurant GetRestaurant(@Path("id") int id);
@@ -129,7 +128,7 @@ public  class RESTrepository {
 
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
-    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
+    public static List<Restaurant>listRestaurants(String lat, String lon) {return restService.listRestaurants(lat, lon);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUsers() { return restService.listUsers();}
     public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}

@@ -140,6 +140,8 @@ public class RestaurantListFragment extends ListFragment {
     @Subscribe
     public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
         List<Restaurant> restaurants = event.get();
+        requestPending = false;
+
         if (restaurants == null) {
             Toast.makeText(getActivity(), "Unable to retrieve the nearby restaurants", Toast.LENGTH_SHORT).show();
         } else {

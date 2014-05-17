@@ -52,7 +52,7 @@ public class DataService {
 
             protected List<Restaurant> doInBackground(Void... voids) {
                 try {
-                    List<Restaurant> rest = RESTrepository.listRestaurants("55", "66");
+                    List<Restaurant> rest = RESTrepository.listRestaurants("39.951474", "116.340673");
                     return rest;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {

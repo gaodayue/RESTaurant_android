@@ -111,6 +111,7 @@ public class EventListFragment extends ListFragment {
 
     @Subscribe
     public void OnInvitationListReceivedEvent(InvitationListReceivedEvent e) {
+        requestPending = false;
         Log.v(TAG, "We go the invitation list. let's put it in adaptateur and refresh");
         List<Invitation> l = e.get();
         if (l != null) {

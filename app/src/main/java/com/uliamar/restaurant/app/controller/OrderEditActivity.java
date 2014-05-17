@@ -263,7 +263,7 @@ public class OrderEditActivity extends ActionBarActivity {
                     }
                 }
                 if (dl.size() == 0){
-                    new AlertDialog.Builder(OrderEditActivity.this).setMessage("A meal without dishes is like santa claus without his hod and his balls").setPositiveButton("我错了",null).show();
+                    new AlertDialog.Builder(OrderEditActivity.this).setMessage("A meal without dishes is like santa claus without his hod and his BAALLS").setPositiveButton("OK",null).show();
                     return;
                 }
                 order.setDishes(dl);
@@ -303,7 +303,7 @@ public class OrderEditActivity extends ActionBarActivity {
 
     @Subscribe
     public void OnRestaurantDatasReceived(OnRestaurantDatasReceivedEvent e) {
-        progressDialog.dismiss();
+        progressDialog.hide();
 
         restaurant = e.getRestaurant();
         friends = e.getFriends();
@@ -358,7 +358,7 @@ public class OrderEditActivity extends ActionBarActivity {
 
     @Subscribe
     public void OnSavedOrderEvent(OnSavedOrderEvent e) {
-        progressDialog.dismiss();
+        progressDialog.hide();
         if (e.get() != null) {
             Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
             startActivity(i);

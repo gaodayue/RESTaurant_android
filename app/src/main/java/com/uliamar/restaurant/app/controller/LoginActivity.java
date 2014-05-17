@@ -92,7 +92,7 @@ public class LoginActivity extends Activity {
 
     @Subscribe
     public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
-        progressDialog.dismiss();
+        progressDialog.hide();
         LoginResult result=loginSuccessEvent.getResult();
         if (result != null) {
             //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();

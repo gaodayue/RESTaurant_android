@@ -152,7 +152,7 @@ public class OrderReviewActivity extends Activity {
             }
 
 
-            progressDialog.dismiss();
+            progressDialog.hide();
             Restaurant restaurant = mInvitation.getOrder().getRestaurant();
             if (restaurant.getPic() != null && !restaurant.getPic().isEmpty()) {
                 Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mRestaurantCoverImageView);
