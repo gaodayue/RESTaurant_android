@@ -84,8 +84,15 @@ public class FriendAdapter extends BaseAdapter {
         final User user = getItem(position);
 
         holder.friendName.setText(user.getName());
-        if (user.getInv_status().equals("accepted")) {
-            holder.friendStatus.setBackgroundResource(R.drawable.check96);
+        if (user.isIs_host()){
+            holder.friendStatus.setBackgroundResource(R.drawable.host96);
+        }else {
+            if (user.getInv_status().equals("accepted")) {
+                holder.friendStatus.setBackgroundResource(R.drawable.check96);
+            }
+            else if(user.getInv_status().equals("denied")){
+                holder.friendStatus.setBackgroundResource(R.drawable.uncheck96);
+            }
         }
 
         return convertView;
