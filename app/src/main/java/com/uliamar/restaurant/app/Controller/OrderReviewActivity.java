@@ -28,6 +28,8 @@ import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
+import com.uliamar.restaurant.app.services.DataService;
+import com.uliamar.restaurant.app.services.RESTrepository;
 
 import java.util.List;
 
@@ -76,7 +78,7 @@ public class OrderReviewActivity extends Activity {
         progressDialog.setTitle("Loading");
         progressDialog.setMessage("Wait while loading...");
         mUserID = sharedPreferences.getInt(LoginActivity.PREF_ACCOUNT_ID, 0);
-
+        DataService.init();
 
         setContentView(R.layout.activity_order_review);
         mRestaurantName = (TextView) findViewById(R.id.EventReview_RestaurantName);
