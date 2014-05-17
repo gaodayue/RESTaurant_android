@@ -5,6 +5,7 @@ import android.util.Log;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
 import com.uliamar.restaurant.app.model.Order;
+import com.uliamar.restaurant.app.model.OrderSaved;
 import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
@@ -52,8 +53,7 @@ public  class RESTrepository {
         List<User> listUsers();
 
         @GET("/restaurants/nearby")
-        List<Restaurant> listRestaurants(@Query("longitude") String longitude,
-                                         @Query("latitude") String latitude);
+        List<Restaurant> listRestaurants(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
         @GET("/restaurants/show/{id}")
         Restaurant GetRestaurant(@Path("id") int id);
@@ -62,7 +62,7 @@ public  class RESTrepository {
         Invitation getInvitation(@Path("id") int id);
 
         @POST("/invitations/create")
-        Invitation sendOrder(@Body String order);
+        Invitation sendOrder(@Body Order order);
 
 
         @GET("/invitations/")
@@ -76,6 +76,19 @@ public  class RESTrepository {
         @FormUrlEncoded
         @POST("/push/register")
         String pushRegister(@Field("push_id") String push_id);
+
+        @POST("/invitations/book/{id}")
+        Invitation bookInvitation(@Path("id") int id);
+
+        @POST("/invitations/cancel/{id}")
+        Invitation cancelInvitation(@Path("id") int id);
+
+        @POST("/invitations/accept/{id}")
+        Invitation acceptInvitation(@Path("id") int id);
+
+        @POST("/invitations/deny/{id}")
+        Invitation denyInvitation(@Path("id") int id);
+
 
     }
 
@@ -115,10 +128,10 @@ public  class RESTrepository {
 
     private static RESTaurantService restService = restAdapter.create(RESTaurantService.class);
 
-    public static List<Restaurant>listRestaurants(String lon, String lat) {return restService.listRestaurants(lon, lat);}
+    public static List<Restaurant>listRestaurants(String lat, String lon) {return restService.listRestaurants(lat, lon);}
     public static Restaurant getRestaurant(int id) {return restService.GetRestaurant(id);}
     public static List<User> listUsers() { return restService.listUsers();}
-    public static Invitation sendOrder(Order order){ return restService.sendOrder(new Gson().toJson(order));}
+    public static Invitation sendOrder(Order order){ return restService.sendOrder(order);}
     public static LoginResult login(String phoneno, String password){ return restService.login(phoneno, password);}
     public static String pushRegister(int customer_id,String access_token,String push_id){
         return restService.pushRegister(push_id);
@@ -134,5 +147,10 @@ public  class RESTrepository {
         RESTrepository.user_id = user_id;
     }
     public static List<Invitation>getInvitations() {return restService.getInvitations();}
+    public static Invitation bookInvitation(int id) {return restService.bookInvitation(id);}
+    public static Invitation cancelInvitation(int id) {return restService.cancelInvitation(id);}
+    public static Invitation acceptInvitation(int id) {return restService.acceptInvitation(id);}
+    public static Invitation denyInvitation(int id) {return restService.denyInvitation(id);}
+
 
 }

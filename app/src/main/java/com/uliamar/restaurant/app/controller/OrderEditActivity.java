@@ -8,11 +8,13 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
@@ -53,6 +56,7 @@ public class OrderEditActivity extends ActionBarActivity {
     Spinner mPeriod;
     DatePicker mDate;
     ListView mDishes;
+    DishAdapter mDishAdapter;
     TextView friendList;
     private int mRestaurantID;
     private List<String> list = new ArrayList<String>();
@@ -62,6 +66,8 @@ public class OrderEditActivity extends ActionBarActivity {
     private ArrayAdapter<String> adapter;
     private int cust_id;
     private Order order;
+    private ImageView mCoverImageView;
+    private TextView mRestaurantName;
 
     public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
 
@@ -82,7 +88,8 @@ public class OrderEditActivity extends ActionBarActivity {
         SharedPreferences preferences=this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
         cust_id = preferences.getInt(PREF_ACCOUNT_ID, 1);
         order.setRequest_date("2014-05-05");
-        order.setRequest_period(1);
+        order.setStart_time(17);
+        order.setEnd_time(19);
     }
 
     @Override
@@ -94,6 +101,9 @@ public class OrderEditActivity extends ActionBarActivity {
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
 
         mPeriod = (Spinner) findViewById(R.id.spinner);
+        mRestaurantName = (TextView) findViewById(R.id.EventEdit_RestaurantName);
+        mCoverImageView = (ImageView) findViewById(R.id.EventEdit_Cover);
+
         mPeriod.setAdapter(adapter);
         /**
          *      Caused by: java.lang.RuntimeException: setOnItemClickListener cannot be used with a spinner.
@@ -104,11 +114,14 @@ public class OrderEditActivity extends ActionBarActivity {
                                        int position, long id) {
                 //order.setRequest_date("noon");
                 if (position == 0) {
-                    order.setRequest_period(1);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }else if (position == 1){
-                    order.setRequest_period(5);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }else if(position == 2){
-                    order.setRequest_period(7);
+                    order.setStart_time(17);
+                    order.setEnd_time(19);
                 }
             }
 
@@ -130,6 +143,10 @@ public class OrderEditActivity extends ActionBarActivity {
 
         mDishes = (ListView) findViewById(R.id.DishList);
 
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mDishAdapter = new DishAdapter(this, inflater);
+        mDishes.setAdapter(mDishAdapter);
+        /*
         mDishes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -142,6 +159,7 @@ public class OrderEditActivity extends ActionBarActivity {
                 dishes.get(arg2).addDish();
             }
         });
+        */
         deleteDish = (Button) mDishes.findViewById(R.id.delete);
 
         friendList = (TextView) findViewById(R.id.friendList);
@@ -183,23 +201,26 @@ public class OrderEditActivity extends ActionBarActivity {
                     itemStrings2[i] = inFriends.get(i).getName();
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(OrderEditActivity.this);
-                builder.setTitle("inFriendLIST").setIcon(android.R.drawable.ic_lock_lock).setItems(itemStrings2, new DialogInterface.OnClickListener() {
+                builder.setTitle("inFriendLIST").setItems(itemStrings2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO Auto-generated method stub
-                        //Toast.makeText(getApplicationContext(), "你点击的是" + itemStrings[which], Toast.LENGTH_LONG).show();
+                        if (which == 0)
+                            Toast.makeText(getApplicationContext(), "Don't delete yourself!", Toast.LENGTH_LONG).show();
                         //String tmp = friendList.getText().toString();
                         //tmp += itemStrings[which] + ",";
                         //friendList.setText(tmp);
                         //inFriends.add(friends.get(which));
                         //friends.remove(which);
-                        friends.add(inFriends.get(which));
-                        inFriends.remove(which);
-                        String tmp = "";
-                        for (int i=0;i<inFriends.size();i++){
-                            tmp += inFriends.get(i).getName() + ",";
+                        else {
+                            friends.add(inFriends.get(which));
+                            inFriends.remove(which);
+                            String tmp = "";
+                            for (int i = 0; i < inFriends.size(); i++) {
+                                tmp += inFriends.get(i).getName() + ",";
+                            }
+                            friendList.setText(tmp);
                         }
-                        friendList.setText(tmp);
                     }
                 }).create().show();
 
@@ -250,6 +271,11 @@ public class OrderEditActivity extends ActionBarActivity {
                         dl.add(dishes.get(i));
                     }
                 }
+                if (dl.size() == 0){
+                    new AlertDialog.Builder(OrderEditActivity.this).setMessage("A meal without dishes is like santa claus without his hod and his BAALLS").setPositiveButton("OK",null).show();
+
+                    return;
+                }
                 order.setDishes(dl);
 
                 progressDialog = new ProgressDialog(ref);
@@ -287,59 +313,45 @@ public class OrderEditActivity extends ActionBarActivity {
 
     @Subscribe
     public void OnRestaurantDatasReceived(OnRestaurantDatasReceivedEvent e) {
-        progressDialog.dismiss();
-        /**
-         * @To-do: feed the view with data
-         */
-        Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
+        progressDialog.hide();
+
         restaurant = e.getRestaurant();
-        order.setRestaurant(restaurant);
         friends = e.getFriends();
         dishes = restaurant.getDishes();
-        //System.out.println("out first: " + inFriends.size() + " element:" );
-        if (inFriends.size() == 0) {
-            for (int i = 0; i < friends.size(); i++) {
-                User t = friends.get(i);
-                if (t.getCust_id() == cust_id) {
-                    //t.setIs_host(true);
-                    inFriends.add(t);
-                    friends.remove(i);
-                    friendList.setText(t.getName() + ",");
-                    //System.out.println("inFriends size: " + inFriends.size() + inFriends.get(0).getName());
-                    break;
+
+        if (restaurant != null && friends != null && dishes != null) {
+            if (restaurant.getPic() != null && !restaurant.getPic().isEmpty()) {
+                Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mCoverImageView);
+            }
+            mRestaurantName.setText(restaurant.getName());
+
+            if (inFriends.size() == 0) {
+                for (int i = 0; i < friends.size(); i++) {
+                    User t = friends.get(i);
+                    if (t.getCust_id() == cust_id) {
+                        //t.setIs_host(true);
+                        inFriends.add(t);
+                        friends.remove(i);
+                        friendList.setText(t.getName() + ",");
+                        //System.out.println("inFriends size: " + inFriends.size() + inFriends.get(0).getName());
+                        break;
+                    }
                 }
             }
         }
-
-        //生成动态数组，加入数据
-        ArrayList< HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-        for(int i=0;i<dishes.size();i++)
-        {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("DishName", dishes.get(i).getName());
-            map.put("DishPrice", dishes.get(i).getPrice());
-            map.put("DishNum",dishes.get(i).getQuantity());
-            listItem.add(map);
-        }
-        //生成适配器的Item和动态数组对应的元素
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.dishe_item_list,//ListItem的XML实现
-                //动态数组与ImageItem对应的子项
-                new String[] {"DishName", "DishNum","DishPrice"},
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
-        );
-
-        //添加并且显示
-        mDishes.setAdapter(listItemAdapter);
+        mDishAdapter.update(dishes);
     }
 
     @Subscribe
     public void OnSavedOrderEvent(OnSavedOrderEvent e) {
-        progressDialog.dismiss();
-        Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
-        startActivity(i);
-        finish();
+        progressDialog.hide();
+        if (e.get() != null) {
+            Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
+            startActivity(i);
+            finish();
+        } else {
+            Toast.makeText(this, "Unable to send this invitation", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

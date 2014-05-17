@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
         mDemoCollectionPagerAdapter = new DemoCollectionPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        //  dataService = new DataService();
+        DataService.init();
 
     }
 
@@ -74,8 +74,9 @@ public class MainActivity extends FragmentActivity  implements NFCFragment.OnFra
                 msg=(NdefMessage)rawMsgs[0];
                 String tagMsg=new String(msg.getRecords()[0].getPayload());
                 int restId=Integer.parseInt(tagMsg.substring(3));
-                Intent myIntent=RestaurantActivity.createIntent(this,restId);
+                Intent myIntent = RestaurantActivity.createIntent(this, restId);
                 startActivity(myIntent);
+                finish();
             }
         }
     }

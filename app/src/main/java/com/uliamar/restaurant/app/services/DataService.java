@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
+import com.uliamar.restaurant.app.Bus.ChangeInvitationStatus;
 import com.uliamar.restaurant.app.Bus.GetInvitationList;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.GetOneInvitationEvent;
@@ -22,6 +23,7 @@ import com.uliamar.restaurant.app.Bus.PushRegisterEvent;
 import com.uliamar.restaurant.app.Bus.SaveOrderEvent;
 import com.uliamar.restaurant.app.model.Invitation;
 import com.uliamar.restaurant.app.model.LoginResult;
+import com.uliamar.restaurant.app.model.OrderSaved;
 import com.uliamar.restaurant.app.model.User;
 import com.uliamar.restaurant.app.model.Order;
 import com.uliamar.restaurant.app.model.Restaurant;
@@ -50,7 +52,7 @@ public class DataService {
 
             protected List<Restaurant> doInBackground(Void... voids) {
                 try {
-                    List<Restaurant> rest = RESTrepository.listRestaurants("55", "66");
+                    List<Restaurant> rest = RESTrepository.listRestaurants("39.951474", "116.340673");
                     return rest;
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
@@ -150,13 +152,12 @@ public class DataService {
     @Subscribe
     public void onSaveOrder(SaveOrderEvent e) {
         final Order order = e.get();
-        new  AsyncTask<Void, Void,  OnSavedOrderEvent>() {
+        new  AsyncTask<Void, Void,  Invitation>() {
             private String TAG = "listRestaurant asyncTask";
 
-            protected OnSavedOrderEvent doInBackground(Void... voids) {
+            protected Invitation doInBackground(Void... voids) {
                 try {
-                    Invitation invitation = RESTrepository.sendOrder(order);
-                    return new OnSavedOrderEvent(invitation);
+                    return RESTrepository.sendOrder(order);
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
                         Log.e(TAG, "Timeout");
@@ -174,12 +175,8 @@ public class DataService {
 
             }
 
-            protected void onPostExecute(OnSavedOrderEvent e) {
-                if (e != null) {
-                    BusProvider.get().post(e);
-                } else {
-                    Log.d(TAG, "Event Null on OnSaveOrderEvent");
-                }
+            protected void onPostExecute(Invitation e) {
+                BusProvider.get().post(new OnSavedOrderEvent(e));
             }
         }.execute();
 
@@ -193,8 +190,7 @@ public class DataService {
         new AsyncTask<Void,Void,LoginResult>(){
             protected LoginResult doInBackground(Void...voids){
                 try{
-                    LoginResult result = RESTrepository.login(phoneno,password);
-                    return result;
+                    return RESTrepository.login(phoneno,password);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -205,8 +201,10 @@ public class DataService {
             protected void onPostExecute(LoginResult result){
                 Log.i("bigred","login success");
                 LoginSuccessEvent loginSuccessEvent = new LoginSuccessEvent(result);
-                RESTrepository.setToken(result.getCust_access_token());
-                RESTrepository.setUser_id(result.getCust_id());
+                if (result != null) {
+                    RESTrepository.setToken(result.getCust_access_token());
+                    RESTrepository.setUser_id(result.getCust_id());
+                }
                 BusProvider.get().post(loginSuccessEvent);
             }
         }.execute();
@@ -300,4 +298,55 @@ public class DataService {
             }
         }.execute();
     }
+
+    @Subscribe
+    public void onChangeInvitationStatus(ChangeInvitationStatus e) {
+        final ChangeInvitationStatus.Status status = e.getInvStatus();
+        final int invitationID = e.getInvitationID();
+
+        Log.d(TAG, "onChangeInvitationStatus received on DataService");
+        new  AsyncTask<Void, Void,  Invitation>() {
+            private String TAG = "onChangeInvitationStatus asyncTask";
+
+            protected Invitation doInBackground(Void... voids) {
+                try {
+                    switch (status) {
+                        case CANCEL: {
+                            return RESTrepository.cancelInvitation(invitationID);
+                        }
+                        case SEND: {
+                            return RESTrepository.bookInvitation(invitationID);
+                        }
+                        case ACCEPT: {
+                            return RESTrepository.acceptInvitation(invitationID);
+                        }
+                        case DENY: {
+                            return RESTrepository.denyInvitation(invitationID);
+                        }
+                    }
+                    Invitation invitation = RESTrepository.getInvitation(invitationID);
+                    return invitation;
+                } catch (Exception e) {
+                    if (e instanceof SocketTimeoutException) {
+                        Log.e(TAG, "Timeout");
+                    } else {
+                        Log.e(TAG, "Unable to achieve this request" +  e.getClass().getName() + " cause " + e.getMessage() );
+                    }
+                    e.getStackTrace();
+                }
+
+                return null;
+            }
+
+            protected void onProgressUpdate() {
+
+            }
+
+            protected void onPostExecute(Invitation invitation) {
+                BusProvider.get().post(new OnOneInvitationEvent(invitation));
+            }
+        }.execute();
+    }
+
+
 }

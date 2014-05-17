@@ -43,10 +43,12 @@ public class Dishe {
     }
 
     public void addDish(){
-        this.quantity++;
+        this.quantity = this.quantity+1;
     }
     public void delDish(){
-        this.quantity--;
+        if (this.quantity > 0){
+            this.quantity = this.quantity - 1;
+        }
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
