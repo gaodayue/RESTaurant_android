@@ -13,31 +13,6 @@
         android:textColor="@color/green"
         android:textSize="20sp"
         />
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/dish96"
-        android:textSize="20sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:layout_marginTop="10dp"
-        android:textSize="24sp"
-        android:id="@+id/DisheNum2"
-        android:layout_marginLeft="5dp" />
-
-    <TextView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/x96"
-        android:textSize="20sp"
-        />
 
     <TextView
         android:layout_width="40dp"
@@ -55,5 +30,22 @@
         android:textSize="24sp"
         android:id="@+id/DishePrice2"
         android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/dish96"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        android:layout_marginTop="10dp"
+        android:textSize="24sp"
+        android:id="@+id/DisheNum2"
+        android:layout_marginLeft="5dp" />>
 
 </LinearLayout>

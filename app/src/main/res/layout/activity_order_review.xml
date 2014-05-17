@@ -110,25 +110,43 @@
                     android:background="@drawable/total96"
                     />
                 <TextView
-                android:layout_width="50dp"
-                    android:textSize="25dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
                     android:text="255"
+                    android:textSize="25sp"
                 android:id="@+id/EventReview_totalPrice"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:textSize="25sp"
+                    android:text=" Total"
+                    android:textColor="@color/green"
+                    />
                 <TextView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@drawable/pay96"/>
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
                 android:text="255"
+                android:textSize="25sp"
                 android:layout_gravity="center"
                 android:id="@+id/EventReview_pricePerParticipant"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:textSize="25sp"
+                    android:textColor="@color/red"
+                    android:text=" AA"
+                    />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
