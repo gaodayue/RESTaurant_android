@@ -76,28 +76,31 @@ private String TAG = "RestaurantAdaptateur";
             holder.restaurantName = (TextView) convertView.findViewById(R.id.restaurant_name);
             holder.restaurantDescritpion = (TextView) convertView.findViewById(R.id.restaurant_desc);
             holder.restaurantDistance = (TextView) convertView.findViewById(R.id.restaurant_distance);
-
-
-            // hang onto this holder for future recyclage
             convertView.setTag(holder);
         } else {
 
-            // skip all the expensive inflation/findViewById
-            // and just get the holder you already made
             holder = (ViewHolder) convertView.getTag();
         }
 
         Restaurant restaurant = getItem(position);
         if (restaurant.getPic_thumb() != null) {
-            //Log.d(TAG, "thumb url: " + "http://118.193.54.222" + restaurant.getPic_thumb());
             Picasso.with(mContext).load("http://118.193.54.222" + restaurant.getPic_thumb()).placeholder(R.drawable.resto_small).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.resto_small);
         }
 
         holder.restaurantName.setText(restaurant.getName());
-        holder.restaurantDescritpion.setText(restaurant.getAddress());
-        holder.restaurantDistance.setText("7km");
+
+        holder.restaurantDescritpion.setText(restaurant.getCategory());
+        Float distance = restaurant.getDistance();
+        String distanceString;
+        if (distance < 1) {
+            distance = distance * 1000;
+            distanceString = distance.intValue() + "m away";
+        } else {
+            distanceString = distance.intValue() + "km away";
+        }
+        holder.restaurantDistance.setText(distanceString);
 
         return convertView;
     }

@@ -17,7 +17,24 @@ public class Restaurant {
     private String mgr_id;
     private String mgr_name;
     private List<Dishe> dishes;
+    private float distance;
+    private String category;
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public class Coord {
         private Float longitude;
