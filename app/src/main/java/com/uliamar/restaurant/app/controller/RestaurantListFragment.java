@@ -1,10 +1,11 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.baidu.android.pushservice.a;
 import com.squareup.otto.Subscribe;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetLocalRestaurantEvent;
@@ -39,7 +39,8 @@ public class RestaurantListFragment extends ListFragment {
     public static String ARG_USER_ID = "arg_userID";
     private RestaurantAdaptateur mAdapteur;
     private int mUserID;
-    private Boolean requestPending =false;
+    private Boolean requestPending = false;
+    private List<Restaurant> restaurants;
 
 //    private OnFragmentInteractionListener mListener;
 
@@ -139,7 +140,7 @@ public class RestaurantListFragment extends ListFragment {
 
     @Subscribe
     public void  onLocalRestaurantReceived(LocalRestaurantReceivedEvent event) {
-        List<Restaurant> restaurants = event.get();
+        restaurants = event.get();
         requestPending = false;
 
         if (restaurants == null) {
@@ -159,12 +160,24 @@ public class RestaurantListFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.v(TAG, "Got a click on topBarItem");
         switch (item.getItemId()) {
-            case R.id.refresh_restaurant_list_actionbar_item:
+            case R.id.refresh_restaurant_list_actionbar_item: {
                 onAskRefresh();
                 return true;
+            }
+            case R.id.map_restaurant_list_actionbar_item : {
+                if (restaurants == null) {
+                    Toast.makeText(getActivity(), "No restaurant to display", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent i = MapActivity.createIntent(getActivity(), restaurants);
+                    startActivity(i);
+                    return true;
+                }
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 
 }

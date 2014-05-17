@@ -19,9 +19,25 @@ public class Restaurant {
     private List<Dishe> dishes;
 
 
-    private class Coord {
-        private String longitude;
-        private String latitude;
+    public class Coord {
+        private Float longitude;
+        private Float latitude;
+
+        public Float getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(Float longitude) {
+            this.longitude = longitude;
+        }
+
+        public Float getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(Float latitude) {
+            this.latitude = latitude;
+        }
     }
 
     public int getRest_id() {
