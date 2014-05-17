@@ -1,6 +1,7 @@
 package com.uliamar.restaurant.app.controller;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +36,7 @@ public class LoginActivity extends Activity {
     public static final String PREF_ACCOUNT_ID = "cust_id";
     public static final String PREF_TOKEN = "accessToken";
     public static final String SHARED_PREF_DB_NAME = "loginResult";
-
+    private ProgressDialog progressDialog;
 
     public static Intent createIntent(Context c) {
         return new Intent(c, LoginActivity.class);
@@ -44,7 +45,8 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         DataService.init();
+        DataService.init();
+        progressDialog = new ProgressDialog(this);
 
         /**
          * Check either we are already logged in
@@ -69,7 +71,8 @@ public class LoginActivity extends Activity {
                 String phoneno=((TextView)findViewById(R.id.email)).getText().toString();
                 String password=((TextView)findViewById(R.id.password)).getText().toString();
 
-          //      Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+                //      Toast.makeText(getBaseContext(),"login..."+phoneno+"..."+password,Toast.LENGTH_SHORT).show();
+                progressDialog.show();
                 BusProvider.get().post(new LoginEvent(phoneno,password));
             }
         });
@@ -89,17 +92,22 @@ public class LoginActivity extends Activity {
 
     @Subscribe
     public void onLoginSuccessEvent(LoginSuccessEvent loginSuccessEvent){
-        Log.i("bigred","comes here");
+        progressDialog.dismiss();
         LoginResult result=loginSuccessEvent.getResult();
-      //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
-        SharedPreferences preferences = this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
-        preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
-        preferences.edit().putInt(PREF_ACCOUNT_ID,result.getCust_id()).commit();
-        SharedPreferences pushPreferences=this.getSharedPreferences("pushService",0);
-        BusProvider.get().post(new PushRegisterEvent
-                (result.getCust_id(),result.getCust_access_token(),pushPreferences.getString("user_id","")));
-        goToMainActivity();
+        if (result != null) {
+            //  Toast.makeText(this,result.getCust_id()+result.getCust_name()+result.getCust_access_token(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Login Success",Toast.LENGTH_SHORT).show();
+            SharedPreferences preferences = this.getSharedPreferences(SHARED_PREF_DB_NAME, MODE_PRIVATE);
+            preferences.edit().putString(PREF_TOKEN,result.getCust_access_token()).commit();
+            preferences.edit().putInt(PREF_ACCOUNT_ID,result.getCust_id()).commit();
+            SharedPreferences pushPreferences=this.getSharedPreferences("pushService",0);
+            BusProvider.get().post(new PushRegisterEvent
+                    (result.getCust_id(),result.getCust_access_token(),pushPreferences.getString("user_id","")));
+            goToMainActivity();
+
+        } else {
+            Toast.makeText(this, "Unable to login, please retry", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void goToMainActivity() {

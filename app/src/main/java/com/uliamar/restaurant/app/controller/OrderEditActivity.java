@@ -346,9 +346,13 @@ public class OrderEditActivity extends ActionBarActivity {
     @Subscribe
     public void OnSavedOrderEvent(OnSavedOrderEvent e) {
         progressDialog.dismiss();
-        Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
-        startActivity(i);
-        finish();
+        if (e.get() != null) {
+            Intent i = OrderReviewActivity.createIntent(this, e.get().getiID());
+            startActivity(i);
+            finish();
+        } else {
+            Toast.makeText(this, "Unable to send this invitation", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

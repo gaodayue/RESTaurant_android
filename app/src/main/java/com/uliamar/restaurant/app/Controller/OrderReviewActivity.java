@@ -161,7 +161,7 @@ public class OrderReviewActivity extends Activity {
                     mThisUser = userList.get(i);
                 }
                 userListText += userList.get(i).getName() + " " + userList.get(i).getInv_status() + "\n";
-                if (userList.get(i).getInv_status() == "accepted") {
+                if (userList.get(i).getInv_status().equals("accepted")) {
                     nbParticipantComming += 1;
                 }
 
@@ -176,7 +176,7 @@ public class OrderReviewActivity extends Activity {
             }
             mDishesListTextView.setText(dishListText);
             mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "");
-            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming + 1)) + " per participant") ;
+            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + " per participant") ;
 
             /**
              1: planning
