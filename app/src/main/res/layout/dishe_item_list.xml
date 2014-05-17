@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Big Mac"
         android:id="@+id/DisheName"
-        android:layout_toRightOf="@id/imageView"
         android:textColor="@color/green"
         android:textSize="20sp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Price: "
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/DisheName"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="20"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/DishePrice"
         android:layout_below="@id/DisheName"
         android:textSize="20sp"
         />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="num"
-        android:id="@+id/textView2"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true" />
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:id="@+id/delete"
-        android:text="-1"
-        android:focusable="false"
-        android:layout_toLeftOf="@id/textView2"/>
-</RelativeLayout>
+    <LinearLayout
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:id="@+id/add"
+            android:background="@drawable/add"
+            android:focusable="false"/>
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:id="@+id/delete"
+            android:background="@drawable/del"
+            android:focusable="false"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="num"
+            android:id="@+id/textView2"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -20,11 +20,14 @@
             style="@style/RestaurantSectionTitle"
             android:text="Make your meal"/>
 
-
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
             <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/DishList"/>
+        </ScrollView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,16 +39,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/friendList"
             />
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/addFriend"
-            android:text="+ Add Someone"/>
+            android:background="@drawable/addpeople"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
             android:id="@+id/delFriend"
-            android:text="+ Del Someone"/>
+            android:background="@drawable/delpeople"/>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
