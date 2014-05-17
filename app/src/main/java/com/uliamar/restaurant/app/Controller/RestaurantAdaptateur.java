@@ -21,7 +21,7 @@ import java.util.List;
 
 
 public class RestaurantAdaptateur extends BaseAdapter {
-
+private String TAG = "RestaurantAdaptateur";
     Context mContext;
     LayoutInflater mInflater;
     List<Restaurant> mRestaurantList;
@@ -72,7 +72,7 @@ public class RestaurantAdaptateur extends BaseAdapter {
 
             // create a new "Holder" with subviews
             holder = new ViewHolder();
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.EventReview_Cover);
             holder.restaurantName = (TextView) convertView.findViewById(R.id.restaurant_name);
             holder.restaurantDescritpion = (TextView) convertView.findViewById(R.id.restaurant_desc);
             holder.restaurantDistance = (TextView) convertView.findViewById(R.id.restaurant_distance);
@@ -89,7 +89,8 @@ public class RestaurantAdaptateur extends BaseAdapter {
 
         Restaurant restaurant = getItem(position);
         if (restaurant.getPic_thumb() != null) {
-            Picasso.with(mContext).load(restaurant.getPic_thumb()).placeholder(R.drawable.resto_small).into(holder.imageView);
+            //Log.d(TAG, "thumb url: " + "http://118.193.54.222" + restaurant.getPic_thumb());
+            Picasso.with(mContext).load("http://118.193.54.222" + restaurant.getPic_thumb()).placeholder(R.drawable.resto_small).into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.resto_small);
         }

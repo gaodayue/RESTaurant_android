@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/imageView"
+        android:id="@+id/EventReview_Cover"
         android:scaleType="centerCrop"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -18,7 +18,7 @@
         android:id="@+id/restaurant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toRightOf="@id/EventReview_Cover"
         android:text="Le petit bouchon"
         android:textColor="@color/orange"
         android:textSize="25sp"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="7.42 km away"
-        android:layout_alignBottom="@id/imageView"
+        android:layout_alignBottom="@id/EventReview_Cover"
         android:textColor="@color/green"
         android:layout_alignParentRight="true"
         />

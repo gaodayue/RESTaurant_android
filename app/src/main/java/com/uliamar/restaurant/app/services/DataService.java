@@ -152,13 +152,12 @@ public class DataService {
     @Subscribe
     public void onSaveOrder(SaveOrderEvent e) {
         final Order order = e.get();
-        new  AsyncTask<Void, Void,  OnSavedOrderEvent>() {
+        new  AsyncTask<Void, Void,  Invitation>() {
             private String TAG = "listRestaurant asyncTask";
 
-            protected OnSavedOrderEvent doInBackground(Void... voids) {
+            protected Invitation doInBackground(Void... voids) {
                 try {
-                    Invitation invitation = RESTrepository.sendOrder(order);
-                    return new OnSavedOrderEvent(invitation);
+                    return RESTrepository.sendOrder(order);
                 } catch (Exception e) {
                     if (e instanceof SocketTimeoutException) {
                         Log.e(TAG, "Timeout");
@@ -176,12 +175,8 @@ public class DataService {
 
             }
 
-            protected void onPostExecute(OnSavedOrderEvent e) {
-                if (e != null) {
-                    BusProvider.get().post(e);
-                } else {
-                    Log.d(TAG, "Event Null on OnSaveOrderEvent");
-                }
+            protected void onPostExecute(Invitation e) {
+                BusProvider.get().post(new OnSavedOrderEvent(e));
             }
         }.execute();
 
@@ -195,8 +190,7 @@ public class DataService {
         new AsyncTask<Void,Void,LoginResult>(){
             protected LoginResult doInBackground(Void...voids){
                 try{
-                    LoginResult result = RESTrepository.login(phoneno,password);
-                    return result;
+                    return RESTrepository.login(phoneno,password);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -207,8 +201,10 @@ public class DataService {
             protected void onPostExecute(LoginResult result){
                 Log.i("bigred","login success");
                 LoginSuccessEvent loginSuccessEvent = new LoginSuccessEvent(result);
-                RESTrepository.setToken(result.getCust_access_token());
-                RESTrepository.setUser_id(result.getCust_id());
+                if (result != null) {
+                    RESTrepository.setToken(result.getCust_access_token());
+                    RESTrepository.setUser_id(result.getCust_id());
+                }
                 BusProvider.get().post(loginSuccessEvent);
             }
         }.execute();
