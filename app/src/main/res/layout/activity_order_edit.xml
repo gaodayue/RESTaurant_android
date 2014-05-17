@@ -4,75 +4,112 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:id="@+id/EventEdit_Cover"
+                android:src="@drawable/resto_small"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/EventEdit_Cover"
+                android:background="@drawable/light_gradient"
+                >
+                <TextView
+                    android:id="@+id/EventEdit_RestaurantName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Le petit bouchon"
+                    android:padding="10dp"
+                    android:textSize="30sp"
+                    android:gravity="right" />
+            </FrameLayout>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/RestaurantSectionTitle"
-            android:text="Make your meal"/>
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RestaurantSectionTitle"
+                android:text="Make your meal"/>
 
 
             <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/DishList"/>
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/DishList"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RestaurantSectionTitle"
-            android:text="Invit your friends"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/friendList"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addFriend"
-            android:text="+ Add Someone"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delFriend"
-            android:text="+ Del Someone"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RestaurantSectionTitle"
-            android:text="What time ?"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RestaurantSectionTitle"
+                android:text="Invit your friends"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/friendList"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/addFriend"
+                android:text="+ Add Someone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delFriend"
+                android:text="+ Del Someone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RestaurantSectionTitle"
+                android:text="What time ?"/>
 
 
-        <DatePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/datePicker"
-            android:scrollbarStyle="insideInset"
-            android:spinnersShown="false"/>
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePicker"
+                android:scrollbarStyle="insideInset"
+                android:spinnersShown="false"/>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner" />
 
-        <Button
+            <Button
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send Invitation"
-            android:id="@+id/SendActivityButton"
-            android:layout_gravity="center"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send Invitation"
+                android:id="@+id/SendActivityButton"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

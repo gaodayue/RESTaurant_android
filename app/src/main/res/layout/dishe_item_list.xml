@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="Big Mac"
         android:id="@+id/DisheName"
-        android:layout_toRightOf="@id/imageView"
+        android:layout_toRightOf="@id/EventReview_Cover"
         android:textColor="@color/green"
         android:textSize="20sp"
         />

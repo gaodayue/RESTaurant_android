@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.ChangeInvitationStatus;
 import com.uliamar.restaurant.app.Bus.GetOneInvitationEvent;
@@ -24,6 +26,7 @@ import com.uliamar.restaurant.app.Bus.OnOneInvitationEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Dishe;
 import com.uliamar.restaurant.app.model.Invitation;
+import com.uliamar.restaurant.app.model.Restaurant;
 import com.uliamar.restaurant.app.model.User;
 
 import java.util.List;
@@ -39,6 +42,7 @@ public class OrderReviewActivity extends Activity {
     private User mThisUser;
 
     private ProgressDialog progressDialog;
+    private ImageView mRestaurantCoverImageView;
     private TextView mRestaurantName;
     private TextView mCountDownTextView;
     private TextView mDateTextView;
@@ -99,7 +103,7 @@ public class OrderReviewActivity extends Activity {
         mParticipantControls = (LinearLayout) findViewById(R.id.EventReview_ParticipantControls);
         mAcceptButton = (Button) findViewById(R.id.EventReview_AcceptButton);
         mDeniedButton = (Button) findViewById(R.id.EventReview_deniedButton);
-
+        mRestaurantCoverImageView = (ImageView) findViewById(R.id.EventReview_Cover);
         mSendButton.setOnClickListener(new InvitationClickListener());
         mCancelButton.setOnClickListener(new InvitationClickListener());
         mDeniedButton.setOnClickListener(new InvitationClickListener());
@@ -149,6 +153,10 @@ public class OrderReviewActivity extends Activity {
 
 
             progressDialog.dismiss();
+            Restaurant restaurant = mInvitation.getOrder().getRestaurant();
+            if (restaurant.getPic() != null && !restaurant.getPic().isEmpty()) {
+                Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mRestaurantCoverImageView);
+            }
             mRestaurantName.setText(mInvitation.getOrder().getRestaurant().getName());
             mDateTextView.setText(mInvitation.getOrder().getRequest_date());
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());

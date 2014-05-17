@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetOrderDatasEvent;
 import com.uliamar.restaurant.app.Bus.OnRestaurantDatasReceivedEvent;
@@ -62,6 +64,8 @@ public class OrderEditActivity extends ActionBarActivity {
     private ArrayAdapter<String> adapter;
     private int cust_id;
     private Order order;
+    private ImageView mCoverImageView;
+    private TextView mRestaurantName;
 
     public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
 
@@ -95,6 +99,9 @@ public class OrderEditActivity extends ActionBarActivity {
         mRestaurantID = getIntent().getIntExtra(ARG_RESTAURANT_ID, 0);
 
         mPeriod = (Spinner) findViewById(R.id.spinner);
+        mRestaurantName = (TextView) findViewById(R.id.EventEdit_RestaurantName);
+        mCoverImageView = (ImageView) findViewById(R.id.EventEdit_Cover);
+
         mPeriod.setAdapter(adapter);
         /**
          *      Caused by: java.lang.RuntimeException: setOnItemClickListener cannot be used with a spinner.
@@ -256,7 +263,7 @@ public class OrderEditActivity extends ActionBarActivity {
                     }
                 }
                 if (dl.size() == 0){
-                    new AlertDialog.Builder(OrderEditActivity.this).setTitle("没有点菜").setMessage("点菜啊亲，来喝茶的么！！").setPositiveButton("我错了",null).show();
+                    new AlertDialog.Builder(OrderEditActivity.this).setMessage("A meal without dishes is like santa claus without his hod and his balls").setPositiveButton("我错了",null).show();
                     return;
                 }
                 order.setDishes(dl);
@@ -297,50 +304,56 @@ public class OrderEditActivity extends ActionBarActivity {
     @Subscribe
     public void OnRestaurantDatasReceived(OnRestaurantDatasReceivedEvent e) {
         progressDialog.dismiss();
-        /**
-         * @To-do: feed the view with data
-         */
-        Toast.makeText(this, "Datas received", Toast.LENGTH_SHORT).show();
+
         restaurant = e.getRestaurant();
-        //order.setRestaurant(restaurant);
         friends = e.getFriends();
         dishes = restaurant.getDishes();
-        //System.out.println("out first: " + inFriends.size() + " element:" );
-        if (inFriends.size() == 0) {
-            for (int i = 0; i < friends.size(); i++) {
-                User t = friends.get(i);
-                if (t.getCust_id() == cust_id) {
-                    //t.setIs_host(true);
-                    inFriends.add(t);
-                    friends.remove(i);
-                    friendList.setText(t.getName() + ",");
-                    //System.out.println("inFriends size: " + inFriends.size() + inFriends.get(0).getName());
-                    break;
+
+        if (restaurant != null && friends != null && dishes != null) {
+            if (restaurant.getPic() != null && !restaurant.getPic().isEmpty()) {
+                Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mCoverImageView);
+            }
+            mRestaurantName.setText(restaurant.getName());
+
+            if (inFriends.size() == 0) {
+                for (int i = 0; i < friends.size(); i++) {
+                    User t = friends.get(i);
+                    if (t.getCust_id() == cust_id) {
+                        //t.setIs_host(true);
+                        inFriends.add(t);
+                        friends.remove(i);
+                        friendList.setText(t.getName() + ",");
+                        //System.out.println("inFriends size: " + inFriends.size() + inFriends.get(0).getName());
+                        break;
+                    }
                 }
             }
+
+            //生成动态数组，加入数据
+            ArrayList< HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+            for(int i=0;i<dishes.size();i++)
+            {
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("DishName", dishes.get(i).getName());
+                map.put("DishPrice", dishes.get(i).getPrice());
+                map.put("DishNum",dishes.get(i).getQuantity());
+                listItem.add(map);
+            }
+            //生成适配器的Item和动态数组对应的元素
+            SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
+                    R.layout.dishe_item_list,//ListItem的XML实现
+                    //动态数组与ImageItem对应的子项
+                    new String[] {"DishName", "DishNum","DishPrice"},
+                    //ImageItem的XML文件里面的一个ImageView,两个TextView ID
+                    new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
+            );
+
+            //添加并且显示
+            mDishes.setAdapter(listItemAdapter);
+        } else {
+            Toast.makeText(this, "Unable to retrieve this restaurant Data", Toast.LENGTH_SHORT).show();
         }
 
-        //生成动态数组，加入数据
-        ArrayList< HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-        for(int i=0;i<dishes.size();i++)
-        {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("DishName", dishes.get(i).getName());
-            map.put("DishPrice", dishes.get(i).getPrice());
-            map.put("DishNum",dishes.get(i).getQuantity());
-            listItem.add(map);
-        }
-        //生成适配器的Item和动态数组对应的元素
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.dishe_item_list,//ListItem的XML实现
-                //动态数组与ImageItem对应的子项
-                new String[] {"DishName", "DishNum","DishPrice"},
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.DisheName,R.id.textView2,R.id.DishePrice}
-        );
-
-        //添加并且显示
-        mDishes.setAdapter(listItemAdapter);
     }
 
     @Subscribe

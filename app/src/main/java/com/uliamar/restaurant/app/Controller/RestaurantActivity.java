@@ -7,30 +7,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.uliamar.restaurant.app.Bus.BusProvider;
 import com.uliamar.restaurant.app.Bus.GetOneRestaurantEvent;
 import com.uliamar.restaurant.app.Bus.OnOneRestaurantReceivedEvent;
 import com.uliamar.restaurant.app.R;
 import com.uliamar.restaurant.app.model.Restaurant;
-import com.uliamar.restaurant.app.services.DataService;
 
 public class RestaurantActivity extends Activity {
+    public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
     private int mID;
+    private RestaurantActivity ref;
+    private Restaurant restaurant = null;
 
     private Button mOrderButton;
     private TextView mRestaurantNameTextView;
-    public static final String ARG_RESTAURANT_ID = "ARG_RESTAURANT_ID";
-
-    RestaurantActivity ref;
-    DataService dataService;
-
-    private Restaurant restaurant = null;
-    ProgressDialog progressDialog = null;
-
+    private ProgressDialog progressDialog = null;
+private ImageView mRestaurantCoverImageView;
 
     public static Intent createIntent(Context c, int restaurantID) {
         Intent myIntent = new Intent(c, RestaurantActivity.class);
@@ -53,8 +51,7 @@ public class RestaurantActivity extends Activity {
             }
         });
         mRestaurantNameTextView = (TextView) findViewById(R.id.restaurant_name);
-        dataService = new DataService();
-
+        mRestaurantCoverImageView = (ImageView) findViewById(R.id.EventReview_Cover);
     }
 
 
@@ -89,6 +86,9 @@ public class RestaurantActivity extends Activity {
             Toast.makeText(this, "Unable to retrieve this restaurant", Toast.LENGTH_SHORT).show();
         } else {
             mRestaurantNameTextView.setText(restaurant.getName());
+            if (restaurant.getPic() != null && !restaurant.getPic().isEmpty()) {
+                Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mRestaurantCoverImageView);
+            }
         }
     }
 
