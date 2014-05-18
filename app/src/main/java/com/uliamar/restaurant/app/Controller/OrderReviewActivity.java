@@ -214,7 +214,8 @@ public class OrderReviewActivity extends Activity {
                 time.start();
             }
             else{
-                mCountDownTextView.setText("Bye!");
+                time = new CountDown(l - l2, 1000);
+                time.start();
             }
 
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());
@@ -402,6 +403,7 @@ public class OrderReviewActivity extends Activity {
                 mCountDownTextView.setText(hour + ":" + minute + ":" + second);
             }else {
                 mCountDownTextView.setText(day + "days left.");
+
             }
         }
 
