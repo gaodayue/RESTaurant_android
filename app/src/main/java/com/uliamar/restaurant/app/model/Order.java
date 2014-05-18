@@ -1,5 +1,7 @@
 package com.uliamar.restaurant.app.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -148,11 +150,25 @@ public class Order {
     }
 
     public String getFormatDate(){
-        String date = request_date.substring(0,10);
-        date += " " + start_time+":00:00";
-        return date;
+        String dateString = "";
+        try {
+            Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(request_date.replaceAll("Z$", "+0000"));
+             dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateString;
     }
 
+    public Date getrequestDate() {
+        try {
+            return (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(request_date.replaceAll("Z$", "+0000"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public int getStart_time() {
         return start_time;
