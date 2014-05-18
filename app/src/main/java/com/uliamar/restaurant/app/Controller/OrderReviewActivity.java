@@ -167,8 +167,8 @@ public class OrderReviewActivity extends Activity {
             mHostControls.setVisibility(LinearLayout.GONE);
             mParticipantControls.setVisibility(LinearLayout.GONE);
             mStatusButton.setVisibility(Button.GONE);
-            mAcceptButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-            mDeniedButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+      //      mAcceptButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        //    mDeniedButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             for ( int i = 0; i < mHostControls.getChildCount();  i++ ){
                 View view = mHostControls.getChildAt(i);
                 view.setVisibility(View.GONE); // Or whatever you want to do with the view.
@@ -249,8 +249,8 @@ public class OrderReviewActivity extends Activity {
             mDishesListView.setAdapter(dishAdapterTmp);
             setListViewHeightBasedOnChildren(mDishesListView);
 
-            mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "");
-            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + "") ;
+            mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "¥");
+            mPricePerParticipant.setText("(" + ( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + "¥/p)") ;
 
             /**
              1: planning
