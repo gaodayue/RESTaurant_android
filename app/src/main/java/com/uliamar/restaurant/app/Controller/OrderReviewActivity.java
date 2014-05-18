@@ -214,7 +214,7 @@ public class OrderReviewActivity extends Activity {
                 time.start();
             }
             else{
-                mCountDownTextView.setText("Bye!");
+                mCountDownTextView.setText("Past.");
             }
 
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());
