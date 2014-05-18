@@ -57,7 +57,7 @@
                 android:text="3:50"
                 android:id="@+id/EventReview_CountDown"
                 android:layout_gravity="center"
-                android:textSize="60sp"
+                android:textSize="100sp"
                 />
             <TextView
                 android:id="@+id/EventReview_Date"

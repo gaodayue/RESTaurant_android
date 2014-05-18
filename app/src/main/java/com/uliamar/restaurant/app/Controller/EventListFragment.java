@@ -174,14 +174,15 @@ public class EventListFragment extends ListFragment {
             nameTextView.setText(values.get(position).getOrder().getRestaurant().getName());
 
 
-         //   try {
-            //    Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(values.get(position).getOrder().getRequest_date().replaceAll("Z$", "+0000"));
-              //  String dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
-                text1TextView.setText(values.get(position).getOrder().getRequest_date());
+            try {
+                Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(values.get(position).getOrder().getRequest_date().replaceAll("Z$", "+0000"));
+                String dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
+                // text1TextView.setText(values.get(position).getOrder().getRequest_date());
+                text1TextView.setText(dateString);
 
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
 
             String userList = "";
