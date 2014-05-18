@@ -243,9 +243,15 @@ public class OrderReviewActivity extends Activity {
             for (int i = 0; i < disheList.size(); ++i) {
                 //dishListText += disheList.get(i).getName() + " " + disheList.get(i).getQuantity() + " x " + disheList.get(i).getPrice() + "RMB\n";
                 map = new HashMap<String, Object>();
-                map.put("name",disheList.get(i).getName());
-                map.put("price",disheList.get(i).getPrice());
-                map.put("num",disheList.get(i).getQuantity());
+
+                String disheName = disheList.get(i).getName();
+                if (disheName.length() > 0) {
+                    disheName = String.valueOf(disheName.charAt(0)).toUpperCase() + disheName.subSequence(1, disheName.length());
+                }
+
+                map.put("name", disheName);
+                map.put("price", + disheList.get(i).getPrice() + " ¥");
+                map.put("num",disheList.get(i).getQuantity() + " x ");
                 listT.add(map);
             }
             //mDishesListTextView.setText(dishListText);

@@ -166,6 +166,7 @@ public class EventListFragment extends ListFragment {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.invitation_item_list, parent, false);
 
+
             TextView nameTextView = (TextView) rowView.findViewById(R.id.EventName);
             TextView text1TextView = (TextView) rowView.findViewById(R.id.EventText1);
             TextView text2TextView = (TextView) rowView.findViewById(R.id.EventText2);
@@ -173,14 +174,15 @@ public class EventListFragment extends ListFragment {
             nameTextView.setText(values.get(position).getOrder().getRestaurant().getName());
 
 
-         //   try {
-            //    Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(values.get(position).getOrder().getRequest_date().replaceAll("Z$", "+0000"));
-              //  String dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
-                text1TextView.setText(values.get(position).getOrder().getRequest_date());
+            try {
+                Date date = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(values.get(position).getOrder().getRequest_date().replaceAll("Z$", "+0000"));
+                String dateString = new SimpleDateFormat("dd-MM-yyyy").format(date);
+                // text1TextView.setText(values.get(position).getOrder().getRequest_date());
+                text1TextView.setText(dateString);
 
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
 
             String userList = "";
