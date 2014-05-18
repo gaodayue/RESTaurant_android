@@ -128,9 +128,9 @@ public class OrderEditActivity extends ActionBarActivity {
                                        int position, long id) {
                 //order.setRequest_date("noon");
                 //order.setStart_time(position+11);
-                if ((position+11+end.getSelectedItemPosition()+1) <=24 ){
+                if ((position + 11 + end.getSelectedItemPosition() + 1) <= 24){
                     order.setStart_time(position+11);
-                    order.setEnd_time(end.getSelectedItemPosition()+1);
+                    order.setEnd_time(end.getSelectedItemPosition()+1 + order.getStart_time());
                 }else {
                     Toast.makeText(getApplicationContext(), "You need to choose right time!", Toast.LENGTH_LONG).show();
                 }
@@ -164,7 +164,7 @@ public class OrderEditActivity extends ActionBarActivity {
         mDate.init(2014,4,18,new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker datePicker, int i, int i2, int i3) {
-                order.setRequest_date(i + "-" + (i2+1) + "-" + (i3+1));
+                order.setRequest_date(i + "-" + (i2+1) + "-" + (i3));
                 //order.setDate(date);
                 //System.out.println("Date: " +i+"-"+(i2+1)+"-"+i3);
             }
