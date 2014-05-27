@@ -29,9 +29,9 @@ Usage
 * receive the validation
 * get a countdown to the event time and get the way to go there using google navigation
 
-![Main page](doc/main_page.png)
-![Main page](doc/Review_countdown_address.png)
-![Main page](doc/Review_deashes_friends_coming.png)
+<center>![Main page](doc/main_page.png)
+![Main page](doc/Review_countdown_address.png)</center>
+<center>![Main page](doc/Review_deashes_friends_coming.png)</center>
 ![Main page](doc/Map.png)
 
 
