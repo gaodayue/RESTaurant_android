@@ -167,8 +167,8 @@ public class OrderReviewActivity extends Activity {
             mHostControls.setVisibility(LinearLayout.GONE);
             mParticipantControls.setVisibility(LinearLayout.GONE);
             mStatusButton.setVisibility(Button.GONE);
-            mAcceptButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-            mDeniedButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+      //      mAcceptButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+        //    mDeniedButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             for ( int i = 0; i < mHostControls.getChildCount();  i++ ){
                 View view = mHostControls.getChildAt(i);
                 view.setVisibility(View.GONE); // Or whatever you want to do with the view.
@@ -185,36 +185,26 @@ public class OrderReviewActivity extends Activity {
                 Picasso.with(this).load("http://118.193.54.222" + restaurant.getPic()).placeholder(R.drawable.resto_big).into(mRestaurantCoverImageView);
             }
             mRestaurantName.setText(mInvitation.getOrder().getRestaurant().getName());
-            String date = mInvitation.getOrder().getRequest_date().substring(0, 10);
-            date += " " + mInvitation.getOrder().getStart_time() + ":00-" + mInvitation.getOrder().getEnd_time()+":00";
+
+            String date = mInvitation.getOrder().getFormatDate() + " " + mInvitation.getOrder().getStart_time() + ":00";
             mDateTextView.setText(date);
-            Calendar now = Calendar.getInstance();
             Date orderNow = null;
-            long l = now.getTimeInMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                orderNow = sdf.parse(mInvitation.getOrder().getFormatDate());
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
-            long l2 = orderNow.getTime();
-            int hour = now.get(Calendar.HOUR_OF_DAY);
-//            //System.out.println("day hour is:"+hour);
-//            int minute = now.get(Calendar.MINUTE);
-//            if (minute == 0) {
-//                hour = mInvitation.getOrder().getStart_time() - hour;
-//                //minute = 60 - minute;
-//            }else {
-//                hour = mInvitation.getOrder().getStart_time() - hour -1;
-//                minute = 60 - minute;
-//            }
-//            long mills = hour*60*60*1000 + minute*60*1000;
-            if (l < l2) {
-                time = new CountDown(l2 - l, 1000);
+
+
+            long currentTimestamp = new Date().getTime();
+            Log.v("currentTime", currentTimestamp + " ");
+
+
+            orderNow = mInvitation.getOrder().getrequestDate();
+            long eventTimestamp = orderNow.getTime() + mInvitation.getOrder().getStart_time() * 1000 * 60 * 60 ;
+            Log.v("eventTime", eventTimestamp + " ");
+
+            if (currentTimestamp < eventTimestamp) {
+                time = new CountDown(eventTimestamp - currentTimestamp, 1000);
                 time.start();
             }
             else{
-                mCountDownTextView.setText("Bye!");
+                mCountDownTextView.setText("Past.");
             }
 
             mAddressTextView.setText(mInvitation.getOrder().getRestaurant().getAddress());
@@ -259,8 +249,8 @@ public class OrderReviewActivity extends Activity {
             mDishesListView.setAdapter(dishAdapterTmp);
             setListViewHeightBasedOnChildren(mDishesListView);
 
-            mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "");
-            mPricePerParticipant.setText(( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + "") ;
+            mTotalPrice.setText(mInvitation.getOrder().getTotal_price() + "¥");
+            mPricePerParticipant.setText("(" + ( mInvitation.getOrder().getTotal_price() / (nbParticipantComming)) + "¥/p)") ;
 
             /**
              1: planning

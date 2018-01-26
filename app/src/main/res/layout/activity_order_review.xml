@@ -57,7 +57,7 @@
                 android:text="3:50"
                 android:id="@+id/EventReview_CountDown"
                 android:layout_gravity="center"
-                android:textSize="100sp"
+                android:textSize="60sp"
                 />
             <TextView
                 android:id="@+id/EventReview_Date"
@@ -102,21 +102,35 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
+                <!--<TextView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/total96"
+                    /> -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ppp"
+                    android:textSize="25sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/EventReview_pricePerParticipant"
+                    android:layout_weight="0"
+                    android:textColor="#ffdddddd"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_gravity="center"
                     android:text="255"
                     android:textSize="25sp"
-                    android:id="@+id/EventReview_totalPrice"/>
-                <TextView
+                    android:id="@+id/EventReview_totalPrice"
+                    android:layout_weight="0"/>
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -130,14 +144,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/pay96"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="255"
-                    android:textSize="25sp"
-                    android:layout_gravity="center"
-                    android:id="@+id/EventReview_pricePerParticipant"/>
-                <TextView
+               -->
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -145,7 +153,7 @@
                     android:textSize="25sp"
                     android:textColor="@color/red"
                     android:text=" AA"
-                    />
+                    />-->
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
